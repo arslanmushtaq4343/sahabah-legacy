@@ -1,0 +1,224 @@
+/* NetworkAccessibleTable — accessible table fallback for the D3 graph */
+
+.wrapper {
+  margin-top: .5rem;
+}
+
+/* ── Toggle button ────────────────────────────────────────────── */
+.toggleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .42rem .9rem;
+  font-size: .78rem;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--color-accent, #c8a020);
+  background: transparent;
+  border: 1px solid rgba(200, 160, 32, .35);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+  margin-bottom: .5rem;
+}
+.toggleBtn:hover {
+  background: rgba(200, 160, 32, .1);
+  border-color: rgba(200, 160, 32, .6);
+}
+.toggleBtn:focus-visible {
+  outline: 2px solid var(--color-accent, #c8a020);
+  outline-offset: 2px;
+}
+
+/* ── Table region ─────────────────────────────────────────────── */
+.tableRegion {
+  background: var(--color-surface, #fffdf2);
+  border: 1px solid rgba(120, 80, 20, .18);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+[hidden] { display: none !important; }
+
+.description {
+  font-size: .82rem;
+  color: var(--color-muted, #6b4020);
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+}
+
+/* ── Branch filter row ────────────────────────────────────────── */
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem .5rem;
+  margin-bottom: .8rem;
+}
+.filterLabel {
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  color: var(--color-muted, #6b4020);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.filterBtn {
+  padding: .28rem .65rem;
+  font-size: .74rem;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--color-muted, #6b4020);
+  background: transparent;
+  border: 1px solid rgba(120, 80, 20, .25);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background .14s, border-color .14s;
+}
+.filterBtn:hover {
+  background: rgba(120, 80, 20, .07);
+}
+.filterBtn:focus-visible {
+  outline: 2px solid var(--color-accent, #c8a020);
+  outline-offset: 2px;
+}
+.filterBtnActive {
+  background: rgba(120, 80, 20, .1);
+}
+
+/* ── Count line ───────────────────────────────────────────────── */
+.count {
+  font-size: .78rem;
+  color: var(--color-muted, #6b4020);
+  margin: 0 0 .6rem 0;
+}
+
+/* ── Table scroll container ───────────────────────────────────── */
+.tableScroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  border: 1px solid rgba(120, 80, 20, .15);
+}
+
+/* ── Table ────────────────────────────────────────────────────── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+  color: var(--color-text, #1a0e06);
+}
+
+.table thead {
+  background: rgba(120, 80, 20, .07);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.table th {
+  padding: .6rem .75rem;
+  text-align: left;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--color-muted, #6b4020);
+  border-bottom: 1px solid rgba(120, 80, 20, .18);
+  white-space: nowrap;
+}
+
+/* Sort button inside th */
+.sortBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--color-muted, #6b4020);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  white-space: nowrap;
+}
+.sortBtn:hover { color: var(--color-accent, #c8a020); }
+.sortBtn:focus-visible {
+  outline: 2px solid var(--color-accent, #c8a020);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Rows ─────────────────────────────────────────────────────── */
+.row td {
+  padding: .55rem .75rem;
+  border-bottom: 1px solid rgba(120, 80, 20, .08);
+  vertical-align: middle;
+  line-height: 1.4;
+}
+.row:last-child td { border-bottom: none; }
+.row:hover td { background: rgba(120, 80, 20, .04); }
+.row:focus-within td { background: rgba(200, 160, 32, .06); }
+
+/* ── Cell styles ──────────────────────────────────────────────── */
+.nameCell { min-width: 180px; }
+.nameCell strong { display: block; font-weight: 700; }
+.title {
+  display: block;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--color-muted, #6b4020);
+  text-transform: uppercase;
+  margin-top: .1rem;
+}
+
+.arCell {
+  font-family: 'Amiri', serif;
+  font-size: .95rem;
+  color: var(--color-accent, #c8a020);
+  min-width: 120px;
+}
+
+.branch {
+  display: inline-block;
+  padding: .18rem .55rem;
+  border-radius: 20px;
+  border: 1px solid currentColor;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  white-space: nowrap;
+}
+
+.relCell {
+  max-width: 200px;
+  color: var(--color-muted, #6b4020);
+  font-size: .8rem;
+}
+
+.numCell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Dark mode ────────────────────────────────────────────────── */
+:global(.dark) .tableRegion {
+  background: rgba(18, 10, 6, .8);
+  border-color: rgba(200, 160, 32, .15);
+}
+:global(.dark) .table thead {
+  background: rgba(200, 160, 32, .06);
+}
+:global(.dark) .row:hover td {
+  background: rgba(200, 160, 32, .05);
+}
+:global(.dark) .tableScroll {
+  border-color: rgba(200, 160, 32, .12);
+}

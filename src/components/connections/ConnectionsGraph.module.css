@@ -1,0 +1,32 @@
+.canvasFrame {
+  border-radius: 12px;
+  border: 1px solid rgba(212, 168, 67, 0.12);
+  overflow: hidden;
+}
+
+.contentRhythm {
+  margin-top: 10px;
+}
+
+.conversionPage {
+  padding: 20px 24px 26px;
+  max-width: 1200px;
+}
+
+.conversionTree {
+  line-height: 1.75;
+}
+
+.conversionRow {
+  padding: 4px 0;
+}
+
+.conversionGuide {
+  opacity: 0.72;
+}
+
+@media (max-width: 1024px) {
+  .conversionPage {
+    padding: 14px 14px 18px;
+  }
+}

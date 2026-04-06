@@ -1,0 +1,91 @@
+.sidebarPanel {
+  border-radius: 14px;
+  border: 1px solid rgba(212, 168, 67, 0.16);
+  background: linear-gradient(180deg, rgba(33, 21, 12, 0.92), rgba(22, 14, 8, 0.95));
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+}
+
+.sidebarBrand {
+  border-bottom: 1px solid rgba(212, 168, 67, 0.18);
+}
+
+.sectionCard {
+  margin: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sectionCardHeader {
+  padding: 8px 10px;
+}
+
+.controlsCard {
+  margin: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  background: rgba(212, 168, 67, 0.04);
+}
+
+.helpCollapse {
+  margin: 10px;
+  border-radius: 10px;
+  border: 1px dashed rgba(212, 168, 67, 0.25);
+  padding: 8px 10px;
+}
+
+.helpSummary {
+  cursor: pointer;
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(212, 168, 67, 0.75);
+  font-weight: 700;
+}
+
+:global(body.tahajjud) .sidebarPanel {
+  border-color: rgba(100, 160, 255, 0.22);
+  background: linear-gradient(180deg, rgba(13, 24, 42, 0.92), rgba(9, 18, 32, 0.95));
+}
+
+:global(.connections-dark) .sidebarPanel {
+  border-color: rgba(100, 160, 255, 0.22);
+  background: linear-gradient(180deg, rgba(13, 24, 42, 0.92), rgba(9, 18, 32, 0.95));
+}
+
+:global(body.tahajjud) .sidebarBrand {
+  border-bottom-color: rgba(100, 160, 255, 0.24);
+}
+
+:global(.connections-dark) .sidebarBrand {
+  border-bottom-color: rgba(100, 160, 255, 0.24);
+}
+
+:global(body.tahajjud) .sectionCard {
+  border-color: rgba(100, 160, 255, 0.16);
+  background: rgba(100, 160, 255, 0.06);
+}
+
+:global(.connections-dark) .sectionCard {
+  border-color: rgba(100, 160, 255, 0.16);
+  background: rgba(100, 160, 255, 0.06);
+}
+
+:global(body.tahajjud) .controlsCard {
+  border-color: rgba(100, 160, 255, 0.24);
+  background: rgba(100, 160, 255, 0.08);
+}
+
+:global(body.tahajjud) .helpCollapse {
+  border-color: rgba(100, 160, 255, 0.28);
+}
+
+:global(body.tahajjud) .helpSummary {
+  color: rgba(154, 184, 216, 0.92);
+}
+
+@media (max-width: 1024px) {
+  .sidebarPanel {
+    border-radius: 10px;
+  }
+}

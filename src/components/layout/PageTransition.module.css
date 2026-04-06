@@ -1,0 +1,14 @@
+.page {
+  transition: opacity var(--transition), transform var(--transition);
+  will-change: opacity, transform;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(6px);
+}

@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ahadith — Love &amp; Respect</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:        #0e0c08;
+  --surface:   #16120d;
+  --surface2:  #1e1810;
+  --border:    #2e2518;
+  --border2:   #3d3220;
+  --gold:      #c9a84c;
+  --gold2:     #e8c97a;
+  --gold-dim:  #7a6130;
+  --green:     #2a5c42;
+  --green2:    #3d8c62;
+  --text:      #e8dfc8;
+  --text-dim:  #8a7e68;
+  --text-faint:#4a4030;
+  --arabic:    #f0e6cc;
+  --urdu:      #c8bda0;
+  --red:       #8c3a2a;
+  --tag-love:      #7a4020;
+  --tag-respect:   #1e3d5c;
+  --tag-brother:   #2a4020;
+  --tag-parents:   #4a2060;
+  --tag-prophet:   #3d1a08;
+  --tag-kids:      #1a3d2a;
+  --radius: 6px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── STICKY HEADER ── */
+#appHeader {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border2);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 0 0 auto;
+}
+.brand-ar {
+  font-family: 'Amiri', serif;
+  font-size: 1.15rem;
+  color: var(--gold);
+  line-height: 1;
+  direction: rtl;
+}
+.brand-en {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.search-wrap {
+  flex: 1;
+  position: relative;
+  max-width: 480px;
+}
+.search-wrap input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 9px 14px 9px 38px;
+  font-family: 'Lora', serif;
+  font-size: 0.88rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-wrap input::placeholder { color: var(--text-faint); }
+.search-wrap input:focus { border-color: var(--gold-dim); }
+.search-icon {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-faint); font-size: 0.9rem; pointer-events: none;
+}
+
+.header-meta {
+  margin-left: auto;
+  text-align: right;
+  flex: 0 0 auto;
+}
+#countDisplay {
+  font-size: 0.82rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+.meta-sub {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+/* filter row */
+.filter-row {
+  display: flex;
+  gap: 6px;
+  padding: 8px 20px 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  align-items: center;
+}
+.filter-row::-webkit-scrollbar { display: none; }
+
+.filter-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+.ftag {
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text-dim);
+  font-family: 'Lora', serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.ftag:hover { border-color: var(--gold-dim); color: var(--gold); }
+.ftag.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0e0c08;
+  font-weight: 600;
+}
+
+/* column header */
+.col-header {
+  display: grid;
+  grid-template-columns: 48px 1fr 120px 90px;
+  gap: 0;
+  padding: 7px 20px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border2);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+@media(max-width:600px){
+  .col-header { grid-template-columns: 40px 1fr; }
+  .col-header .ch-source, .col-header .ch-tag { display: none; }
+}
+
+/* ── LIST CONTAINER ── */
+#listContainer {
+  padding: 0 0 80px;
+}
+
+/* ── ROW ── */
+.hadith-row {
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+  animation: rowIn 0.25s ease both;
+}
+.hadith-row:hover { background: var(--surface2); }
+.hadith-row.open   { background: var(--surface2); border-bottom-color: var(--border2); }
+
+@keyframes rowIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* collapsed row */
+.row-collapsed {
+  display: grid;
+  grid-template-columns: 48px 1fr 120px 90px;
+  gap: 0;
+  align-items: center;
+  padding: 11px 20px;
+  min-height: 52px;
+}
+@media(max-width:600px){
+  .row-collapsed { grid-template-columns: 40px 1fr; }
+}
+
+.row-num {
+  font-size: 0.75rem;
+  color: var(--gold-dim);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.row-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.preview-ar {
+  font-family: 'Amiri', serif;
+  font-size: 1.05rem;
+  color: var(--arabic);
+  direction: rtl;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.preview-en {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-source {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  padding-left: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media(max-width:600px){ .row-source { display: none; } }
+
+.row-tag {
+  padding-left: 12px;
+}
+@media(max-width:600px){ .row-tag { display: none; } }
+
+.tag-pill {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.tag-love      { background: var(--tag-love);    color: #f0b080; }
+.tag-respect   { background: var(--tag-respect);  color: #80b8e8; }
+.tag-brotherhood { background: var(--tag-brother); color: #90d8a0; }
+.tag-parents   { background: var(--tag-parents);  color: #d8a8f0; }
+.tag-prophet   { background: var(--tag-prophet);  color: #f0c880; }
+.tag-kids      { background: var(--tag-kids);     color: #90e8b8; }
+
+/* ── EXPANDED PANEL ── */
+.row-expanded {
+  display: none;
+  padding: 0 20px 24px 20px;
+  border-top: 1px solid var(--border);
+}
+.hadith-row.open .row-expanded { display: block; }
+
+.expanded-inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.lang-block {
+  padding: 18px 0 14px;
+  border-bottom: 1px solid var(--border);
+}
+.lang-block:last-child { border-bottom: none; }
+
+.lang-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lang-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.arabic-full {
+  font-family: 'Amiri', serif;
+  font-size: 1.55rem;
+  line-height: 2.1;
+  direction: rtl;
+  text-align: right;
+  color: var(--arabic);
+}
+
+.english-full {
+  font-family: 'Lora', serif;
+  font-size: 1.0rem;
+  line-height: 1.75;
+  color: var(--text);
+  font-style: italic;
+}
+
+.urdu-full {
+  font-family: 'Noto Nastaliq Urdu', 'Amiri', serif;
+  font-size: 1.1rem;
+  line-height: 2.2;
+  direction: rtl;
+  text-align: right;
+  color: var(--urdu);
+}
+
+.expanded-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.source-badge {
+  font-size: 0.75rem;
+  color: var(--gold);
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  padding: 4px 12px;
+  letter-spacing: 0.04em;
+}
+.close-btn {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+.close-btn:hover { color: var(--gold); }
+
+/* ── NO RESULTS ── */
+#noResults {
+  display: none;
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-faint);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ STICKY HEADER ══════════════════ -->
+<div id="appHeader">
+  <div class="header-top">
+    <div class="header-brand">
+      <span class="brand-ar">الحُبُّ وَالاحْتِرَامُ</span>
+      <span class="brand-en">Ahadith · Love &amp; Respect</span>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="Search Arabic, English or Urdu…" oninput="applyFilters()"/>
+    </div>
+    <div class="header-meta">
+      <div id="countDisplay">100</div>
+      <div class="meta-sub">ahadith</div>
+    </div>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Filter:</span>
+    <button class="ftag active" data-tag="all"        onclick="setTag('all',this)">All</button>
+    <button class="ftag"        data-tag="love"       onclick="setTag('love',this)">Love · محبت</button>
+    <button class="ftag"        data-tag="respect"    onclick="setTag('respect',this)">Respect · احترام</button>
+    <button class="ftag"        data-tag="brotherhood" onclick="setTag('brotherhood',this)">Brotherhood · اخوت</button>
+    <button class="ftag"        data-tag="parents"    onclick="setTag('parents',this)">Parents · والدین</button>
+    <button class="ftag"        data-tag="prophet"    onclick="setTag('prophet',this)">Love of Prophet ﷺ</button>
+    <button class="ftag"        data-tag="kids"       onclick="setTag('kids',this)">🌱 For Kids</button>
+  </div>
+  <div class="col-header">
+    <span class="ch-num">#</span>
+    <span class="ch-text">Arabic Preview · Translation</span>
+    <span class="ch-source">Source</span>
+    <span class="ch-tag">Category</span>
+  </div>
+</div>
+
+<div id="listContainer"></div>
+<div id="noResults">No ahadith found. Try a different search or filter.</div>
+
+<!-- ══════════════════ DATA ══════════════════
+     TO ADD MORE: just push objects into HADITHS array below.
+     Each object: { ar, en, ur, src, tags[] }
+     Tags: "love" | "respect" | "brotherhood" | "parents" | "prophet" | "kids"
+════════════════════════════════════════════ -->
+<script>
+const HADITHS = [
+  {
+    ar: "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
+    en: "None of you truly believes until he loves for his brother what he loves for himself.",
+    ur: "تم میں سے کوئی اس وقت تک مومن نہیں ہو سکتا جب تک وہ اپنے بھائی کے لیے وہی پسند نہ کرے جو اپنے لیے پسند کرتا ہے۔",
+    src: "Bukhari 13 · Muslim 45",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى أَكُونَ أَحَبَّ إِلَيْهِ مِنْ وَالِدِهِ وَوَلَدِهِ وَالنَّاسِ أَجْمَعِينَ",
+    en: "None of you truly believes until I am more beloved to him than his father, his son, and all people.",
+    ur: "تم میں سے کوئی اس وقت تک مومن نہیں جب تک میں اسے اپنے باپ، بیٹے اور تمام لوگوں سے زیادہ محبوب نہ ہو جاؤں۔",
+    src: "Bukhari 15 · Muslim 44",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "الْمُسْلِمُ أَخُو الْمُسْلِمِ لَا يَظْلِمُهُ وَلَا يُسْلِمُهُ",
+    en: "A Muslim is the brother of a Muslim. He neither wrongs him nor abandons him.",
+    ur: "مسلمان مسلمان کا بھائی ہے۔ وہ نہ اس پر ظلم کرتا ہے اور نہ اسے تنہا چھوڑتا ہے۔",
+    src: "Bukhari 2442 · Muslim 2580",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "إِذَا أَحَبَّ اللَّهُ عَبْدًا نَادَى جِبْرِيلَ: إِنِّي أُحِبُّ فُلَانًا فَأَحِبَّهُ، فَيُوضَعُ لَهُ الْقَبُولُ فِي الْأَرْضِ",
+    en: "When Allah loves a servant He calls out to Jibreel: I love so-and-so, so love him. Then acceptance is placed for him on earth.",
+    ur: "جب اللہ کسی بندے سے محبت کرتا ہے تو جبریل کو پکارتا ہے: میں فلاں سے محبت کرتا ہوں تم بھی کرو — پھر زمین میں اس کی قبولیت رکھ دی جاتی ہے۔",
+    src: "Bukhari 3209 · Muslim 2637",
+    tags: ["love"]
+  },
+  {
+    ar: "أَوْثَقُ عُرَى الْإِيمَانِ الْحُبُّ فِي اللَّهِ وَالْبُغْضُ فِي اللَّهِ",
+    en: "The firmest handhold of faith is to love for the sake of Allah and to hate for the sake of Allah.",
+    ur: "ایمان کا مضبوط ترین حلقہ یہ ہے کہ اللہ کی خاطر محبت کی جائے اور اللہ کی خاطر نفرت کی جائے۔",
+    src: "Ahmad 18524",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "هُمْ قَوْمٌ تَحَابُّوا بِرُوحِ اللَّهِ، يَغْبِطُهُمُ الْأَنْبِيَاءُ وَالشُّهَدَاءُ",
+    en: "They are people who love one another for Allah's sake — the prophets and martyrs will envy them.",
+    ur: "وہ لوگ ہیں جو اللہ کی خاطر ایک دوسرے سے محبت کرتے ہیں۔ انبیاء اور شہداء ان کے مقام پر رشک کریں گے۔",
+    src: "Abu Dawud 3527",
+    tags: ["love"]
+  },
+  {
+    ar: "رِضَا الرَّبِّ فِي رِضَا الْوَالِدِ، وَسَخَطُ الرَّبِّ فِي سَخَطِ الْوَالِدِ",
+    en: "The pleasure of the Lord lies in the pleasure of the parents, and the anger of the Lord lies in the anger of the parents.",
+    ur: "رب کی خوشنودی والدین کی خوشنودی میں ہے اور رب کا غضب والدین کے غضب میں ہے۔",
+    src: "Tirmidhi 1899",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "أَنْتَ وَمَالُكَ لِأَبِيكَ",
+    en: "You and your wealth belong to your father.",
+    ur: "تم اور تمہارا مال تمہارے باپ کا ہے۔",
+    src: "Ibn Majah 2291",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "لَيْسَ مِنَّا مَنْ لَمْ يَرْحَمْ صَغِيرَنَا وَيَعْرِفْ حَقَّ كَبِيرِنَا",
+    en: "He is not one of us who does not show mercy to our young and does not respect the rights of our elders.",
+    ur: "وہ ہم میں سے نہیں جو ہمارے چھوٹوں پر رحم نہ کرے اور ہمارے بڑوں کا حق نہ پہچانے۔",
+    src: "Tirmidhi 1919 · Abu Dawud 4943",
+    tags: ["respect"]
+  },
+  {
+    ar: "إِنَّ مِنْ إِجْلَالِ اللَّهِ إِكْرَامَ ذِي الشَّيْبَةِ الْمُسْلِمِ",
+    en: "Truly, part of glorifying Allah is to honor the elderly Muslim.",
+    ur: "بے شک اللہ کی تعظیم کا حصہ ہے کہ بوڑھے مسلمان کا احترام کیا جائے۔",
+    src: "Abu Dawud 4843",
+    tags: ["respect"]
+  },
+  {
+    ar: "مَثَلُ الْمُؤْمِنِينَ فِي تَوَادِّهِمْ وَتَرَاحُمِهِمْ كَمَثَلِ الْجَسَدِ إِذَا اشْتَكَى مِنْهُ عُضْوٌ تَدَاعَى لَهُ سَائِرُ الْجَسَدِ بِالسَّهَرِ وَالْحُمَّى",
+    en: "The example of believers in their mutual love and mercy is like a single body — if one part suffers, the whole body responds with sleeplessness and fever.",
+    ur: "مومنین کی آپس میں محبت اور رحمت کی مثال ایک جسم کی طرح ہے — ایک عضو تکلیف میں ہو تو پورا جسم بے خوابی اور بخار میں مبتلا ہو جاتا ہے۔",
+    src: "Bukhari 6011 · Muslim 2586",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "أَحِبَّ لِلنَّاسِ مَا تُحِبُّ لِنَفْسِكَ تَكُنْ مُسْلِمًا",
+    en: "Love for people what you love for yourself, and you will be a true Muslim.",
+    ur: "لوگوں کے لیے وہی پسند کرو جو اپنے لیے پسند کرتے ہو، مسلمان بن جاؤ گے۔",
+    src: "Ibn Majah 4217",
+    tags: ["love"]
+  },
+  {
+    ar: "ثَلَاثٌ مَنْ كُنَّ فِيهِ وَجَدَ حَلَاوَةَ الْإِيمَانِ: أَنْ يَكُونَ اللَّهُ وَرَسُولُهُ أَحَبَّ إِلَيْهِ مِمَّا سِوَاهُمَا",
+    en: "Three qualities bring the sweetness of faith: that Allah and His Messenger are more beloved to one than anything else.",
+    ur: "تین چیزیں جس میں ہوں وہ ایمان کی مٹھاس پائے گا: اللہ اور اس کا رسول اسے سب سے زیادہ محبوب ہوں۔",
+    src: "Bukhari 16 · Muslim 43",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "مَنْ لَا يَرْحَمِ النَّاسَ لَا يَرْحَمُهُ اللَّهُ",
+    en: "Whoever does not show mercy to people, Allah will not show mercy to him.",
+    ur: "جو لوگوں پر رحم نہیں کرتا اللہ اس پر رحم نہیں فرماتا۔",
+    src: "Bukhari 7376 · Muslim 2319",
+    tags: ["respect","brotherhood"]
+  },
+  {
+    ar: "إِذَا أَحَبَّ أَحَدُكُمْ أَخَاهُ فَلْيُعْلِمْهُ أَنَّهُ يُحِبُّهُ",
+    en: "When one of you loves his brother, let him inform him that he loves him.",
+    ur: "جب تم میں سے کوئی اپنے بھائی سے محبت کرے تو اسے بتائے کہ وہ اس سے محبت کرتا ہے۔",
+    src: "Abu Dawud 5124 · Tirmidhi 2392",
+    tags: ["love"]
+  },
+  {
+    ar: "أَلَا أُنَبِّئُكُمْ بِأَكْبَرِ الْكَبَائِرِ: الشِّرْكُ بِاللَّهِ وَعُقُوقُ الْوَالِدَيْنِ",
+    en: "Shall I not inform you of the greatest of major sins? Associating partners with Allah and disobedience to parents.",
+    ur: "کیا میں تمہیں سب سے بڑے گناہوں کے بارے میں نہ بتاؤں؟ اللہ کے ساتھ شرک اور والدین کی نافرمانی۔",
+    src: "Bukhari 2654 · Muslim 87",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "الْمُؤْمِنُ مِرْآةُ الْمُؤْمِنِ، وَالْمُؤْمِنُ أَخُو الْمُؤْمِنِ",
+    en: "A believer is the mirror of a believer, and a believer is the brother of a believer.",
+    ur: "مومن مومن کا آئینہ ہے، اور مومن مومن کا بھائی ہے۔",
+    src: "Abu Dawud 4918",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "مَنْ أَحَبَّنِي كَانَ مَعِي فِي الْجَنَّةِ",
+    en: "Whoever loves me will be with me in Paradise.",
+    ur: "جو مجھ سے محبت کرے گا وہ جنت میں میرے ساتھ ہوگا۔",
+    src: "Tirmidhi 2684",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "وَقِّرُوا مَنْ تَعَلَّمْتُمْ مِنْهُ",
+    en: "Honor those from whom you have learned.",
+    ur: "جن سے تم نے علم سیکھا ان کی تعظیم کرو۔",
+    src: "Tabarani · Bayhaqi",
+    tags: ["respect"]
+  },
+  {
+    ar: "الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ، ارْحَمُوا مَنْ فِي الْأَرْضِ يَرْحَمْكُمْ مَنْ فِي السَّمَاءِ",
+    en: "The merciful are shown mercy by the Most Merciful. Show mercy to those on earth, and He Who is in heaven will show mercy to you.",
+    ur: "رحم کرنے والوں پر رحمٰن رحم فرماتا ہے۔ زمین والوں پر رحم کرو، آسمان والا تم پر رحم کرے گا۔",
+    src: "Tirmidhi 1924 · Abu Dawud 4941",
+    tags: ["love","respect"]
+  },
+  {
+    ar: "لَا تَحَاسَدُوا وَلَا تَنَاجَشُوا وَلَا تَبَاغَضُوا وَكُونُوا عِبَادَ اللَّهِ إِخْوَانًا",
+    en: "Do not envy, do not outbid, do not hate — be, O servants of Allah, brothers.",
+    ur: "ایک دوسرے سے حسد نہ کرو، نہ مکر کرو، نہ بغض رکھو — اللہ کے بندے بھائی بھائی بن جاؤ۔",
+    src: "Muslim 2564",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "الْجَنَّةُ تَحْتَ أَقْدَامِ الْأُمَّهَاتِ",
+    en: "Paradise lies beneath the feet of mothers.",
+    ur: "جنت ماؤں کے قدموں کے نیچے ہے۔",
+    src: "Ahmad · Nasai · Ibn Majah",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ",
+    en: "Indeed Allah is beautiful and loves beauty.",
+    ur: "بے شک اللہ خوبصورت ہے اور خوبصورتی کو پسند فرماتا ہے۔",
+    src: "Muslim 91",
+    tags: ["love"]
+  },
+  {
+    ar: "لَا يُؤْمِنُ عَبْدٌ حَتَّى أَكُونَ أَحَبَّ إِلَيْهِ مِنْ أَهْلِهِ وَمَالِهِ وَالنَّاسِ أَجْمَعِينَ",
+    en: "A servant does not truly believe until I am more beloved to him than his family, his wealth, and all of mankind.",
+    ur: "بندہ اس وقت تک ایمان نہیں لاتا جب تک میں اسے اپنے گھر والوں، مال اور تمام لوگوں سے زیادہ محبوب نہ ہو جاؤں۔",
+    src: "Nasai 5014",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "أَكْرِمُوا أَوْلَادَكُمْ وَأَحْسِنُوا أَدَبَهُمْ",
+    en: "Honor your children and teach them good manners.",
+    ur: "اپنے بچوں کا احترام کرو اور انہیں اچھے آداب سکھاؤ۔",
+    src: "Ibn Majah 3671",
+    tags: ["respect"]
+  },
+  {
+    ar: "مَا تَوَادَّ اثْنَانِ فِي اللَّهِ إِلَّا بِذَنْبٍ يُفَرَّقُ بَيْنَهُمَا",
+    en: "No two people who love each other for Allah are ever separated except by a sin committed by one of them.",
+    ur: "دو لوگ جو اللہ کی خاطر ایک دوسرے سے محبت کرتے ہوں، ان کے درمیان صرف گناہ کی وجہ سے جدائی آتی ہے۔",
+    src: "Ahmad · Bukhari (Adab al-Mufrad)",
+    tags: ["love"]
+  },
+  {
+    ar: "حَقُّ الْمُسْلِمِ عَلَى الْمُسْلِمِ سِتٌّ: إِذَا لَقِيتَهُ فَسَلِّمْ عَلَيْهِ",
+    en: "The Muslim has six rights over another Muslim: when you meet him, greet him with salaam…",
+    ur: "مسلمان کے مسلمان پر چھ حق ہیں: جب ملو تو سلام کرو…",
+    src: "Muslim 2162",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "مَنْ لَمْ يَشْكُرِ النَّاسَ لَمْ يَشْكُرِ اللَّهَ",
+    en: "Whoever does not thank people has not thanked Allah.",
+    ur: "جو لوگوں کا شکریہ ادا نہ کرے اس نے اللہ کا شکر ادا نہیں کیا۔",
+    src: "Tirmidhi 1954 · Abu Dawud 4811",
+    tags: ["respect"]
+  },
+  {
+    ar: "إِنَّ مِنْ أَحَبِّكُمْ إِلَيَّ وَأَقْرَبِكُمْ مِنِّي مَجْلِسًا يَوْمَ الْقِيَامَةِ أَحَاسِنَكُمْ أَخْلَاقًا",
+    en: "The most beloved of you to me and nearest to me on the Day of Resurrection are those of you with the best character.",
+    ur: "قیامت کے دن مجھے سب سے زیادہ پیارے اور قریب وہ لوگ ہوں گے جن کے اخلاق سب سے اچھے ہوں گے۔",
+    src: "Tirmidhi 2018",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "الْمُؤْمِنُونَ كَرَجُلٍ وَاحِدٍ، إِنِ اشْتَكَى رَأْسُهُ تَدَاعَى لَهُ سَائِرُ الْجَسَدِ",
+    en: "Believers are like one man. If his head aches, the whole body is affected.",
+    ur: "مومن ایک شخص کی طرح ہیں — اگر سر میں درد ہو تو پورا جسم متاثر ہوتا ہے۔",
+    src: "Muslim 2586",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "بِرُّ الْوَالِدَيْنِ أَفْضَلُ مِنَ الصَّلَاةِ وَالصِّيَامِ وَالزَّكَاةِ وَالْجِهَادِ",
+    en: "Kindness to parents is better than prayer, fasting, zakat, and jihad.",
+    ur: "والدین کے ساتھ حسن سلوک نماز، روزے، زکوٰۃ اور جہاد سے بھی افضل ہے۔",
+    src: "Tabarani",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "أَحِبَّ اللَّهَ لِمَا يَغْذُوكُمْ مِنْ نِعَمِهِ، وَأَحِبُّونِي بِحُبِّ اللَّهِ",
+    en: "Love Allah for what He nourishes you with of His blessings, and love me for the love of Allah.",
+    ur: "اللہ سے اس کی نعمتوں کی وجہ سے محبت کرو، اور مجھ سے اللہ کی محبت کی خاطر محبت کرو۔",
+    src: "Tirmidhi 3789",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "أَكْرِمُوا الضَّيْفَ",
+    en: "Honor the guest.",
+    ur: "مہمان کا اکرام کرو۔",
+    src: "Bukhari 6135 · Muslim 47",
+    tags: ["respect"]
+  },
+  {
+    ar: "أَفْشُوا السَّلَامَ بَيْنَكُمْ تَحَابُّوا",
+    en: "Spread the salaam among you — you will love one another.",
+    ur: "آپس میں سلام پھیلاؤ — آپس میں محبت پیدا ہوگی۔",
+    src: "Muslim 54",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "مَنْ أَحَبَّ أَنْ يُمَدَّ لَهُ فِي عُمُرِهِ وَيُزَادَ فِي رِزْقِهِ فَلْيَبَرَّ وَالِدَيْهِ",
+    en: "Whoever wishes for a long life and increased provision, let him be dutiful to his parents.",
+    ur: "جو چاہتا ہو کہ اس کی عمر لمبی ہو اور رزق میں اضافہ ہو تو وہ والدین کے ساتھ نیکی کرے۔",
+    src: "Ahmad · Bayhaqi",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "تَهَادَوْا تَحَابُّوا",
+    en: "Exchange gifts — you will love one another.",
+    ur: "ہدیے دو — آپس میں محبت پیدا ہوگی۔",
+    src: "Bukhari (Adab al-Mufrad) 594",
+    tags: ["love"]
+  },
+  {
+    ar: "لَا يَحِلُّ لِمُسْلِمٍ أَنْ يَهْجُرَ أَخَاهُ فَوْقَ ثَلَاثِ لَيَالٍ",
+    en: "It is not permissible for a Muslim to forsake his brother for more than three nights.",
+    ur: "کسی مسلمان کے لیے جائز نہیں کہ وہ اپنے بھائی سے تین راتوں سے زیادہ قطع تعلقی کرے۔",
+    src: "Bukhari 6065 · Muslim 2560",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "إِنَّ مِنْ أَحَبِّ النَّاسِ إِلَى اللَّهِ أَنْفَعُهُمْ لِلنَّاسِ",
+    en: "Truly the most beloved of people to Allah are those most beneficial to people.",
+    ur: "اللہ کو سب سے زیادہ محبوب وہ شخص ہے جو لوگوں کے لیے سب سے زیادہ نفع بخش ہو۔",
+    src: "Tabarani · Ibn Abi Dunya",
+    tags: ["love","respect"]
+  },
+  {
+    ar: "مَنْ أَحَبَّ سُنَّتِي فَقَدْ أَحَبَّنِي، وَمَنْ أَحَبَّنِي كَانَ مَعِي فِي الْجَنَّةِ",
+    en: "Whoever loves my Sunnah has loved me, and whoever loves me will be with me in Paradise.",
+    ur: "جس نے میری سنت سے محبت کی اس نے مجھ سے محبت کی، اور جو مجھ سے محبت کرے گا وہ جنت میں میرے ساتھ ہوگا۔",
+    src: "Tirmidhi 2678",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ يُحِبُّ إِذَا عَمِلَ أَحَدُكُمْ عَمَلًا أَنْ يُتْقِنَهُ",
+    en: "Indeed Allah loves that when any of you does a deed, he does it with excellence.",
+    ur: "بے شک اللہ پسند کرتا ہے کہ جب تم میں سے کوئی کام کرے تو اسے عمدگی سے کرے۔",
+    src: "Bayhaqi · Tabarani",
+    tags: ["love"]
+  },
+  {
+    ar: "الْكَبِيرُ الْكَبِيرُ — أَي ابدأ بالأكبر",
+    en: "The elder first, the elder first — begin with the oldest.",
+    ur: "بڑا پہلے، بڑا پہلے — یعنی بڑے سے شروع کرو۔",
+    src: "Bukhari 6143 · Muslim 2270",
+    tags: ["respect"]
+  },
+  {
+    ar: "لَا تَقَاطَعُوا وَلَا تَدَابَرُوا وَلَا تَبَاغَضُوا وَكُونُوا إِخْوَانًا",
+    en: "Do not sever ties, do not turn away, do not harbor hatred — be brothers.",
+    ur: "تعلق نہ توڑو، منہ نہ پھیرو، بغض نہ رکھو — اور بھائی بھائی بن کر رہو۔",
+    src: "Bukhari 6076 · Muslim 2559",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "ازْهَدْ فِي الدُّنْيَا يُحِبَّكَ اللَّهُ، وَازْهَدْ فِيمَا عِنْدَ النَّاسِ يُحِبَّكَ النَّاسُ",
+    en: "Be detached from the world — Allah will love you. Be detached from what people possess — people will love you.",
+    ur: "دنیا سے بے رغبتی کرو — اللہ محبت کرے گا۔ لوگوں کے پاس جو ہے اس سے بے رغبتی کرو — لوگ محبت کریں گے۔",
+    src: "Ibn Majah 4102",
+    tags: ["love"]
+  },
+  {
+    ar: "مَا مِنْ وَلَدٍ بَارٍّ يَنْظُرُ إِلَى وَالِدَيْهِ نَظْرَةَ رَحْمَةٍ إِلَّا كَتَبَ اللَّهُ لَهُ حَجَّةً مَبْرُورَةً",
+    en: "No dutiful child looks at his parents with a merciful glance except that Allah records for him the reward of an accepted Hajj.",
+    ur: "کوئی نیک بخت بچہ جب اپنے والدین کو رحمت کی نگاہ سے دیکھتا ہے، اللہ ہر نگاہ پر ایک مقبول حج کا ثواب لکھتا ہے۔",
+    src: "Muslim · Bayhaqi",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
+    en: "The Muslim is the one from whose tongue and hand other Muslims are safe.",
+    ur: "مسلمان وہ ہے جس کی زبان اور ہاتھ سے دوسرے مسلمان محفوظ ہوں۔",
+    src: "Bukhari 10 · Muslim 40",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ يُحِبُّ مَعَالِيَ الْأَخْلَاقِ وَيَكْرَهُ سَفَاسِفَهَا",
+    en: "Indeed Allah loves the highest of manners and dislikes the lowest of them.",
+    ur: "بے شک اللہ اخلاق کی بلند اقدار کو پسند کرتا ہے اور پست اقدار کو ناپسند کرتا ہے۔",
+    src: "Tabarani · Hakim",
+    tags: ["love","respect"]
+  },
+  {
+    ar: "أَكْرِمُوا أَصْحَابِي، فَإِنَّهُمْ خِيَارُكُمْ",
+    en: "Honor my companions, for they are the best of you.",
+    ur: "میرے صحابہ کا احترام کرو کیونکہ وہ تم میں سے بہترین لوگ ہیں۔",
+    src: "Ahmad · Tabarani",
+    tags: ["respect","prophet"]
+  },
+  {
+    ar: "حُبُّ النَّبِيِّ ﷺ مِنَ الْإِيمَانِ",
+    en: "Love of the Prophet ﷺ is part of faith.",
+    ur: "نبی ﷺ سے محبت ایمان کا حصہ ہے۔",
+    src: "Bukhari 14",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ يُحِبُّ الرِّفْقَ فِي الْأَمْرِ كُلِّهِ",
+    en: "Indeed Allah loves gentleness in all matters.",
+    ur: "بے شک اللہ ہر معاملے میں نرمی کو پسند فرماتا ہے۔",
+    src: "Bukhari 6927 · Muslim 2165",
+    tags: ["love"]
+  },
+  {
+    ar: "كُلُّ الْمُسْلِمِ عَلَى الْمُسْلِمِ حَرَامٌ: دَمُهُ وَمَالُهُ وَعِرْضُهُ",
+    en: "Everything of a Muslim is inviolable to another Muslim: his blood, his wealth, and his honor.",
+    ur: "ہر مسلمان کا خون، مال اور عزت دوسرے مسلمان پر حرام ہے۔",
+    src: "Muslim 2564",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "الْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ",
+    en: "A kind word is charity.",
+    ur: "اچھا کلام صدقہ ہے۔",
+    src: "Bukhari 2989 · Muslim 1009",
+    tags: ["respect"]
+  },
+  {
+    ar: "مَنْ أُمَّهُ؟ قَالَ: أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أَبُوكَ",
+    en: "Who is most deserving of good companionship? Your mother, then your mother, then your mother, then your father.",
+    ur: "میرے حسن سلوک کا سب سے زیادہ حقدار کون ہے؟ تمہاری ماں، پھر تمہاری ماں، پھر تمہاری ماں، پھر تمہارے باپ۔",
+    src: "Bukhari 5971 · Muslim 2548",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ ضَيْفَهُ",
+    en: "Whoever believes in Allah and the Last Day, let him honor his guest.",
+    ur: "جو اللہ اور آخرت کے دن پر ایمان رکھتا ہو وہ اپنے مہمان کا اکرام کرے۔",
+    src: "Bukhari 6018 · Muslim 47",
+    tags: ["love","respect"]
+  },
+  {
+    ar: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ",
+    en: "Fear Allah wherever you are, and treat people with good character.",
+    ur: "جہاں بھی ہو اللہ سے ڈرتے رہو اور لوگوں کے ساتھ اچھے اخلاق سے پیش آؤ۔",
+    src: "Tirmidhi 1987",
+    tags: ["brotherhood","respect"]
+  },
+  {
+    ar: "اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ وَحُبَّ مَنْ يُحِبُّكَ",
+    en: "O Allah, I ask You for Your love and the love of those who love You.",
+    ur: "اے اللہ! میں تجھ سے تیری محبت مانگتا ہوں اور ان لوگوں کی محبت مانگتا ہوں جو تجھ سے محبت کرتے ہیں۔",
+    src: "Tirmidhi 3490",
+    tags: ["love"]
+  },
+  {
+    ar: "إِنَّ مِنْ إِعْظَامِ اللَّهِ إِكْرَامَ الْمُسْلِمِ الشَّيْخِ الْكَبِيرِ",
+    en: "Part of revering Allah is to honor the aged Muslim.",
+    ur: "اللہ کی تعظیم کا حصہ ہے بوڑھے مسلمان کا احترام کرنا۔",
+    src: "Abu Dawud 4843",
+    tags: ["respect"]
+  },
+  {
+    ar: "لَا تَدْخُلُونَ الْجَنَّةَ حَتَّى تُؤْمِنُوا، وَلَا تُؤْمِنُوا حَتَّى تَحَابُّوا",
+    en: "You will not enter Paradise until you believe, and you will not believe until you love one another.",
+    ur: "تم جنت میں داخل نہ ہوگے یہاں تک کہ ایمان لے آؤ، اور تم مومن نہ ہوگے یہاں تک کہ آپس میں محبت کرو۔",
+    src: "Muslim 54",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ يُحِبُّ الرَّجُلَ الشُّجَاعَ",
+    en: "Indeed Allah loves the courageous man.",
+    ur: "بے شک اللہ بہادر شخص کو پسند کرتا ہے۔",
+    src: "Ahmad",
+    tags: ["love"]
+  },
+  {
+    ar: "عَلِّمُوا وَلَا تُعَنِّفُوا",
+    en: "Teach without being harsh.",
+    ur: "تعلیم دو اور سختی نہ کرو۔",
+    src: "Bukhari (Adab al-Mufrad)",
+    tags: ["respect"]
+  },
+  {
+    ar: "مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللَّهُ عَلَيْهِ بِهَا عَشْرًا",
+    en: "Whoever sends one blessing upon me, Allah sends ten blessings upon him.",
+    ur: "جو مجھ پر ایک مرتبہ درود بھیجے، اللہ اس پر دس رحمتیں نازل فرماتا ہے۔",
+    src: "Muslim 408",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "إِنَّ مِنْ أَكْمَلِ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا وَأَلْطَفُهُمْ بِأَهْلِهِ",
+    en: "The most complete believers in faith are those with the best character and gentlest with their families.",
+    ur: "ایمان کے لحاظ سے سب سے کامل مومن وہ ہے جس کے اخلاق سب سے اچھے ہوں اور جو اپنے گھر والوں کے ساتھ سب سے نرم ہو۔",
+    src: "Tirmidhi 1162 · Abu Dawud 4682",
+    tags: ["respect","brotherhood"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ وَأَمْوَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
+    en: "Indeed Allah does not look at your forms or your wealth, but He looks at your hearts and your deeds.",
+    ur: "اللہ تمہاری شکلوں اور مالوں کو نہیں دیکھتا بلکہ تمہارے دلوں اور اعمال کو دیکھتا ہے۔",
+    src: "Muslim 2564",
+    tags: ["love"]
+  },
+  {
+    ar: "انْصُرْ أَخَاكَ ظَالِمًا أَوْ مَظْلُومًا",
+    en: "Support your brother whether he is an oppressor or is oppressed — by stopping the oppressor.",
+    ur: "اپنے بھائی کی مدد کرو چاہے وہ ظالم ہو یا مظلوم۔",
+    src: "Bukhari 2444",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ يُحِبُّ أَنْ يُرَى أَثَرُ نِعْمَتِهِ عَلَى عَبْدِهِ",
+    en: "Indeed Allah loves to see the effects of His blessing on His servant.",
+    ur: "اللہ پسند کرتا ہے کہ اپنے بندے پر اپنی نعمت کا اثر دیکھے۔",
+    src: "Tirmidhi 2819",
+    tags: ["love"]
+  },
+  {
+    ar: "عُقُوقُ الْوَالِدَيْنِ مِنَ الْكَبَائِرِ، وَبِرُّهُمَا مِنَ أَفْضَلِ الْأَعْمَالِ",
+    en: "Disobedience to parents is among the major sins, and kindness to them is among the best of deeds.",
+    ur: "والدین کی نافرمانی کبیرہ گناہوں میں سے ہے اور ان کے ساتھ نیکی بہترین اعمال میں سے ہے۔",
+    src: "Bukhari 2654",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "مَنْ أَحَبَّ أَنْ يُزَحْزَحَ عَنِ النَّارِ وَيُدْخَلَ الْجَنَّةَ فَلْيَأْتِ إِلَى النَّاسِ الَّذِي يُحِبُّ أَنْ يُؤْتَى إِلَيْهِ",
+    en: "Whoever wishes to be saved from Fire and entered into Paradise should treat people the way he wishes to be treated.",
+    ur: "جو شخص چاہتا ہو کہ جہنم سے بچائے جائے، وہ لوگوں کے ساتھ ویسا معاملہ کرے جیسا چاہتا ہے کہ اس کے ساتھ کیا جائے۔",
+    src: "Muslim 1844",
+    tags: ["love"]
+  },
+  {
+    ar: "اتَّقُوا اللَّهَ فِي النِّسَاءِ فَإِنَّكُمْ أَخَذْتُمُوهُنَّ بِأَمَانَةِ اللَّهِ",
+    en: "Fear Allah regarding women, for you have taken them under Allah's trust.",
+    ur: "عورتوں کے بارے میں اللہ سے ڈرو، کیونکہ تم نے انہیں اللہ کی امانت سے لیا ہے۔",
+    src: "Muslim 1218",
+    tags: ["respect"]
+  },
+  {
+    ar: "إِنَّ مِنْ أَحَبِّ النَّاسِ إِلَيَّ أَحْسَنُهُمْ خُلُقًا",
+    en: "The most beloved of people to me are those with the best character.",
+    ur: "میرے نزدیک سب سے زیادہ محبوب وہ شخص ہے جس کے اخلاق سب سے اچھے ہوں۔",
+    src: "Tirmidhi 2018",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "خَيْرُكُمْ خَيْرُكُمْ لِأَهْلِهِ",
+    en: "The best of you is the best of you to his family.",
+    ur: "تم میں سب سے بہتر وہ ہے جو اپنے گھر والوں کے لیے سب سے بہتر ہو۔",
+    src: "Tirmidhi 3895 · Ibn Majah 1977",
+    tags: ["respect"]
+  },
+  {
+    ar: "حُبُّكَ الشَّيْءَ يُعْمِي وَيُصِمُّ",
+    en: "Your love of something makes you blind and deaf.",
+    ur: "کسی چیز سے تمہاری محبت تمہیں اندھا اور بہرا کر دیتی ہے۔",
+    src: "Abu Dawud 5130",
+    tags: ["love"]
+  },
+  {
+    ar: "يَا أَيُّهَا النَّاسُ أَفْشُوا السَّلَامَ وَأَطْعِمُوا الطَّعَامَ وَصِلُوا الْأَرْحَامَ تَدْخُلُوا الْجَنَّةَ بِسَلَامٍ",
+    en: "O people! Spread salaam, feed the hungry, maintain family ties — you will enter Paradise in peace.",
+    ur: "اے لوگو! سلام پھیلاؤ، کھانا کھلاؤ، صلہ رحمی کرو — سلامتی کے ساتھ جنت میں داخل ہو جاؤ گے۔",
+    src: "Tirmidhi 2485 · Ibn Majah 1334",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "الدَّالُّ عَلَى الْخَيْرِ كَفَاعِلِهِ",
+    en: "The one who guides to good is like the one who does it.",
+    ur: "بھلائی کی طرف رہنمائی کرنے والا اسے کرنے والے کی طرح ہے۔",
+    src: "Tirmidhi 2670 · Muslim 1893",
+    tags: ["love"]
+  },
+  {
+    ar: "إِنَّ مِنْ أَبَرِّ الْبِرِّ أَنْ يَصِلَ الرَّجُلُ أَهْلَ وُدِّ أَبِيهِ بَعْدَ أَنْ يُوَلِّيَ",
+    en: "Among the best acts of kindness is for a man to maintain ties with his father's friends after his father has passed away.",
+    ur: "بہترین نیکی میں سے یہ ہے کہ آدمی اپنے باپ کے دوستوں کے ساتھ تعلق برقرار رکھے جب باپ وفات پا جائے۔",
+    src: "Muslim 2552",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ يُحِبُّ إِذَا عَمِلَ أَحَدُكُمْ عَمَلًا أَنْ يُتْقِنَهُ",
+    en: "Indeed Allah loves that when any of you does a deed, he does it with excellence.",
+    ur: "بے شک اللہ پسند کرتا ہے کہ جب تم میں سے کوئی کام کرے تو اسے عمدگی سے کرے۔",
+    src: "Bayhaqi",
+    tags: ["love"]
+  },
+  {
+    ar: "إِيَّاكُمْ وَسُوءَ الظَّنِّ، فَإِنَّ سُوءَ الظَّنِّ أَكْذَبُ الْحَدِيثِ",
+    en: "Beware of suspicion, for suspicion is the most false of speech.",
+    ur: "بدگمانی سے بچو کیونکہ بدگمانی سب سے جھوٹی بات ہے۔",
+    src: "Bukhari 6064 · Muslim 2563",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ",
+    en: "O Allah, send prayers on Muhammad and the family of Muhammad, as You sent prayers on Ibrahim and the family of Ibrahim.",
+    ur: "اے اللہ! محمد ﷺ اور ان کی آل پر درود بھیج جیسے تو نے ابراہیم اور ان کی آل پر درود بھیجا۔",
+    src: "Bukhari 3370 · Muslim 406",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهْهُ فِي الدِّينِ",
+    en: "Whoever Allah intends good for, He gives him deep understanding of the religion.",
+    ur: "اللہ جس کے ساتھ بھلائی کا ارادہ کرتا ہے اسے دین کی سمجھ عطا فرماتا ہے۔",
+    src: "Bukhari 71 · Muslim 1037",
+    tags: ["respect"]
+  },
+  {
+    ar: "ابْسُطْ وَجْهَكَ لِكُلِّ مُسْلِمٍ",
+    en: "Show a cheerful face to every Muslim.",
+    ur: "ہر مسلمان کے سامنے خوش رو چہرہ پیش کرو۔",
+    src: "Tirmidhi 2727",
+    tags: ["love"]
+  },
+  {
+    ar: "مَنْ سَرَّهُ أَنْ يُبَسَّطَ لَهُ فِي رِزْقِهِ فَلْيَصِلْ رَحِمَهُ",
+    en: "Whoever wishes his provision to be expanded and his life to be extended, let him maintain ties of kinship.",
+    ur: "جو چاہتا ہے کہ اس کا رزق وسیع ہو اور عمر لمبی ہو وہ صلہ رحمی کرے۔",
+    src: "Bukhari 2067 · Muslim 2557",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "صِلَةُ الرَّحِمِ تَزِيدُ فِي الْعُمُرِ",
+    en: "Maintaining family ties increases life span.",
+    ur: "صلہ رحمی عمر میں اضافہ کرتی ہے۔",
+    src: "Ahmad · Tabarani",
+    tags: ["respect"]
+  },
+  {
+    ar: "مَنْ رَآنِي فِي الْمَنَامِ فَسَيَرَانِي، فَإِنَّ الشَّيْطَانَ لَا يَتَمَثَّلُ بِي",
+    en: "Whoever sees me in a dream will see me in wakefulness, for the Shaytaan cannot impersonate me.",
+    ur: "جس نے مجھے خواب میں دیکھا وہ بیداری میں بھی مجھے دیکھے گا کیونکہ شیطان میری صورت اختیار نہیں کر سکتا۔",
+    src: "Bukhari 6993 · Muslim 2266",
+    tags: ["prophet","love"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ",
+    en: "Indeed Allah loves those who repent and loves those who purify themselves.",
+    ur: "بے شک اللہ توبہ کرنے والوں اور پاک رہنے والوں کو پسند کرتا ہے۔",
+    src: "Quran 2:222 / Tirmidhi",
+    tags: ["love"]
+  },
+  {
+    ar: "إِذَا مَاتَ الْإِنْسَانُ انْقَطَعَ عَنْهُ عَمَلُهُ إِلَّا مِنْ ثَلَاثَةٍ... وَوَلَدٍ صَالِحٍ يَدْعُو لَهُ",
+    en: "When a person dies, his deeds end except in three: a righteous child who prays for him…",
+    ur: "انسان جب مر جاتا ہے تو اس کے اعمال منقطع ہو جاتے ہیں سوائے تین کے... نیک اولاد جو اس کے لیے دعا کرے۔",
+    src: "Muslim 1631",
+    tags: ["brotherhood","parents"]
+  },
+  {
+    ar: "اتَّقُوا اللَّهَ فِي الضُّعَفَاءِ: الْمَرْأَةِ وَالْيَتِيمِ وَالْمَمْلُوكِ",
+    en: "Fear Allah regarding the weak: women, orphans, and those in your care.",
+    ur: "کمزوروں کے بارے میں اللہ سے ڈرو: عورتیں، یتیم اور ماتحت۔",
+    src: "Ahmad · Ibn Majah",
+    tags: ["respect"]
+  },
+  {
+    ar: "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ",
+    en: "Your smile in the face of your brother is charity.",
+    ur: "اپنے بھائی کے چہرے پر مسکرانا صدقہ ہے۔",
+    src: "Tirmidhi 1956",
+    tags: ["love"]
+  },
+  {
+    ar: "لَوْ كُنْتُ مُتَّخِذًا خَلِيلًا لَاتَّخَذْتُ أَبَا بَكْرٍ خَلِيلًا",
+    en: "If I were to take a close friend, I would have taken Abu Bakr — but your companion is the close friend of Allah.",
+    ur: "اگر میں کسی کو خلیل بناتا تو ابو بکر کو بناتا — لیکن تمہارا ساتھی اللہ کا خلیل ہے۔",
+    src: "Muslim 2383",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "لَا يَبِعِ الرَّجُلُ عَلَى بَيْعِ أَخِيهِ، وَلَا يَخْطُبْ عَلَى خِطْبَةِ أَخِيهِ",
+    en: "A man should not sell over the transaction of his brother, nor propose over the proposal of his brother.",
+    ur: "کوئی اپنے بھائی کے سودے پر سودا نہ کرے اور نہ اس کے رشتے پر رشتہ بھیجے۔",
+    src: "Bukhari 5142 · Muslim 1413",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "خَيْرُ الْأَصْحَابِ عِنْدَ اللَّهِ خَيْرُهُمْ لِصَاحِبِهِ",
+    en: "The best of companions before Allah is the best of them toward his companion.",
+    ur: "اللہ کے ہاں بہترین ساتھی وہ ہے جو اپنے ساتھی کے لیے بہترین ہو۔",
+    src: "Tirmidhi 1944",
+    tags: ["love","brotherhood"]
+  },
+  {
+    ar: "مَنْ أُعْطِيَ حَظَّهُ مِنَ الرِّفْقِ فَقَدْ أُعْطِيَ حَظَّهُ مِنْ خَيْرِ الدُّنْيَا وَالْآخِرَةِ",
+    en: "Whoever is given his share of gentleness has been given his share of the goodness of this world and the next.",
+    ur: "جسے نرمی کا حصہ مل گیا اسے دنیا اور آخرت کی بھلائی کا حصہ مل گیا۔",
+    src: "Tirmidhi 2013",
+    tags: ["respect"]
+  },
+  {
+    ar: "مَنْ أَطَاعَنِي فَقَدْ أَطَاعَ اللَّهَ، وَمَنْ عَصَانِي فَقَدْ عَصَى اللَّهَ",
+    en: "Whoever obeys me has obeyed Allah, and whoever disobeys me has disobeyed Allah.",
+    ur: "جس نے میری اطاعت کی اس نے اللہ کی اطاعت کی، اور جس نے میری نافرمانی کی اس نے اللہ کی نافرمانی کی۔",
+    src: "Bukhari 7137 · Muslim 1835",
+    tags: ["love","prophet"]
+  },
+  {
+    ar: "أَحِبَّ مَا شِئْتَ فَإِنَّكَ مُفَارِقُهُ",
+    en: "Love what you will, for you will eventually be parted from it.",
+    ur: "جو چاہو محبت کرو مگر یاد رکھو کہ ایک دن اس سے جدا ہونا ہے۔",
+    src: "Hakim · Bayhaqi",
+    tags: ["love"]
+  },
+  {
+    ar: "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِجَارِهِ مَا يُحِبُّ لِنَفْسِهِ",
+    en: "None of you truly believes until he loves for his neighbour what he loves for himself.",
+    ur: "تم میں سے کوئی اس وقت تک مومن نہیں ہو سکتا جب تک اپنے پڑوسی کے لیے وہی پسند نہ کرے جو اپنے لیے پسند کرتا ہے۔",
+    src: "Muslim 45 (variant)",
+    tags: ["brotherhood"]
+  },
+  {
+    ar: "أَكْبَرُ الْكَبَائِرِ: الْإِشْرَاكُ بِاللَّهِ وَعُقُوقُ الْوَالِدَيْنِ وَقَتْلُ النَّفْسِ",
+    en: "The greatest of major sins: shirk, disobedience to parents, and murder.",
+    ur: "سب سے بڑے گناہ یہ ہیں: اللہ کے ساتھ شرک، والدین کی نافرمانی، اور قتل۔",
+    src: "Bukhari 6675",
+    tags: ["respect","parents"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ تَعَالَى يَقُولُ يَوْمَ الْقِيَامَةِ: أَيْنَ الْمُتَحَابُّونَ بِجَلَالِي؟ الْيَوْمَ أُظِلُّهُمْ فِي ظِلِّي",
+    en: "On the Day of Resurrection Allah will say: Where are those who loved each other for My majesty? Today I will shelter them in My shade.",
+    ur: "قیامت کے دن اللہ فرمائے گا: کہاں ہیں وہ لوگ جو میری عظمت کی خاطر محبت کرتے تھے؟ آج میں انہیں اپنے سائے میں جگہ دوں گا۔",
+    src: "Muslim 2566",
+    tags: ["love"]
+  },
+  {
+    ar: "أَنَا سَيِّدُ وَلَدِ آدَمَ يَوْمَ الْقِيَامَةِ وَلَا فَخْرَ، وَبِيَدِي لِوَاءُ الْحَمْدِ وَلَا فَخْرَ، وَأَنَا أَوَّلُ شَافِعٍ",
+    en: "I am the leader of the children of Adam on the Day of Resurrection — no boast. The Banner of Praise is in my hand. I am the first to intercede.",
+    ur: "میں قیامت کے دن آدم کی اولاد کا سردار ہوں گا، فخر نہیں۔ لواء الحمد میرے ہاتھ میں ہوگا۔ اور میں سب سے پہلے شفاعت کروں گا۔",
+    src: "Tirmidhi 3615 · Ibn Majah 4308",
+    tags: ["love","prophet"]
+  }
+];
+
+/* ── 50 KIDS HADITHS (appended) ── */
+HADITHS.push(
+  {
+    ar: "إِنَّ اللَّهَ رَفِيقٌ يُحِبُّ الرِّفْقَ",
+    en: "Indeed Allah is gentle and He loves gentleness.",
+    ur: "بے شک اللہ نرم ہے اور نرمی کو پسند کرتا ہے۔",
+    src: "Bukhari 6927 · Muslim 2593",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "الطَّهُورُ شَطْرُ الْإِيمَانِ",
+    en: "Cleanliness is half of faith.",
+    ur: "صفائی نصف ایمان ہے۔",
+    src: "Muslim 223",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+    en: "Whoever believes in Allah and the Last Day should say something good or keep silent.",
+    ur: "جو اللہ اور آخرت پر ایمان رکھتا ہو وہ اچھی بات کہے یا خاموش رہے۔",
+    src: "Bukhari 6018 · Muslim 47",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "لَا تَغْضَبْ",
+    en: "Do not get angry.",
+    ur: "غصہ نہ کرو۔",
+    src: "Bukhari 6116",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "إِنَّ مِنْ أَحَبِّ الْأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ",
+    en: "The most beloved deeds to Allah are the most consistent, even if they are small.",
+    ur: "اللہ کو سب سے زیادہ پسند وہ عمل ہے جو ہمیشہ کیا جائے، چاہے تھوڑا ہو۔",
+    src: "Bukhari 6465 · Muslim 783",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "بَشِّرُوا وَلَا تُنَفِّرُوا، وَيَسِّرُوا وَلَا تُعَسِّرُوا",
+    en: "Give glad tidings and do not drive people away. Make things easy and do not make them difficult.",
+    ur: "خوشخبری دو، نفرت نہ پھیلاؤ۔ آسانی کرو، مشکل نہ بناؤ۔",
+    src: "Bukhari 69 · Muslim 1734",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "كُلُّ مَعْرُوفٍ صَدَقَةٌ",
+    en: "Every act of kindness is charity.",
+    ur: "ہر نیکی صدقہ ہے۔",
+    src: "Bukhari 6021 · Muslim 1005",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "إِنَّ اللَّهَ يُحِبُّ أَنْ يُرَى أَثَرُ النِّعْمَةِ عَلَى عَبْدِهِ",
+    en: "Allah loves to see the signs of His blessings on His servant.",
+    ur: "اللہ پسند کرتا ہے کہ اپنے بندے پر اپنی نعمت کا اثر نظر آئے۔",
+    src: "Tirmidhi 2819",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "صَلُّوا كَمَا رَأَيْتُمُونِي أُصَلِّي",
+    en: "Pray as you have seen me pray.",
+    ur: "اس طرح نماز پڑھو جیسے تم نے مجھے نماز پڑھتے دیکھا ہے۔",
+    src: "Bukhari 631",
+    tags: ["kids","prophet"]
+  },
+  {
+    ar: "أَكْرِمُوا أَوْلَادَكُمْ",
+    en: "Honor your children.",
+    ur: "اپنے بچوں کا احترام کرو۔",
+    src: "Ibn Majah 3671",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "مَنْ أَكَلَ طَعَامًا فَلْيَقُلْ: بِسْمِ اللَّهِ",
+    en: "Whoever eats food, let him say Bismillah.",
+    ur: "جو کھانا کھائے وہ بسم اللہ کہے۔",
+    src: "Abu Dawud 3767 · Tirmidhi 1858",
+    tags: ["kids"]
+  },
+  {
+    ar: "إِذَا انْتَهَى أَحَدُكُمْ مِنَ الطَّعَامِ فَلْيَلْعَقْ أَصَابِعَهُ",
+    en: "When one of you finishes eating, let him lick his fingers.",
+    ur: "جب تم میں سے کوئی کھانا کھا لے تو اپنی انگلیاں چاٹے۔",
+    src: "Muslim 2031",
+    tags: ["kids"]
+  },
+  {
+    ar: "كُلْ بِيَمِينِكَ وَكُلْ مِمَّا يَلِيكَ",
+    en: "Eat with your right hand and eat from what is in front of you.",
+    ur: "دائیں ہاتھ سے کھاؤ اور اپنے سامنے سے کھاؤ۔",
+    src: "Bukhari 5376 · Muslim 2022",
+    tags: ["kids"]
+  },
+  {
+    ar: "السَّلَامُ قَبْلَ الْكَلَامِ",
+    en: "Salaam comes before speech.",
+    ur: "بات کرنے سے پہلے سلام کرو۔",
+    src: "Tirmidhi 2699",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "إِذَا دَخَلْتَ عَلَى أَهْلِكَ فَسَلِّمْ",
+    en: "When you enter upon your family, give salaam.",
+    ur: "جب اپنے گھر والوں کے پاس جاؤ تو سلام کرو۔",
+    src: "Tirmidhi 2698",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى",
+    en: "The upper hand (giving) is better than the lower hand (receiving).",
+    ur: "اوپر والا ہاتھ (دینے والا) نیچے والے ہاتھ (لینے والے) سے بہتر ہے۔",
+    src: "Bukhari 1429 · Muslim 1033",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "لَا يَشْكُرُ اللَّهَ مَنْ لَا يَشْكُرُ النَّاسَ",
+    en: "He does not thank Allah who does not thank people.",
+    ur: "اللہ کا شکر ادا نہیں کرتا وہ شخص جو لوگوں کا شکر ادا نہیں کرتا۔",
+    src: "Abu Dawud 4811 · Tirmidhi 1954",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ",
+    en: "Fear Allah wherever you are.",
+    ur: "جہاں بھی ہو اللہ سے ڈرتے رہو۔",
+    src: "Tirmidhi 1987",
+    tags: ["kids"]
+  },
+  {
+    ar: "قُلِ الْحَقَّ وَلَوْ كَانَ مُرًّا",
+    en: "Speak the truth even if it is bitter.",
+    ur: "سچ بولو چاہے وہ تلخ ہو۔",
+    src: "Ibn Hibban · Bayhaqi",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "إِيَّاكُمْ وَالْكَذِبَ، فَإِنَّ الْكَذِبَ يَهْدِي إِلَى الْفُجُورِ",
+    en: "Beware of lying, for lying leads to wickedness.",
+    ur: "جھوٹ سے بچو، کیونکہ جھوٹ برائی کی طرف لے جاتا ہے۔",
+    src: "Bukhari 6094 · Muslim 2607",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "مَنْ غَشَّنَا فَلَيْسَ مِنَّا",
+    en: "Whoever cheats us is not one of us.",
+    ur: "جو ہمیں دھوکہ دے وہ ہم میں سے نہیں ہے۔",
+    src: "Muslim 101",
+    tags: ["kids","brotherhood"]
+  },
+  {
+    ar: "اسْتَعِنْ بِاللَّهِ وَلَا تَعْجِزْ",
+    en: "Seek help from Allah and do not give up.",
+    ur: "اللہ سے مدد مانگو اور ہمت نہ ہارو۔",
+    src: "Muslim 2664",
+    tags: ["kids"]
+  },
+  {
+    ar: "إِذَا سَأَلْتَ فَاسْأَلِ اللَّهَ، وَإِذَا اسْتَعَنْتَ فَاسْتَعِنْ بِاللَّهِ",
+    en: "When you ask, ask Allah. When you seek help, seek help from Allah.",
+    ur: "جب مانگو تو اللہ سے مانگو، جب مدد چاہو تو اللہ سے مانگو۔",
+    src: "Tirmidhi 2516",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "لَا تَحْقِرَنَّ مِنَ الْمَعْرُوفِ شَيْئًا وَلَوْ أَنْ تَلْقَى أَخَاكَ بِوَجْهٍ طَلْقٍ",
+    en: "Do not consider any act of kindness insignificant, even meeting your brother with a cheerful face.",
+    ur: "کسی نیکی کو چھوٹا نہ سمجھو، چاہے یہ اپنے بھائی سے مسکرا کر ملنا ہی کیوں نہ ہو۔",
+    src: "Muslim 2626",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "احْفَظِ اللَّهَ يَحْفَظْكَ",
+    en: "Guard the rights of Allah and He will guard you.",
+    ur: "اللہ کا حق ادا کرو، وہ تمہاری حفاظت کرے گا۔",
+    src: "Tirmidhi 2516",
+    tags: ["kids"]
+  },
+  {
+    ar: "مَنْ صَمَتَ نَجَا",
+    en: "Whoever stays silent is saved.",
+    ur: "جو خاموش رہا وہ بچ گیا۔",
+    src: "Tirmidhi 2501",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
+    en: "Indeed, deeds are judged by intentions.",
+    ur: "بے شک اعمال کا دارومدار نیتوں پر ہے۔",
+    src: "Bukhari 1 · Muslim 1907",
+    tags: ["kids"]
+  },
+  {
+    ar: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+    en: "The best of you is the one who learns the Quran and teaches it.",
+    ur: "تم میں سب سے بہتر وہ ہے جو قرآن سیکھے اور سکھائے۔",
+    src: "Bukhari 5027",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ",
+    en: "Seeking knowledge is an obligation upon every Muslim.",
+    ur: "علم حاصل کرنا ہر مسلمان پر فرض ہے۔",
+    src: "Ibn Majah 224",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "رَبِّ زِدْنِي عِلْمًا",
+    en: "My Lord, increase me in knowledge.",
+    ur: "اے میرے رب! میرے علم میں اضافہ فرما۔",
+    src: "Quran 20:114 / daily dua",
+    tags: ["kids"]
+  },
+  {
+    ar: "لَا تُؤْذِ جَارَكَ",
+    en: "Do not harm your neighbour.",
+    ur: "اپنے پڑوسی کو تکلیف نہ دو۔",
+    src: "Bukhari 6016",
+    tags: ["kids","brotherhood"]
+  },
+  {
+    ar: "أَحِبَّ لِلنَّاسِ مَا تُحِبُّ لِنَفْسِكَ",
+    en: "Love for people what you love for yourself.",
+    ur: "لوگوں کے لیے وہی پسند کرو جو اپنے لیے پسند کرتے ہو۔",
+    src: "Ibn Majah 4217",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "لَا تَكُنْ عَوْنًا لِلشَّيْطَانِ عَلَى أَخِيكَ",
+    en: "Do not be a helper of Shaytaan against your brother.",
+    ur: "اپنے بھائی کے خلاف شیطان کا مددگار نہ بنو۔",
+    src: "Bukhari 6787",
+    tags: ["kids","brotherhood"]
+  },
+  {
+    ar: "إِذَا جَاءَكُمُ الْكَرِيمُ فَأَكْرِمُوهُ",
+    en: "When a noble person comes to you, honor him.",
+    ur: "جب کوئی عزت دار شخص تمہارے پاس آئے تو اس کا احترام کرو۔",
+    src: "Ibn Majah 3712",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "الْمُسْلِمُ أَخُو الْمُسْلِمِ",
+    en: "The Muslim is the brother of the Muslim.",
+    ur: "مسلمان مسلمان کا بھائی ہے۔",
+    src: "Bukhari 2442",
+    tags: ["kids","brotherhood"]
+  },
+  {
+    ar: "انْظُرُوا إِلَى مَنْ هُوَ أَسْفَلَ مِنْكُمْ وَلَا تَنْظُرُوا إِلَى مَنْ هُوَ فَوْقَكُمْ",
+    en: "Look at those below you and do not look at those above you — it is more likely to keep you from belittling Allah's blessings.",
+    ur: "اپنے سے نیچے والوں کو دیکھو، اوپر والوں کو نہ دیکھو — اس طرح اللہ کی نعمت کی ناشکری سے بچو گے۔",
+    src: "Bukhari 6490 · Muslim 2963",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "مَنْ لَا يَرْحَمْ لَا يُرْحَمْ",
+    en: "Whoever does not show mercy will not be shown mercy.",
+    ur: "جو رحم نہیں کرتا اس پر رحم نہیں کیا جائے گا۔",
+    src: "Bukhari 5997 · Muslim 2318",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "إِيَّاكَ وَالْحَسَدَ",
+    en: "Beware of envy.",
+    ur: "حسد سے بچو۔",
+    src: "Abu Dawud 4903",
+    tags: ["kids","brotherhood"]
+  },
+  {
+    ar: "لَا تُسَبَّ أُمَّكَ",
+    en: "Do not curse (insult) your mother.",
+    ur: "اپنی ماں کو برا مت کہو۔",
+    src: "Muslim 2551",
+    tags: ["kids","parents"]
+  },
+  {
+    ar: "بَلِّغُوا عَنِّي وَلَوْ آيَةً",
+    en: "Convey from me even if it is one verse.",
+    ur: "میری طرف سے پہنچاؤ، چاہے ایک آیت ہو۔",
+    src: "Bukhari 3461",
+    tags: ["kids","prophet"]
+  },
+  {
+    ar: "ارْحَمُوا مَنْ فِي الْأَرْضِ يَرْحَمْكُمْ مَنْ فِي السَّمَاءِ",
+    en: "Show mercy to those on earth, and He Who is in heaven will show mercy to you.",
+    ur: "زمین والوں پر رحم کرو، آسمان والا تم پر رحم کرے گا۔",
+    src: "Tirmidhi 1924",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ فَلَا يُؤْذِ جَارَهُ",
+    en: "Whoever believes in Allah should not harm his neighbour.",
+    ur: "جو اللہ پر ایمان رکھتا ہو وہ اپنے پڑوسی کو تکلیف نہ دے۔",
+    src: "Bukhari 6015 · Muslim 47",
+    tags: ["kids","brotherhood"]
+  },
+  {
+    ar: "خُذُوا الْقُرْآنَ مِنْ أَرْبَعَةٍ: مِنَ ابْنِ مَسْعُودٍ وَأُبَيٍّ وَمُعَاذٍ وَسَالِمٍ",
+    en: "Take the Quran from four people — Ibn Masud, Ubayy, Muadh, and Salim.",
+    ur: "قرآن چار لوگوں سے سیکھو — ابن مسعود، ابی، معاذ، اور سالم سے۔",
+    src: "Bukhari 3758",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "تَعَلَّمُوا الْفَرَائِضَ وَعَلِّمُوهَا النَّاسَ",
+    en: "Learn the religious duties and teach them to people.",
+    ur: "فرائض سیکھو اور لوگوں کو سکھاؤ۔",
+    src: "Ibn Majah 2719",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "مَنْ أَحَبَّ أَنْ يَنْظُرَ إِلَى رَجُلٍ مِنْ أَهْلِ الْجَنَّةِ فَلْيَنْظُرْ إِلَى هَذَا",
+    en: "Whoever loves to look at a man from the people of Paradise, let him look at this man.",
+    ur: "جو جنتی آدمی کو دیکھنا چاہے وہ اس شخص کو دیکھے۔",
+    src: "Bukhari 1356",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ",
+    en: "The strong person is not the one who can wrestle others down, but the one who controls himself when angry.",
+    ur: "طاقتور وہ نہیں جو پہلوانی کرے، بلکہ طاقتور وہ ہے جو غصے میں اپنے آپ کو قابو میں رکھے۔",
+    src: "Bukhari 6114 · Muslim 2609",
+    tags: ["kids","respect"]
+  },
+  {
+    ar: "حُسْنُ الظَّنِّ مِنْ حُسْنِ الْعِبَادَةِ",
+    en: "Having good thoughts about others is part of good worship.",
+    ur: "دوسروں کے بارے میں اچھا گمان رکھنا عبادت کا حصہ ہے۔",
+    src: "Abu Dawud · Ahmad",
+    tags: ["kids","brotherhood"]
+  },
+  {
+    ar: "الصَّدَقَةُ تُطْفِئُ الْخَطِيئَةَ كَمَا يُطْفِئُ الْمَاءُ النَّارَ",
+    en: "Charity extinguishes sin just as water extinguishes fire.",
+    ur: "صدقہ گناہ کو اس طرح مٹاتا ہے جیسے پانی آگ کو بجھاتا ہے۔",
+    src: "Tirmidhi 2616 · Ibn Majah 3973",
+    tags: ["kids","love"]
+  },
+  {
+    ar: "كُنْ فِي الدُّنْيَا كَأَنَّكَ غَرِيبٌ أَوْ عَابِرُ سَبِيلٍ",
+    en: "Be in this world as if you were a stranger or a traveller.",
+    ur: "دنیا میں اس طرح رہو جیسے ایک مسافر یا غریب ہو۔",
+    src: "Bukhari 6416",
+    tags: ["kids"]
+  },
+  {
+    ar: "أَحَبُّ الصَّلَاةِ إِلَى النَّبِيِّ صَلَاةُ دَاوُدَ كَانَ يَنَامُ نِصْفَ اللَّيْلِ",
+    en: "The most beloved prayer to the Prophet was that of Dawud — he slept half the night and prayed a portion.",
+    ur: "نبی ﷺ کو سب سے پسندیدہ نماز داؤد علیہ السلام کی تھی — وہ آدھی رات سوتے تھے۔",
+    src: "Bukhari 1131",
+    tags: ["kids","prophet"]
+  },
+  {
+    ar: "أَفْضَلُ الصِّيَامِ صِيَامُ دَاوُدَ، كَانَ يَصُومُ يَوْمًا وَيُفْطِرُ يَوْمًا",
+    en: "The best fasting is the fasting of Dawud — he fasted one day and broke his fast the next.",
+    ur: "سب سے افضل روزہ داؤد علیہ السلام کا روزہ ہے — ایک دن روزہ رکھتے، ایک دن افطار کرتے۔",
+    src: "Bukhari 1976 · Muslim 1159",
+    tags: ["kids"]
+  }
+);
+
+
+
+/* ── TAG CONFIG ── */
+const TAG_META = {
+  love:         { label: "Love",         cls: "tag-love"         },
+  respect:      { label: "Respect",      cls: "tag-respect"      },
+  brotherhood:  { label: "Brotherhood",  cls: "tag-brotherhood"  },
+  parents:      { label: "Parents",      cls: "tag-parents"      },
+  prophet:      { label: "Prophet ﷺ",   cls: "tag-prophet"      },
+  kids:         { label: "For Kids",     cls: "tag-kids"         },
+};
+
+/* ── STATE ── */
+let activeTag   = "all";
+let openRowIdx  = null;
+let filtered    = [];
+
+/* ── RENDER ── */
+function buildList() {
+  const container = document.getElementById("listContainer");
+  const noRes     = document.getElementById("noResults");
+  container.innerHTML = "";
+
+  if (filtered.length === 0) {
+    noRes.style.display = "block";
+    document.getElementById("countDisplay").textContent = "0";
+    return;
+  }
+  noRes.style.display = "none";
+  document.getElementById("countDisplay").textContent = filtered.length;
+
+  filtered.forEach((h, i) => {
+    const globalIdx = HADITHS.indexOf(h);
+    const num       = globalIdx + 1;
+    const primaryTag = h.tags[0] || "love";
+    const tagMeta   = TAG_META[primaryTag] || TAG_META.love;
+
+    // Arabic preview — first 60 chars
+    const arPreview = h.ar.length > 65 ? h.ar.slice(0, 65) + "…" : h.ar;
+    const enPreview = h.en.length > 80 ? h.en.slice(0, 80) + "…" : h.en;
+
+    const div = document.createElement("div");
+    div.className = "hadith-row";
+    div.dataset.idx = globalIdx;
+    div.style.animationDelay = Math.min(i * 8, 200) + "ms";
+
+    div.innerHTML = `
+      <div class="row-collapsed" onclick="toggleRow(${globalIdx}, this)">
+        <span class="row-num">${String(num).padStart(3,"0")}</span>
+        <div class="row-preview">
+          <span class="preview-ar">${arPreview}</span>
+          <span class="preview-en">${enPreview}</span>
+        </div>
+        <span class="row-source">${h.src}</span>
+        <div class="row-tag">
+          <span class="tag-pill ${tagMeta.cls}">${tagMeta.label}</span>
+        </div>
+      </div>
+      <div class="row-expanded">
+        <div class="expanded-inner">
+          <div class="lang-block">
+            <div class="lang-label">Arabic · عربي</div>
+            <div class="arabic-full">${h.ar}</div>
+          </div>
+          <div class="lang-block">
+            <div class="lang-label">English</div>
+            <div class="english-full">${h.en}</div>
+          </div>
+          <div class="lang-block">
+            <div class="lang-label">Urdu · اردو</div>
+            <div class="urdu-full">${h.ur}</div>
+          </div>
+          <div class="expanded-footer">
+            <span class="source-badge">◆ ${h.src}</span>
+            <span class="close-btn" onclick="closeRow(${globalIdx}, event)">▲ collapse</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+function toggleRow(idx, el) {
+  const row = el.closest(".hadith-row");
+  const isOpen = row.classList.contains("open");
+
+  // close previous
+  if (openRowIdx !== null && openRowIdx !== idx) {
+    const prev = document.querySelector(`.hadith-row[data-idx="${openRowIdx}"]`);
+    if (prev) prev.classList.remove("open");
+  }
+
+  row.classList.toggle("open", !isOpen);
+  openRowIdx = isOpen ? null : idx;
+
+  if (!isOpen) {
+    setTimeout(() => row.scrollIntoView({ behavior: "smooth", block: "nearest" }), 50);
+  }
+}
+
+function closeRow(idx, e) {
+  e.stopPropagation();
+  const row = document.querySelector(`.hadith-row[data-idx="${idx}"]`);
+  if (row) row.classList.remove("open");
+  openRowIdx = null;
+}
+
+/* ── FILTER ── */
+function applyFilters() {
+  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+  filtered = HADITHS.filter(h => {
+    const tagOk = activeTag === "all" || h.tags.includes(activeTag);
+    if (!tagOk) return false;
+    if (!q) return true;
+    return (
+      h.ar.includes(q) ||
+      h.en.toLowerCase().includes(q) ||
+      h.ur.includes(q) ||
+      h.src.toLowerCase().includes(q)
+    );
+  });
+  openRowIdx = null;
+  buildList();
+}
+
+function setTag(tag, btn) {
+  activeTag = tag;
+  document.querySelectorAll(".ftag").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  applyFilters();
+}
+
+/* ── INIT ── */
+filtered = [...HADITHS];
+buildList();
+</script>
+</body>
+</html>

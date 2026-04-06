@@ -1,0 +1,88 @@
+.pageShell {
+  --conn-space-1: 4px;
+  --conn-space-2: 8px;
+  --conn-space-3: 12px;
+  --conn-space-4: 16px;
+  --conn-space-5: 24px;
+  --conn-space-6: 32px;
+  --conn-title-size: clamp(1rem, 1.2vw, 1.2rem);
+  --conn-subtitle-size: clamp(0.72rem, 0.86vw, 0.82rem);
+  --conn-meta-size: clamp(0.62rem, 0.75vw, 0.7rem);
+}
+
+.layoutFrame {
+  gap: var(--conn-space-3);
+}
+
+.mainCanvas {
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(15, 10, 6, 0.78), rgba(10, 7, 4, 0.85));
+  border: 1px solid rgba(212, 168, 67, 0.16);
+}
+
+.headerStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--conn-space-3);
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(212, 168, 67, 0.15);
+  background: rgba(10, 8, 6, 0.75);
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: var(--conn-title-size);
+  letter-spacing: 0.03em;
+  color: rgba(255, 242, 206, 0.95);
+  font-weight: 700;
+}
+
+.headerMeta {
+  margin: 0;
+  font-size: var(--conn-subtitle-size);
+  color: rgba(212, 168, 67, 0.82);
+  line-height: 1.6;
+}
+
+.contentCanvas {
+  padding: 10px 12px 14px;
+}
+
+:global(body.tahajjud) .mainCanvas,
+:global(.connections-dark) .mainCanvas {
+  background: linear-gradient(180deg, rgba(14, 23, 40, 0.86), rgba(10, 18, 34, 0.9));
+  border-color: rgba(100, 160, 255, 0.22);
+}
+
+:global(body.tahajjud) .headerStrip,
+:global(.connections-dark) .headerStrip {
+  background: rgba(10, 20, 38, 0.86);
+  border-bottom-color: rgba(100, 160, 255, 0.2);
+}
+
+:global(body.tahajjud) .headerTitle,
+:global(.connections-dark) .headerTitle {
+  color: rgba(216, 232, 248, 0.96);
+}
+
+:global(body.tahajjud) .headerMeta,
+:global(.connections-dark) .headerMeta {
+  color: rgba(154, 184, 216, 0.92);
+}
+
+@media (max-width: 1024px) {
+  .layoutFrame {
+    gap: var(--conn-space-2);
+  }
+
+  .mainCanvas {
+    border-radius: 10px;
+  }
+
+  .headerStrip {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

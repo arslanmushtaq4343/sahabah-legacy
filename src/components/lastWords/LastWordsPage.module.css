@@ -1,0 +1,331 @@
+.page {
+  min-height: 100vh;
+  background: #080608;
+  color: #e8dfc8;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  padding-bottom: 80px;
+}
+
+/* ─── Header ─── */
+.header {
+  position: relative;
+  padding: 64px 40px 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+
+.headerGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 50% -5%, rgba(42,10,74,0.2) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6b3490;
+  margin: 0 0 14px;
+}
+
+.title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #e8dfc8;
+  margin: 0 0 16px;
+  line-height: 1.15;
+}
+
+.dim {
+  background: linear-gradient(135deg, #9a5abe 0%, #6b2090 50%, #b87ad0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lead {
+  max-width: 680px;
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: #a09070;
+  margin: 0 0 20px;
+}
+
+.headerNote {
+  font-size: 0.75rem;
+  color: #4a3a5a;
+  font-style: italic;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+/* ─── Controls ─── */
+.controls {
+  padding: 24px 40px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.row1 {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.search {
+  background: #110e14;
+  border: 1px solid rgba(107,52,144,0.25);
+  border-radius: 4px;
+  color: #e8dfc8;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  outline: none;
+  max-width: 360px;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.search:focus { border-color: #6b3490; }
+.search::placeholder { color: #3a2a4a; }
+
+.obscureToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #7a6a5a;
+}
+
+.obscureToggle input { accent-color: #6b3490; }
+
+.toggleLabel { user-select: none; }
+
+.cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.catBtn {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(107,52,144,0.2);
+  background: transparent;
+  color: #7a6a5a;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.catBtn:hover { border-color: #6b3490; color: #c0a8e0; }
+
+.catActive {
+  background: var(--ac, rgba(107,52,144,0.2));
+  border-color: var(--ac, #6b3490) !important;
+  color: #e8dfc8 !important;
+  font-weight: 600;
+}
+
+.count { font-size: 0.75rem; color: #4a3a50; margin: 0; }
+
+/* ─── Cards ─── */
+.cards {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px;
+  color: #4a3a50;
+  font-size: 0.9rem;
+}
+
+/* ─── Card ─── */
+.card {
+  background: #0d0a10;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid var(--cc, #6b3490);
+  border-radius: 3px;
+  overflow: hidden;
+  transition: box-shadow 0.22s;
+}
+
+.card:hover, .cardOpen {
+  box-shadow: 0 4px 28px rgba(0,0,0,0.5);
+}
+
+.cardBtn {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 20px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  text-align: left;
+  transition: background 0.18s;
+}
+
+.cardBtn:hover { background: rgba(255,255,255,0.015); }
+
+.candleCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 2px;
+  min-width: 36px;
+}
+
+.candleIcon { font-size: 1.3rem; opacity: 0.7; }
+
+.rareBadge {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b3490;
+  border: 1px solid #6b349044;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: #6b349012;
+  white-space: nowrap;
+}
+
+.cardMain { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.compInfo { display: flex; flex-direction: column; gap: 2px; }
+.compName { font-size: 0.95rem; font-weight: 600; color: #e8dfc8; }
+.compAr { font-size: 0.8rem; color: #5a4a60; direction: rtl; text-align: left; }
+
+.cardRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.yearTag {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.68rem;
+  color: #6a5a70;
+  background: rgba(255,255,255,0.04);
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+.catTag {
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.chevron { font-size: 0.7rem; color: #3a2a4a; }
+
+/* Arabic words — the centrepiece */
+.wordsAr {
+  font-family: 'Amiri', serif;
+  font-size: 1.35rem;
+  line-height: 2;
+  color: #c8a8e8;
+  text-align: right;
+  margin: 0;
+  padding: 12px 0;
+  border-top: 1px solid rgba(107,52,144,0.12);
+  border-bottom: 1px solid rgba(107,52,144,0.12);
+}
+
+.wordsEn {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #a090b0;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ─── Detail ─── */
+.detail {
+  padding: 0 20px 24px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  padding-top: 16px;
+}
+
+.wordsUr {
+  font-family: 'Amiri', serif;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: #7a6a80;
+  text-align: right;
+  margin: 0;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.contextBlock { display: flex; flex-direction: column; gap: 8px; }
+
+.contextLabel {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cc, #6b3490);
+  opacity: 0.7;
+}
+
+.contextText {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: #9a8a9a;
+  margin: 0;
+}
+
+.sourceRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+.srcLabel {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #3a2a4a;
+}
+
+.srcText {
+  font-size: 0.8rem;
+  color: #5a4a60;
+  font-style: italic;
+}
+
+:global(body.tahajjud) .compAr,
+:global(body.tahajjud) .yearTag,
+:global(body.tahajjud) .chevron,
+:global(body.tahajjud) .srcLabel,
+:global(body.tahajjud) .srcText {
+  color: var(--color-muted2);
+}

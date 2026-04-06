@@ -1,0 +1,32 @@
+.topNav {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+}
+
+.navRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controlRow {
+  margin-top: 8px;
+  border-radius: 10px;
+}
+
+.actionCluster {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.stateStrip {
+  margin-top: 8px;
+  border-radius: 10px;
+}
+
+.savedViewsStrip {
+  margin-top: 8px;
+  border-radius: 10px;
+}

@@ -1,0 +1,57 @@
+/* Skip-to-main-content for keyboard/screen-reader users */
+.skipLink {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  background: var(--color-gold-mid);
+  color: #fff;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-md) 0;
+  transition: top 0.2s ease;
+}
+
+.skipLink:focus {
+  top: 0;
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.shell {
+  display: flex;
+  height: 100vh;        /* definite height so flex children can resolve % heights */
+  overflow: hidden;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--color-bg) 92%, #fff 8%), var(--color-surface));
+}
+
+.main {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  overflow-x: hidden;
+  overflow-y: auto;     /* pages that need scrolling still scroll */
+  min-width: 0;
+  min-height: 0;        /* allows flex children to shrink below content size */
+  padding-inline: 0.25rem;
+}
+
+/* Page transition — only animate opacity, never dimensions */
+.main > * {
+  animation: fadeIn .25s ease forwards;
+}
+
+.weeklyBadgeWrap {
+  position: fixed;
+  bottom: 70px;
+  left: 16px;
+  z-index: 800;
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-left: 0;
+    padding-top: 56px;
+  }
+}
