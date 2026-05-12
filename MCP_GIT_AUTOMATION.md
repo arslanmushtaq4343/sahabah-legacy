@@ -8,6 +8,23 @@ Server name in local MCP config:
 git-auto
 ```
 
+## VS Code Codex Note
+
+The Codex VS Code extension slash picker currently shows the IDE's built-in slash commands. Custom plugin command files may not appear in that `/` menu.
+
+For this repo, `AGENTS.md` adds command aliases so you can still send these as normal chat messages:
+
+```text
+/git_auto
+/version_snapshot 1.0.1
+/version_snapshot before homepage update
+/mscp homepage update
+/git_status
+/github_auth_status
+```
+
+If `/` opens only the built-in command picker, type the command text and send it as a message.
+
 Main tool:
 
 ```text
