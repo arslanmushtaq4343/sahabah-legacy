@@ -15,6 +15,7 @@
     "import:quran": "node scripts/import-quran-ref.mjs",
     "branch": "node scripts/start-change-branch.mjs",
     "git:whoami": "git config user.name && git config user.email",
+    "mcp:git": "node scripts/mcp/git-automation-server.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
   },
