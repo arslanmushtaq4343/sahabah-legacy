@@ -1,2 +1,9 @@
-node_modules
+node_modules/
 artifacts/
+tmp/
+
+.autopilot.json
+.claude/
+.cursor/
+.mcp.json
+.vscode/

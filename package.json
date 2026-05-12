@@ -13,6 +13,8 @@
     "import:wikidata": "node scripts/import-wikidata-companions.mjs",
     "import:pew": "node scripts/import-pew-population.mjs",
     "import:quran": "node scripts/import-quran-ref.mjs",
+    "branch": "node scripts/start-change-branch.mjs",
+    "git:whoami": "git config user.name && git config user.email",
     "test": "vitest run",
     "test:watch": "vitest"
   },
