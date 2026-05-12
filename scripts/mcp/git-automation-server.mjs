@@ -90,6 +90,74 @@ const tools = [
     },
   },
   {
+    name: 'version_snapshot',
+    description:
+      'Same-branch versioning: detect/init repo, optionally create GitHub repo, commit and push current work, create and push a Git tag, and stay on the current branch.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        repoPath: {
+          type: 'string',
+          description: 'Project folder. Defaults to GIT_AUTO_DEFAULT_REPO or the MCP process working directory.',
+        },
+        name: {
+          type: 'string',
+          description: 'Short snapshot name used when tagName/version is not provided.',
+        },
+        version: {
+          type: 'string',
+          description: 'Optional semantic version. Example: 1.0.1 creates tag v1.0.1.',
+        },
+        tagName: {
+          type: 'string',
+          description: 'Exact Git tag to create. Example: v1.0.1 or release/mobile-fix.',
+        },
+        tagPrefix: {
+          type: 'string',
+          description: 'Prefix for automatic tags. Defaults to version.',
+        },
+        commitMessage: {
+          type: 'string',
+          description: 'Commit message for saving current work before tagging.',
+        },
+        tagMessage: {
+          type: 'string',
+          description: 'Annotated Git tag message.',
+        },
+        remoteUrl: {
+          type: 'string',
+          description: 'Optional Git remote URL to use when origin is missing.',
+        },
+        repoName: {
+          type: 'string',
+          description: 'GitHub repo name to create when origin is missing. Defaults to folder name.',
+        },
+        githubOwner: {
+          type: 'string',
+          description: 'GitHub user/org for repo creation. Defaults to authenticated user when using token.',
+        },
+        visibility: {
+          type: 'string',
+          enum: ['private', 'public'],
+          description: 'Visibility for newly created GitHub repos. Defaults to private.',
+        },
+        userName: {
+          type: 'string',
+          description: 'Optional local Git user.name to set if missing.',
+        },
+        userEmail: {
+          type: 'string',
+          description: 'Optional local Git user.email to set if missing.',
+        },
+        writeDefaultGitignore: {
+          type: 'boolean',
+          description: 'Create a safe starter .gitignore when the folder has none. Defaults to true.',
+        },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
     name: 'github_auth_status',
     description: 'Show whether GitHub repo creation can use gh CLI or GH_TOKEN/GITHUB_TOKEN.',
     inputSchema: {
@@ -164,6 +232,19 @@ function timestamp() {
     '-',
     String(now.getHours()).padStart(2, '0'),
     String(now.getMinutes()).padStart(2, '0'),
+  ].join('');
+}
+
+function versionTimestamp() {
+  const now = new Date();
+  return [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0'),
+    '-',
+    String(now.getHours()).padStart(2, '0'),
+    String(now.getMinutes()).padStart(2, '0'),
+    String(now.getSeconds()).padStart(2, '0'),
   ].join('');
 }
 
@@ -409,6 +490,35 @@ function createAndPushBranch(repoPath, branchName) {
   return `Created and pushed new branch: ${branchName}`;
 }
 
+function resolveTagName(args = {}) {
+  if (typeof args.tagName === 'string' && args.tagName.trim()) {
+    return args.tagName.trim();
+  }
+
+  if (typeof args.version === 'string' && args.version.trim()) {
+    const version = args.version.trim().replace(/^v/i, '');
+    return `v${version}`;
+  }
+
+  const tagPrefix = sanitizePart(args.tagPrefix || 'version', 'version');
+  const slug = sanitizePart(args.name || 'snapshot', 'snapshot');
+  return `${tagPrefix}/${versionTimestamp()}-${slug}`;
+}
+
+function createAndPushTag(repoPath, tagName, message) {
+  if (git(repoPath, ['rev-parse', '--verify', '--quiet', `refs/tags/${tagName}`]).status === 0) {
+    throw new Error(`Local tag already exists: ${tagName}`);
+  }
+
+  if (git(repoPath, ['ls-remote', '--exit-code', '--tags', 'origin', `refs/tags/${tagName}`]).status === 0) {
+    throw new Error(`Remote tag already exists: ${tagName}`);
+  }
+
+  gitChecked(repoPath, ['tag', '-a', tagName, '-m', message]);
+  gitChecked(repoPath, ['push', 'origin', `refs/tags/${tagName}`]);
+  return `Created and pushed tag: ${tagName}`;
+}
+
 async function callMscp(args = {}) {
   const repoPath = resolveRepoPath(args.repoPath);
   const branchPrefix = sanitizePart(args.branchPrefix || 'work', 'work');
@@ -440,6 +550,40 @@ async function callMscp(args = {}) {
   messages.push('');
   messages.push(`Ready for changes on ${newBranch}.`);
   messages.push('After editing: git add -A && git commit -m "Describe the change" && git push');
+
+  return textResponse(messages.join('\n'));
+}
+
+async function callVersionSnapshot(args = {}) {
+  const repoPath = resolveRepoPath(args.repoPath);
+  const tagName = resolveTagName(args);
+  const messages = [`Repo: ${repoPath}`];
+
+  ensureRepoFolder(repoPath);
+  messages.push(ensureGitRepo(repoPath));
+
+  const gitignoreMessage = ensureDefaultGitignore(repoPath, args.writeDefaultGitignore);
+  if (gitignoreMessage) messages.push(gitignoreMessage);
+
+  messages.push(ensureGitIdentity(repoPath, args));
+  messages.push(await ensureOrigin(repoPath, args));
+
+  const fetchResult = git(repoPath, ['fetch', 'origin', '--tags']);
+  if (fetchResult.status === 0) {
+    messages.push('Fetched origin and tags.');
+  } else {
+    messages.push(`Fetch skipped or failed: ${fetchResult.stderr.trim() || fetchResult.stdout.trim()}`);
+  }
+
+  const currentBranch = getCurrentBranch(repoPath);
+  const commitMessage = args.commitMessage || `Version snapshot ${tagName}`;
+  const tagMessage = args.tagMessage || commitMessage;
+  messages.push(stageAndCommit(repoPath, commitMessage));
+  messages.push(pushCurrentBranch(repoPath, currentBranch));
+  messages.push(createAndPushTag(repoPath, tagName, tagMessage));
+  messages.push('');
+  messages.push(`Version saved as ${tagName}.`);
+  messages.push(`Stayed on branch: ${currentBranch}.`);
 
   return textResponse(messages.join('\n'));
 }
@@ -516,6 +660,7 @@ async function handleRequest(message) {
 
       if (toolName === 'mscp') return callMscp(args);
       if (toolName === 'git_status') return callGitStatus(args);
+      if (toolName === 'version_snapshot') return callVersionSnapshot(args);
       if (toolName === 'github_auth_status') return callGithubAuthStatus();
 
       throw new Error(`Unknown tool: ${toolName}`);

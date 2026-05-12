@@ -26,6 +26,21 @@ What `mscp` does:
 8. Creates a new branch like `work/20260512-1820-homepage-update`.
 9. Pushes that new branch and switches to it.
 
+Same-branch versioning tool:
+
+```text
+version_snapshot
+```
+
+What `version_snapshot` does:
+
+1. Checks/initializes Git just like `mscp`.
+2. Commits current work if anything changed.
+3. Pushes the current branch.
+4. Creates an annotated Git tag.
+5. Pushes the tag.
+6. Leaves you on the same branch.
+
 Use it with the current default repo:
 
 ```json
@@ -40,6 +55,24 @@ Use it for any other project:
 {
   "repoPath": "D:\\Tools_Updated\\another-project",
   "name": "navbar-fix"
+}
+```
+
+Create a version tag without changing branch:
+
+```json
+{
+  "repoPath": "D:\\Tools_Updated\\another-project",
+  "name": "before-homepage-update"
+}
+```
+
+Create a specific semantic version tag:
+
+```json
+{
+  "repoPath": "D:\\Tools_Updated\\another-project",
+  "version": "1.0.1"
 }
 ```
 
@@ -82,6 +115,7 @@ Other tools:
 ```text
 git_status
 github_auth_status
+version_snapshot
 ```
 
 The user-level MCP script is here:
