@@ -1,0 +1,344 @@
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 0 32px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-gold);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  margin: 0 0 14px;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+/* ── Spotlight (random) ─────────────────────────────── */
+.spotlight {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-gold);
+  border-radius: 12px;
+  padding: 22px 26px;
+  margin-bottom: 28px;
+}
+
+.spotlightLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-muted);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.spotlightShuffle {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+
+.spotlightShuffle:hover {
+  background: var(--color-bg);
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.spotlightAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.45rem;
+  direction: rtl;
+  margin-bottom: 12px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.spotlightEn {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin: 0 0 14px;
+  font-style: italic;
+  border-left: none;
+  padding: 0;
+}
+
+.spotlightMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+.spotlightCompanion {
+  font-weight: 700;
+}
+
+.spotlightDot {
+  opacity: 0.5;
+}
+
+.spotlightTopic {
+  font-style: italic;
+}
+
+/* ── Filters ─────────────────────────────────────────── */
+.filters {
+  margin-bottom: 18px;
+}
+
+.search {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  font-family: inherit;
+  margin-bottom: 14px;
+  transition:
+    border-color 0.18s,
+    background 0.18s;
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  background: var(--color-bg);
+}
+
+.search::placeholder {
+  color: var(--color-placeholder);
+}
+
+.topicChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    background 0.18s,
+    color 0.18s,
+    border-color 0.18s;
+}
+
+.chip:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.chipActive {
+  background: var(--color-gold);
+  color: var(--color-bg);
+  border-color: var(--color-gold);
+}
+
+.chipActive:hover {
+  color: var(--color-bg);
+}
+
+.resultBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.clear {
+  background: transparent;
+  border: none;
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  text-decoration: underline;
+}
+
+/* ── Empty state ─────────────────────────────────────── */
+.emptyState {
+  text-align: center;
+  padding: 50px 24px;
+  color: var(--color-muted);
+}
+
+.emptyMark {
+  font-size: 2rem;
+  color: var(--color-gold);
+  opacity: 0.4;
+  margin-bottom: 12px;
+}
+
+/* ── Grid of cards ───────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid;
+  border-radius: 10px;
+  padding: 16px 18px 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHead {
+  margin-bottom: 10px;
+}
+
+.cardTopic {
+  display: inline-block;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--color-muted);
+  background: var(--color-bg);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.cardAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.15rem;
+  direction: rtl;
+  margin-bottom: 10px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.cardEn {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin: 0 0 12px;
+  padding: 0;
+  border-left: none;
+  font-style: italic;
+}
+
+.cardContext {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  line-height: 1.55;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--color-border);
+  flex: 1;
+}
+
+.cardFoot {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardCompanion {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.cardSource {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ── Footer ──────────────────────────────────────────── */
+.pageFoot {
+  text-align: center;
+  margin-top: 36px;
+}
+
+.footLink {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  text-decoration: none;
+}
+
+.footLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 22px 14px 52px;
+  }
+
+  .hero {
+    padding: 20px 0 24px;
+    margin-bottom: 22px;
+  }
+
+  .spotlight {
+    padding: 18px 16px;
+  }
+
+  .spotlightLabel,
+  .spotlightMeta {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}

@@ -1,10 +1,16 @@
 import { useState, useMemo } from 'react';
-import { LAST_WORDS_DATA, LW_CATEGORIES, type LastWords, type LastWordsCategory } from '../../data/lastWords';
+import {
+  LAST_WORDS_DATA,
+  LW_CATEGORIES,
+  type LastWords,
+  type LastWordsCategory,
+} from '../../data/lastWords';
+import { normalizeTransliteration } from '../../data/transliteration';
 import s from './LastWordsPage.module.css';
 
 const ALL_CATS: Array<{ id: 'all' | LastWordsCategory; label: string }> = [
   { id: 'all', label: 'All' },
-  { id: 'prayer', label: 'Prayer & Du\'a' },
+  { id: 'prayer', label: "Prayer & Du'a" },
   { id: 'testament', label: 'Final Testament' },
   { id: 'guidance', label: 'Guidance' },
   { id: 'devotion', label: 'Devotion' },
@@ -20,10 +26,15 @@ export default function LastWordsPage() {
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return LAST_WORDS_DATA.filter((w) => {
+    return LAST_WORDS_DATA.filter(w => {
       if (cat !== 'all' && w.category !== cat) return false;
       if (onlyObscure && !w.isObscure) return false;
-      if (q && !w.companion.toLowerCase().includes(q) && !w.wordsEn.toLowerCase().includes(q)) return false;
+      if (
+        q &&
+        !normalizeTransliteration(w.companion).toLowerCase().includes(q) &&
+        !normalizeTransliteration(w.wordsEn).toLowerCase().includes(q)
+      )
+        return false;
       return true;
     });
   }, [cat, onlyObscure, search]);
@@ -42,8 +53,8 @@ export default function LastWordsPage() {
           context, and classification. Some are famous. Many have never been compiled together.
         </p>
         <div className={s.headerNote}>
-          ✦ Every entry is sourced from classical primary texts: Tabaqat Ibn Sa'd, Hilyat al-Awliya', 
-          Siyar A'lam al-Nubala', and canonical Hadith collections.
+          ✦ Every entry is sourced from classical primary texts: Tabaqat Ibn Sa'd, Hilyat
+          al-Awliya', Siyar A'lam al-Nubala', and canonical Hadith collections.
         </div>
       </header>
 
@@ -54,24 +65,30 @@ export default function LastWordsPage() {
             className={s.search}
             placeholder="Search companion or words…"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={e => setSearch(e.target.value)}
           />
           <label className={s.obscureToggle}>
             <input
               type="checkbox"
               checked={onlyObscure}
-              onChange={(e) => setOnlyObscure(e.target.checked)}
+              onChange={e => setOnlyObscure(e.target.checked)}
             />
             <span className={s.toggleLabel}>Show rarely-cited only</span>
           </label>
         </div>
         <div className={s.cats}>
-          {ALL_CATS.map((c) => (
+          {ALL_CATS.map(c => (
             <button
               key={c.id}
               className={`${s.catBtn} ${cat === c.id ? s.catActive : ''}`}
               onClick={() => setCat(c.id)}
-              style={cat === c.id && c.id !== 'all' ? { '--ac': LW_CATEGORIES[c.id as LastWordsCategory].color } as React.CSSProperties : undefined}
+              style={
+                cat === c.id && c.id !== 'all'
+                  ? ({
+                      '--ac': LW_CATEGORIES[c.id as LastWordsCategory].color,
+                    } as React.CSSProperties)
+                  : undefined
+              }
             >
               {c.label}
             </button>
@@ -82,7 +99,7 @@ export default function LastWordsPage() {
 
       {/* Cards */}
       <div className={s.cards}>
-        {filtered.map((w) => (
+        {filtered.map(w => (
           <WordCard
             key={w.id}
             entry={w}
@@ -96,7 +113,15 @@ export default function LastWordsPage() {
   );
 }
 
-function WordCard({ entry: w, isOpen, onToggle }: { entry: LastWords; isOpen: boolean; onToggle: () => void }) {
+function WordCard({
+  entry: w,
+  isOpen,
+  onToggle,
+}: {
+  entry: LastWords;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
   const catMeta = LW_CATEGORIES[w.category];
   return (
     <article
@@ -114,14 +139,19 @@ function WordCard({ entry: w, isOpen, onToggle }: { entry: LastWords; isOpen: bo
         <div className={s.cardMain}>
           <div className={s.cardTop}>
             <div className={s.compInfo}>
-              <span className={s.compName}>{w.companion}</span>
+              <span className={s.compName}>{normalizeTransliteration(w.companion)}</span>
               <span className={s.compAr}>{w.companionAr}</span>
             </div>
             <div className={s.cardRight}>
               {w.yearAH && (
-                <span className={s.yearTag}>{String(w.yearAH).startsWith('-') ? `${w.yearAH} BH` : `${w.yearAH} AH`}</span>
+                <span className={s.yearTag}>
+                  {String(w.yearAH).startsWith('-') ? `${w.yearAH} BH` : `${w.yearAH} AH`}
+                </span>
               )}
-              <span className={s.catTag} style={{ background: catMeta.color + '1a', color: catMeta.color }}>
+              <span
+                className={s.catTag}
+                style={{ background: catMeta.color + '1a', color: catMeta.color }}
+              >
                 {catMeta.label}
               </span>
               <span className={s.chevron}>{isOpen ? '▲' : '▼'}</span>
@@ -129,9 +159,11 @@ function WordCard({ entry: w, isOpen, onToggle }: { entry: LastWords; isOpen: bo
           </div>
 
           {/* Arabic words */}
-          <p className={s.wordsAr} dir="rtl">{w.wordsAr}</p>
+          <p className={s.wordsAr} dir="rtl">
+            {w.wordsAr}
+          </p>
           {/* English preview */}
-          <p className={s.wordsEn}>{w.wordsEn}</p>
+          <p className={s.wordsEn}>{normalizeTransliteration(w.wordsEn)}</p>
         </div>
       </button>
 
@@ -139,12 +171,14 @@ function WordCard({ entry: w, isOpen, onToggle }: { entry: LastWords; isOpen: bo
       {isOpen && (
         <div className={s.detail}>
           {w.wordsUr && (
-            <p className={s.wordsUr} dir="rtl">{w.wordsUr}</p>
+            <p className={s.wordsUr} dir="rtl">
+              {w.wordsUr}
+            </p>
           )}
 
           <div className={s.contextBlock}>
             <span className={s.contextLabel}>Context</span>
-            <p className={s.contextText}>{w.context}</p>
+            <p className={s.contextText}>{normalizeTransliteration(w.context)}</p>
           </div>
 
           <div className={s.sourceRow}>

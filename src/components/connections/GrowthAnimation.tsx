@@ -9,7 +9,7 @@ const SVG_W = 660;
 const SVG_H = 360;
 
 export default function GrowthAnimation() {
-  const [step,    setStep   ] = useState(0);
+  const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [isDark, setIsDark] = useState(
     () => typeof document !== 'undefined' && document.body.classList.contains('tahajjud')
@@ -34,14 +34,19 @@ export default function GrowthAnimation() {
     if (playing) {
       timerRef.current = setInterval(() => {
         setStep(s => {
-          if (s >= GROWTH_DATA.length - 1) { setPlaying(false); return s; }
+          if (s >= GROWTH_DATA.length - 1) {
+            setPlaying(false);
+            return s;
+          }
           return s + 1;
         });
       }, 900);
     } else {
       if (timerRef.current) clearInterval(timerRef.current);
     }
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, [playing]);
 
   useEffect(() => {
@@ -69,7 +74,10 @@ export default function GrowthAnimation() {
         <div className={styles.growthCounter}>
           <span className={styles.growthNum}>{current.count.toLocaleString()}</span>
           <span className={styles.growthLabel}>Muslims</span>
-          <span className={styles.growthYear}>{current.yearCE} CE / {current.yearAH < 0 ? `${Math.abs(current.yearAH)} BH` : `${current.yearAH} AH`}</span>
+          <span className={styles.growthYear}>
+            {current.yearCE} CE /{' '}
+            {current.yearAH < 0 ? `${Math.abs(current.yearAH)} BH` : `${current.yearAH} AH`}
+          </span>
         </div>
       </div>
 
@@ -79,8 +87,12 @@ export default function GrowthAnimation() {
           {dots.map((d, i) => (
             <circle
               key={i}
-              cx={d.x} cy={d.y} r={DOT_R}
-              fill={d.active ? (isDark ? '#7aa8d8' : '#b8860b') : (isDark ? '#9ec1e62a' : '#2a1a0840')}
+              cx={d.x}
+              cy={d.y}
+              r={DOT_R}
+              fill={
+                d.active ? (isDark ? '#7aa8d8' : '#b8860b') : isDark ? '#9ec1e62a' : '#2a1a0840'
+              }
               style={{
                 transition: 'fill .4s ease',
                 opacity: d.active ? 1 : 0.35,
@@ -88,10 +100,31 @@ export default function GrowthAnimation() {
             />
           ))}
           {/* Progress bar */}
-          <rect x={28} y={SVG_H - 22} width={SVG_W - 56} height={6} rx={3} fill={isDark ? '#9ec1e626' : '#2a1a0820'} />
-          <rect x={28} y={SVG_H - 22} width={(SVG_W - 56) * pct} height={6} rx={3}
-            fill={isDark ? '#7aa8d8' : '#b8860b'} style={{ transition: 'width .5s ease' }} />
-          <text x={28} y={SVG_H - 8} fontSize={9} fill={isDark ? '#bdd8f3' : '#8a6a30'} fontFamily="serif" letterSpacing=".08em">
+          <rect
+            x={28}
+            y={SVG_H - 22}
+            width={SVG_W - 56}
+            height={6}
+            rx={3}
+            fill={isDark ? '#9ec1e626' : '#2a1a0820'}
+          />
+          <rect
+            x={28}
+            y={SVG_H - 22}
+            width={(SVG_W - 56) * pct}
+            height={6}
+            rx={3}
+            fill={isDark ? '#7aa8d8' : '#b8860b'}
+            style={{ transition: 'width .5s ease' }}
+          />
+          <text
+            x={28}
+            y={SVG_H - 8}
+            fontSize={9}
+            fill={isDark ? '#bdd8f3' : '#8a6a30'}
+            fontFamily="serif"
+            letterSpacing=".08em"
+          >
             {(pct * 100).toFixed(1)}% of peak community size
           </text>
         </svg>
@@ -107,7 +140,10 @@ export default function GrowthAnimation() {
       <div className={styles.growthControls}>
         <button
           className={`${styles.growthPlayBtn} ${playing ? styles.growthPause : ''}`}
-          onClick={() => { if (step >= GROWTH_DATA.length - 1) setStep(0); setPlaying(p => !p); }}
+          onClick={() => {
+            if (step >= GROWTH_DATA.length - 1) setStep(0);
+            setPlaying(p => !p);
+          }}
         >
           {playing ? '⏸ Pause' : step >= GROWTH_DATA.length - 1 ? '↺ Replay' : '▶ Play'}
         </button>
@@ -115,7 +151,8 @@ export default function GrowthAnimation() {
         <input
           type="range"
           className={styles.growthSlider}
-          min={0} max={GROWTH_DATA.length - 1}
+          min={0}
+          max={GROWTH_DATA.length - 1}
           value={step}
           onChange={handleSlider}
         />
@@ -125,7 +162,10 @@ export default function GrowthAnimation() {
             <button
               key={i}
               className={`${styles.growthYearPip} ${i === step ? styles.growthYearActive : ''}`}
-              onClick={() => { setPlaying(false); setStep(i); }}
+              onClick={() => {
+                setPlaying(false);
+                setStep(i);
+              }}
               title={`${g.yearCE} CE — ${g.count.toLocaleString()}`}
             />
           ))}
@@ -138,7 +178,10 @@ export default function GrowthAnimation() {
           <div
             key={i}
             className={`${styles.growthRow} ${i === step ? styles.growthRowActive : ''}`}
-            onClick={() => { setPlaying(false); setStep(i); }}
+            onClick={() => {
+              setPlaying(false);
+              setStep(i);
+            }}
           >
             <span className={styles.growthRowYear}>
               {g.yearCE} CE {g.yearAH < 0 ? `(${Math.abs(g.yearAH)} BH)` : `(${g.yearAH} AH)`}

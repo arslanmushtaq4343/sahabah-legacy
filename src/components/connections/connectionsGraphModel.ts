@@ -1,4 +1,4 @@
-import type { Companion } from '@sahabah/shared-types';
+import type { Companion } from '../../types';
 import type { BranchDef, GraphLink, GraphNode, ResolvedGraphLink } from './connectionsTypes';
 
 export interface GraphModel {
@@ -47,7 +47,8 @@ export function buildGraphModel(
   enrichedBranches.forEach((branch, i) => {
     const angle = (i / enrichedBranches.length) * 2 * Math.PI - Math.PI / 2;
     branch.companions.forEach(companion => {
-      const nodeR = companion.rank <= 3 ? 22 : companion.rank <= 10 ? 18 : companion.rank <= 30 ? 15 : 12;
+      const nodeR =
+        companion.rank <= 3 ? 22 : companion.rank <= 10 ? 18 : companion.rank <= 30 ? 15 : 12;
       const pulseR = companion.hadiths > 0 ? 6 + (companion.hadiths / maxHadith) * 20 : 0;
       nodes.push({
         id: `cp-${companion.rank}`,
@@ -61,7 +62,12 @@ export function buildGraphModel(
         x: cx + branchRadius * Math.cos(angle) + (Math.random() - 0.5) * 180,
         y: cy + branchRadius * Math.sin(angle) + (Math.random() - 0.5) * 180,
       });
-      links.push({ source: `br-${branch.id}`, target: `cp-${companion.rank}`, type: 'branch-leaf', br: branch });
+      links.push({
+        source: `br-${branch.id}`,
+        target: `cp-${companion.rank}`,
+        type: 'branch-leaf',
+        br: branch,
+      });
     });
   });
 

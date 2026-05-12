@@ -1,99 +1,319 @@
+import type { CSSProperties } from 'react';
 import { COMPANIONS, CAT_COLORS } from '../../data/companions';
-import { useCompare } from '../../context/CompareContext';
-import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Legend, ResponsiveContainer } from 'recharts';
+import { TABAQAT_LABELS, TABAQAT_MAP } from '../../data/companionExtras';
+import { IMAMS, IMAM_COLORS } from '../../data/imams';
+import { IMAM_AHADITH } from '../../data/imamsExtra3';
+import { normalizeTransliteration } from '../../data/transliteration';
+import { useCompare, type CompareItem } from '../../context/CompareContext';
+import { useBodyScrollLock } from '../../hooks/useBodyScrollLock';
+import type { Companion } from '../../types';
+import type { Imam } from '../../data/imams';
+import {
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  Radar,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 import styles from './ComparePanel.module.css';
 
-const COLORS = ['#c9a84c', '#8b4513', '#1a3462'];
+const FALLBACK_COLORS = ['#c9a84c', '#4d8ddb', '#2ca66f'];
+const RADAR_KEYS = ['Hadiths', 'Battles', 'Scholarship', 'Sacrifice', 'Leadership', 'Legacy'];
 
-function buildRadar(rank: number) {
-  const c = COMPANIONS.find(x => x.rank === rank);
-  if (!c) return null;
-  return [
-    { subject: 'Hadiths', value: Math.min(100, Math.round((c.hadiths / 5374) * 100)) },
-    { subject: 'Battles', value: Math.min(100, c.battles.length * 12) },
-    { subject: 'Scholarship', value: c.cat === 'scholar' || c.cat === 'narrator' ? 85 : 40 },
-    { subject: 'Sacrifice',   value: c.cat === 'martyr' || c.cat === 'warrior' ? 90 : 50 },
-    { subject: 'Leadership',  value: c.cat === 'caliph' || c.cat === 'general' ? 95 : 45 },
-    { subject: 'Legacy',      value: c.rank <= 5 ? 100 : c.rank <= 15 ? 75 : 55 },
-  ];
+interface CompareEntity {
+  key: string;
+  kind: 'companion' | 'imam';
+  id: string;
+  name: string;
+  ar: string;
+  subtitle: string;
+  badge: string;
+  badgeColor: string;
+  accent: string;
+  era: string;
+  hadiths: number;
+  teachers: string;
+  students: string;
+  battles: string;
+  works: string;
+  legacy: string;
+  bio: string;
+  method: string;
+  chartKey: string;
+  metrics: Record<string, number>;
+}
+
+function clamp(value: number) {
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+function trimText(value: string, max = 260) {
+  const clean = normalizeTransliteration(value || '').trim();
+  return clean.length > max ? `${clean.slice(0, max).trim()}...` : clean;
+}
+
+function getImamHadithCount(imam: Imam) {
+  return IMAM_AHADITH.find(collection => collection.imamKey === imam.key)?.hadiths.length ?? 0;
+}
+
+function companionEntity(c: Companion, index: number): CompareEntity {
+  const tabaqat = TABAQAT_MAP[c.rank];
+  const accent = CAT_COLORS[c.cat] ?? FALLBACK_COLORS[index] ?? '#c9a84c';
+  const hadithScore = c.hadiths > 0 ? (c.hadiths / 5374) * 100 : 0;
+  const battleScore = c.battles.length * 12;
+  const scholarshipScore = c.cat === 'scholar' || c.cat === 'narrator' ? 88 : c.hadiths > 100 ? 68 : 42;
+  const sacrificeScore = c.cat === 'martyr' || c.cat === 'warrior' ? 90 : c.battles.length > 3 ? 72 : 52;
+  const leadershipScore = c.cat === 'caliph' || c.cat === 'general' ? 95 : c.cat === 'wife' ? 70 : 46;
+
+  return {
+    key: `companion:${c.rank}`,
+    kind: 'companion',
+    id: String(c.rank),
+    name: normalizeTransliteration(c.name),
+    ar: c.ar,
+    subtitle: normalizeTransliteration(c.title),
+    badge: c.catLabel,
+    badgeColor: accent,
+    accent,
+    era: tabaqat ? TABAQAT_LABELS[tabaqat] : [c.born, c.death].filter(Boolean).join(' - ') || 'Era not recorded',
+    hadiths: c.hadiths,
+    teachers: c.rel
+      ? `Direct companionship with the Prophet; ${normalizeTransliteration(c.rel)}`
+      : 'Direct companionship with the Prophet',
+    students:
+      c.hadiths > 0
+        ? 'Transmission preserved through later narrators and students'
+        : 'Legacy preserved through biographical and historical reports',
+    battles: c.battles.length > 0 ? c.battles.join(', ') : 'No battle record in current dataset',
+    works: normalizeTransliteration(c.contrib || c.keyEvent || c.title),
+    legacy: trimText(c.legacy || c.sig),
+    bio: trimText(c.sig),
+    method: normalizeTransliteration(c.personality?.join(', ') || c.appearance || c.keyEvent || 'Companion profile'),
+    chartKey: `entity${index}`,
+    metrics: {
+      Hadiths: clamp(hadithScore),
+      Battles: clamp(battleScore),
+      Scholarship: clamp(scholarshipScore),
+      Sacrifice: clamp(sacrificeScore),
+      Leadership: clamp(leadershipScore),
+      Legacy: clamp(c.rank <= 5 ? 100 : c.rank <= 15 ? 78 : 58),
+    },
+  };
+}
+
+function imamEntity(imam: Imam, index: number): CompareEntity {
+  const hadithCount = getImamHadithCount(imam);
+  const accent = IMAM_COLORS[imam.key] ?? FALLBACK_COLORS[index] ?? '#4d8ddb';
+  const reachMatch = imam.reach.match(/(\d+)/);
+  const reachScore = reachMatch ? Number(reachMatch[1]) : 30;
+
+  return {
+    key: `imam:${imam.id}`,
+    kind: 'imam',
+    id: imam.id,
+    name: normalizeTransliteration(imam.name),
+    ar: imam.ar,
+    subtitle: normalizeTransliteration(imam.title),
+    badge: imam.honorific,
+    badgeColor: accent,
+    accent,
+    era: `${imam.born} - ${imam.died}`,
+    hadiths: hadithCount,
+    teachers: normalizeTransliteration(imam.teachers),
+    students: normalizeTransliteration(imam.students),
+    battles: 'Not a battlefield profile; scholarly life and public trials are emphasized',
+    works: normalizeTransliteration(imam.keyWorks),
+    legacy: trimText(imam.books_legacy || imam.reach),
+    bio: trimText(imam.sig),
+    method: trimText(imam.method, 320),
+    chartKey: `entity${index}`,
+    metrics: {
+      Hadiths: clamp((hadithCount / 20) * 100),
+      Battles: 10,
+      Scholarship: 96,
+      Sacrifice: clamp(imam.trial ? 82 : 58),
+      Leadership: 84,
+      Legacy: clamp(70 + reachScore / 2),
+    },
+  };
+}
+
+function buildEntity(item: CompareItem, index: number) {
+  if (item.kind === 'companion') {
+    const companion = COMPANIONS.find(c => c.rank === Number(item.id));
+    return companion ? companionEntity(companion, index) : null;
+  }
+  const imam = IMAMS.find(i => i.id === item.id);
+  return imam ? imamEntity(imam, index) : null;
 }
 
 export default function ComparePanel() {
-  const { selected, clear, toggle, isPanelOpen, closePanel } = useCompare();
+  const { selectedItems, clear, toggleItem, isPanelOpen, closePanel } = useCompare();
+  useBodyScrollLock(isPanelOpen && selectedItems.length > 0);
 
-  if (!isPanelOpen || selected.length === 0) return null;
+  if (!isPanelOpen || selectedItems.length === 0) return null;
 
-  const companions = selected.map(r => COMPANIONS.find(c => c.rank === r)).filter(Boolean);
+  const entities = selectedItems
+    .map((item, index) => buildEntity(item, index))
+    .filter((entity): entity is CompareEntity => Boolean(entity));
 
-  // Merge radar data for multi-line chart
-  const radarKeys = ['Hadiths', 'Battles', 'Scholarship', 'Sacrifice', 'Leadership', 'Legacy'];
-  const mergedData = radarKeys.map(key => {
-    const entry: Record<string, unknown> = { subject: key };
-    companions.forEach(c => {
-      const row = buildRadar(c!.rank);
-      entry[c!.name] = row?.find(r => r.subject === key)?.value ?? 0;
+  if (entities.length === 0) return null;
+
+  const mergedData = RADAR_KEYS.map(key => {
+    const entry: Record<string, string | number> = { subject: key };
+    entities.forEach(entity => {
+      entry[entity.chartKey] = entity.metrics[key] ?? 0;
     });
     return entry;
   });
+
+  const matrixRows = [
+    { label: 'Era', get: (entity: CompareEntity) => entity.era },
+    { label: 'Hadiths', get: (entity: CompareEntity) => entity.hadiths.toLocaleString() },
+    { label: 'Teachers', get: (entity: CompareEntity) => entity.teachers },
+    { label: 'Students', get: (entity: CompareEntity) => entity.students },
+    {
+      label: 'Battles / Works',
+      get: (entity: CompareEntity) => (entity.kind === 'imam' ? entity.works : entity.battles),
+    },
+    { label: 'Legacy', get: (entity: CompareEntity) => entity.legacy },
+  ];
 
   return (
     <div className={styles.overlay} onClick={e => e.target === e.currentTarget && closePanel()}>
       <div className={styles.panel}>
         <div className={styles.panelHeader}>
-          <h2>Compare Companions</h2>
+          <div>
+            <p className={styles.eyebrow}>Compare Mode</p>
+            <h2>Companions & Imams</h2>
+          </div>
           <div className={styles.headerActions}>
-            <button className={styles.clearBtn} onClick={() => { clear(); closePanel(); }}>Clear all</button>
-            <button className={styles.closeBtn} onClick={closePanel}>✕</button>
+            <span className={styles.countBadge}>{entities.length}/3 selected</span>
+            <button
+              className={styles.clearBtn}
+              onClick={() => {
+                clear();
+                closePanel();
+              }}
+            >
+              Clear all
+            </button>
+            <button className={styles.closeBtn} onClick={closePanel} aria-label="Close compare panel">
+              x
+            </button>
           </div>
         </div>
 
         <div className={styles.body}>
-          {/* Columns */}
           <div
             className={styles.cols}
-            style={{ gridTemplateColumns: `repeat(${companions.length}, 1fr)` }}
+            style={{ gridTemplateColumns: `repeat(${entities.length}, minmax(0, 1fr))` }}
           >
-            {companions.map((c, i) => (
-              <div key={c!.rank} className={styles.col} style={{ '--accent': COLORS[i] } as React.CSSProperties}>
+            {entities.map(entity => (
+              <div
+                key={entity.key}
+                className={styles.col}
+                style={{ '--accent': entity.accent } as CSSProperties}
+              >
                 <div className={styles.colAccent} />
                 <div className={styles.colInner}>
-                  <button className={styles.removeBtn} onClick={() => toggle(c!.rank)}>✕</button>
-                  <p className={styles.ar}>{c!.ar}</p>
-                  <h3 className={styles.name}>{c!.name}</h3>
-                  <p className={styles.catLabel} style={{ background: CAT_COLORS[c!.cat] }}>{c!.catLabel}</p>
-                  <dl className={styles.dl}>
-                    <dt>Title</dt><dd>{c!.title}</dd>
-                    <dt>Born</dt><dd>{c!.born || '—'}</dd>
-                    <dt>Tribe</dt><dd>{c!.tribe}</dd>
-                    <dt>Hadiths</dt><dd>{c!.hadiths.toLocaleString()}</dd>
-                    <dt>Battles</dt><dd>{c!.battles.length}</dd>
-                    <dt>Burial</dt><dd>{c!.burial || '—'}</dd>
-                  </dl>
-                  <p className={styles.sig}>{c!.sig}</p>
+                  <button
+                    className={styles.removeBtn}
+                    onClick={() => toggleItem({ kind: entity.kind, id: entity.id })}
+                    aria-label={`Remove ${entity.name} from compare`}
+                  >
+                    x
+                  </button>
+                  <p className={styles.kind}>{entity.kind}</p>
+                  <p className={styles.ar}>{entity.ar}</p>
+                  <h3 className={styles.name}>{entity.name}</h3>
+                  <p className={styles.subtitle}>{entity.subtitle}</p>
+                  <p className={styles.catLabel} style={{ background: entity.badgeColor }}>
+                    {entity.badge}
+                  </p>
+
+                  <div className={styles.statGrid}>
+                    <div>
+                      <span>Era</span>
+                      <strong>{entity.era}</strong>
+                    </div>
+                    <div>
+                      <span>Hadiths</span>
+                      <strong>{entity.hadiths.toLocaleString()}</strong>
+                    </div>
+                    <div>
+                      <span>{entity.kind === 'imam' ? 'Works' : 'Battles'}</span>
+                      <strong>{entity.kind === 'imam' ? trimText(entity.works, 80) : entity.battles}</strong>
+                    </div>
+                    <div>
+                      <span>Role</span>
+                      <strong>{entity.kind === 'imam' ? 'Scholarship' : entity.badge}</strong>
+                    </div>
+                  </div>
+
+                  <section className={styles.section}>
+                    <h4>Biography</h4>
+                    <p>{entity.bio}</p>
+                  </section>
+                  <section className={styles.section}>
+                    <h4>Teachers</h4>
+                    <p>{entity.teachers}</p>
+                  </section>
+                  <section className={styles.section}>
+                    <h4>Students</h4>
+                    <p>{entity.students}</p>
+                  </section>
+                  <section className={styles.section}>
+                    <h4>{entity.kind === 'imam' ? 'Method' : 'Legacy'}</h4>
+                    <p>{entity.kind === 'imam' ? entity.method : entity.legacy}</p>
+                  </section>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Radar overlay */}
+          <div className={styles.matrixWrap}>
+            <h3 className={styles.radarTitle}>Side-by-side details</h3>
+            <div
+              className={styles.matrix}
+              role="table"
+              aria-label="Side-by-side comparison details"
+              style={{ '--compare-cols': entities.length } as CSSProperties}
+            >
+              {matrixRows.map(row => (
+                <div className={styles.matrixRow} role="row" key={row.label}>
+                  <div className={styles.matrixLabel} role="rowheader">
+                    {row.label}
+                  </div>
+                  {entities.map(entity => (
+                    <div className={styles.matrixCell} role="cell" key={`${row.label}-${entity.key}`}>
+                      {row.get(entity)}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className={styles.radarWrap}>
-            <h3 className={styles.radarTitle}>Profile Comparison</h3>
+            <h3 className={styles.radarTitle}>Profile comparison</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart
                 data={mergedData}
                 role="img"
-                aria-label={`Multi-companion radar comparison for ${companions.map(c => c!.name).join(', ')} across Hadiths, Battles, Scholarship, Sacrifice, Leadership, and Legacy`}
+                aria-label={`Radar comparison for ${entities.map(entity => entity.name).join(', ')}`}
               >
-                <title>Companion Comparison — {companions.map(c => c!.name).join(' vs ')}</title>
-                <PolarGrid stroke="#2c2820" />
-                <PolarAngleAxis dataKey="subject" tick={{ fill: '#7a6e5a', fontSize: 11 }} />
-                {companions.map((c, i) => (
+                <title>Comparison - {entities.map(entity => entity.name).join(' vs ')}</title>
+                <PolarGrid stroke="var(--color-border)" />
+                <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--color-muted)', fontSize: 11 }} />
+                {entities.map(entity => (
                   <Radar
-                    key={c!.rank}
-                    name={c!.name}
-                    dataKey={c!.name}
-                    stroke={COLORS[i]}
-                    fill={COLORS[i]}
+                    key={entity.key}
+                    name={entity.name}
+                    dataKey={entity.chartKey}
+                    stroke={entity.accent}
+                    fill={entity.accent}
                     fillOpacity={0.15}
                   />
                 ))}
@@ -106,4 +326,3 @@ export default function ComparePanel() {
     </div>
   );
 }
-

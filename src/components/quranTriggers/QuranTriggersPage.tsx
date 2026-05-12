@@ -1,29 +1,38 @@
 import { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { QURAN_TRIGGERS, QT_CATEGORIES, type QuranTrigger } from '../../data/quranTriggers';
+import { normalizeTransliteration } from '../../data/transliteration';
+import { quranRecitationUrl } from '../../utils/audio';
 import s from './QuranTriggersPage.module.css';
 
 export default function QuranTriggersPage() {
-  const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(() => searchParams.get('q') ?? '');
   const [cat, setCat] = useState('all');
   const [expanded, setExpanded] = useState<number | null>(null);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return QURAN_TRIGGERS.filter((t) => {
+    return QURAN_TRIGGERS.filter(t => {
       if (cat !== 'all' && t.category !== cat) return false;
       if (!q) return true;
       return (
-        t.companion.toLowerCase().includes(q) ||
+        normalizeTransliteration(t.companion).toLowerCase().includes(q) ||
         t.surah.toLowerCase().includes(q) ||
         t.ayahRef.includes(q) ||
-        t.story.toLowerCase().includes(q)
+        normalizeTransliteration(t.story).toLowerCase().includes(q)
       );
     });
   }, [search, cat]);
 
   const CAT_COLOR: Record<string, string> = {
-    personal: '#b8860b', social: '#2a6048', legal: '#1a3462',
-    warfare: '#6b1a1a', family: '#6b1a5a', worship: '#5a3060', doctrinal: '#4a3800',
+    personal: '#b8860b',
+    social: '#2a6048',
+    legal: '#1a3462',
+    warfare: '#6b1a1a',
+    family: '#6b1a5a',
+    worship: '#5a3060',
+    doctrinal: '#4a3800',
   };
 
   return (
@@ -36,8 +45,9 @@ export default function QuranTriggersPage() {
           Quranic <span className={s.gold}>Revelation</span> Trigger Index
         </h1>
         <p className={s.lead}>
-          Every ayah of the Quran whose descent was directly occasioned by a companion — with the full
-          story, Arabic text, English &amp; Urdu translation, the companion's response, and primary source.
+          Every ayah of the Quran whose descent was directly occasioned by a companion — with the
+          full story, Arabic text, English &amp; Urdu translation, the companion's response, and
+          primary source.
         </p>
       </header>
 
@@ -47,10 +57,10 @@ export default function QuranTriggersPage() {
           className={s.search}
           placeholder="Search by companion, surah, or keyword…"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={e => setSearch(e.target.value)}
         />
         <div className={s.cats}>
-          {QT_CATEGORIES.map((c) => (
+          {QT_CATEGORIES.map(c => (
             <button
               key={c.id}
               className={`${s.catBtn} ${cat === c.id ? s.catActive : ''}`}
@@ -65,7 +75,7 @@ export default function QuranTriggersPage() {
 
       {/* ─ List ─ */}
       <div className={s.list}>
-        {filtered.map((t) => (
+        {filtered.map(t => (
           <TriggerCard
             key={t.id}
             trigger={t}
@@ -74,9 +84,7 @@ export default function QuranTriggersPage() {
             catColor={CAT_COLOR[t.category] || '#b8860b'}
           />
         ))}
-        {filtered.length === 0 && (
-          <div className={s.empty}>No results found.</div>
-        )}
+        {filtered.length === 0 && <div className={s.empty}>No results found.</div>}
       </div>
     </div>
   );
@@ -93,20 +101,29 @@ function TriggerCard({
   onToggle: () => void;
   catColor: string;
 }) {
+  const recitationUrl = quranRecitationUrl(t.ayahRef);
+
   return (
-    <article className={`${s.card} ${isOpen ? s.cardOpen : ''}`} style={{ '--cc': catColor } as React.CSSProperties}>
+    <article
+      className={`${s.card} ${isOpen ? s.cardOpen : ''}`}
+      style={{ '--cc': catColor } as React.CSSProperties}
+    >
       {/* summary row */}
       <button className={s.summary} onClick={onToggle} aria-expanded={isOpen}>
         <div className={s.summaryLeft}>
           <span className={s.surahRef}>{t.ayahRef}</span>
-          <span className={s.surahName}>{t.surah} <span className={s.surahAr}>{t.surahAr}</span></span>
+          <span className={s.surahName}>
+            {t.surah} <span className={s.surahAr}>{t.surahAr}</span>
+          </span>
         </div>
         <div className={s.summaryMid}>
-          <span className={s.companionName}>{t.companion}</span>
+          <span className={s.companionName}>{normalizeTransliteration(t.companion)}</span>
           <span className={s.companionAr}>{t.companionAr}</span>
         </div>
         <div className={s.summaryRight}>
-          <span className={s.catTag} style={{ background: catColor + '22', color: catColor }}>{t.category}</span>
+          <span className={s.catTag} style={{ background: catColor + '22', color: catColor }}>
+            {t.category}
+          </span>
           <span className={s.chevron}>{isOpen ? '▲' : '▼'}</span>
         </div>
       </button>
@@ -116,28 +133,43 @@ function TriggerCard({
         <div className={s.detail}>
           {/* Arabic + translation */}
           <div className={s.ayahBlock}>
-            <p className={s.ayahAr} dir="rtl">{t.ayahAr}</p>
-            <p className={s.ayahEn}><span className={s.refBadge}>{t.ayahRef}</span> {t.ayahEn}</p>
-            {t.ayahUr && <p className={s.ayahUr} dir="rtl">{t.ayahUr}</p>}
+            {recitationUrl && (
+              <a className={s.audioLink} href={recitationUrl} target="_blank" rel="noreferrer">
+                Listen to recitation
+              </a>
+            )}
+            <p className={s.ayahAr} dir="rtl">
+              {t.ayahAr}
+            </p>
+            <p className={s.ayahEn}>
+              <span className={s.refBadge}>{t.ayahRef}</span> {t.ayahEn}
+            </p>
+            {t.ayahUr && (
+              <p className={s.ayahUr} dir="rtl">
+                {t.ayahUr}
+              </p>
+            )}
           </div>
 
           {/* Companion context */}
           <div className={s.companionBox}>
             <span className={s.compLabel}>Companion</span>
-            <span className={s.compFull}>{t.companion} — {t.companionAr}</span>
-            <span className={s.compRel}>{t.companionRel}</span>
+            <span className={s.compFull}>
+              {normalizeTransliteration(t.companion)} — {t.companionAr}
+            </span>
+            <span className={s.compRel}>{normalizeTransliteration(t.companionRel)}</span>
           </div>
 
           {/* Story */}
           <div className={s.section}>
             <h3 className={s.sectionTitle}>The Story</h3>
-            <p className={s.storyText}>{t.story}</p>
+            <p className={s.storyText}>{normalizeTransliteration(t.story)}</p>
           </div>
 
           {/* Response */}
           <div className={s.section}>
             <h3 className={s.sectionTitle}>Companion's Response</h3>
-            <p className={s.storyText}>{t.companionResponse}</p>
+            <p className={s.storyText}>{normalizeTransliteration(t.companionResponse)}</p>
           </div>
 
           {/* Source */}

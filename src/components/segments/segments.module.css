@@ -1,0 +1,2263 @@
+/* ─── Segment CSS Variables ─────────────────────────────────────────────── */
+:root {
+  --seg-bg: rgba(10, 8, 4, 0.92);
+  --seg-gold: var(--color-gold, var(--color-gold-glow));
+  --seg-gold-dim: var(--color-gold-dim, #8b6914);
+  --seg-glow: 0 0 24px rgba(15, 111, 92, 0.22);
+  --seg-border: rgba(15, 111, 92, 0.18);
+  --seg-surface: var(--color-gold-pale);
+  --seg-text: var(--color-text, #e8d9b5);
+  --seg-muted: var(--color-muted, #7a6a50);
+  --seg-timing-breathe: 3.8s ease-in-out infinite;
+  --seg-timing-enter: 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  --seg-timing-slow: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --seg-radius: 10px;
+}
+
+/* ─── Wrapper ─────────────────────────────────────────────────────────── */
+.wrapper {
+  /* Segment panels have a dark background regardless of the parchment day-mode
+     theme, so override text-color tokens locally to ensure body copy stays
+     readable on dark surfaces. */
+  --seg-text: #e8d9b5;
+  --seg-muted: #9a8a6a;
+  background: var(--seg-bg);
+  border: 1px solid var(--seg-border);
+  border-radius: var(--seg-radius);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.wrapperTopBar {
+  height: 2px;
+  background: linear-gradient(90deg, var(--seg-gold), transparent);
+  animation: topBarBreath var(--seg-timing-breathe);
+}
+
+.wrapperHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--color-gold-pale);
+}
+
+.wrapperIcon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.wrapperTitle {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--seg-gold);
+  font-family: var(--font-serif, serif);
+  flex: 1;
+}
+
+.wrapperTitleAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 0.9rem;
+  color: var(--seg-gold-dim);
+  direction: rtl;
+}
+
+.wrapperControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.ctrlBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--seg-border);
+  background: var(--color-gold-pale);
+  color: var(--seg-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.ctrlBtn:hover,
+.ctrlBtn:focus-visible {
+  background: rgba(15, 111, 92, 0.12);
+  border-color: var(--seg-gold);
+  color: var(--seg-gold);
+  outline: none;
+}
+
+.ctrlBtnActive {
+  background: rgba(15, 111, 92, 0.15);
+  border-color: rgba(15, 111, 92, 0.5);
+  color: var(--seg-gold);
+}
+
+.wrapperSource {
+  padding: 8px 16px;
+  font-size: 0.6rem;
+  color: var(--seg-muted);
+  font-style: italic;
+  border-top: 1px solid var(--color-gold-pale);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.confidenceDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.confHigh {
+  background: #1f7a3d;
+}
+.confMedium {
+  background: #9a6d08;
+}
+.confLow {
+  background: #7f1d1d;
+}
+
+.segBody {
+  padding: 20px 16px;
+  position: relative;
+}
+
+/* ─── Suspense Fallback ──────────────────────────────────────────────── */
+.segSuspense {
+  padding: 32px;
+  text-align: center;
+  color: var(--seg-muted);
+  font-size: 0.8rem;
+}
+
+.segLoadBar {
+  width: 60px;
+  height: 2px;
+  background: var(--seg-border);
+  border-radius: 1px;
+  margin: 12px auto 0;
+  overflow: hidden;
+}
+
+.segLoadBar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: var(--seg-gold);
+  animation: loadSlide 1.2s ease-in-out infinite;
+}
+
+/* ─── Empty / No Data State ──────────────────────────────────────────── */
+.noData {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--seg-muted);
+  font-size: 0.8rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.noDataAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.1rem;
+  color: var(--seg-gold-dim);
+  direction: rtl;
+  margin-bottom: 6px;
+  opacity: 0.6;
+}
+
+/* ─── Tab Switcher (QuranRevealMoment, etc.) ─────────────────────────── */
+.segTabBar {
+  display: flex;
+  gap: 4px;
+  padding: 0 16px 12px;
+  flex-wrap: wrap;
+}
+
+.segTabPill {
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--seg-border);
+  background: transparent;
+  color: var(--seg-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-sans, sans-serif);
+}
+
+.segTabPill:hover {
+  border-color: var(--seg-gold);
+  color: var(--seg-gold);
+}
+.segTabPillActive {
+  background: rgba(15, 111, 92, 0.15);
+  border-color: var(--seg-gold);
+  color: var(--seg-gold);
+}
+
+/* ─── Scholar Mode Accordion ─────────────────────────────────────────── */
+.scholarAccordion {
+  margin-top: 12px;
+  border-top: 1px solid var(--color-gold-pale);
+}
+.scholarAccordion summary {
+  font-size: 0.65rem;
+  color: var(--seg-muted);
+  cursor: pointer;
+  padding: 8px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  list-style: none;
+}
+.scholarAccordion summary::marker {
+  display: none;
+}
+.scholarAccordion summary:hover {
+  color: var(--seg-gold);
+}
+.scholarContent {
+  padding: 8px 0 4px;
+  font-size: 0.72rem;
+  color: var(--seg-muted);
+  line-height: 1.6;
+}
+
+/* ─── LegacyTicker ───────────────────────────────────────────────────── */
+.tickerGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.tickerCell {
+  background: var(--color-gold-pale);
+  border: 1px solid var(--color-gold-pale);
+  border-radius: 8px;
+  padding: 14px 12px 10px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--seg-timing-enter),
+    transform var(--seg-timing-enter);
+}
+
+.tickerCellVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tickerNum {
+  font-family: 'Courier New', 'Roboto Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--seg-gold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.tickerLabel {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--seg-muted);
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.tickerLabelAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 0.7rem;
+  direction: rtl;
+  color: var(--seg-gold-dim);
+  margin-top: 2px;
+}
+
+.tickerBar {
+  height: 3px;
+  background: var(--color-gold-pale);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.tickerBarFill {
+  height: 100%;
+  background: var(--seg-gold);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tickerRankLabel {
+  font-size: 0.55rem;
+  color: var(--seg-muted);
+  margin-top: 3px;
+}
+
+.tickerAuthBadge {
+  text-align: center;
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px solid var(--seg-border);
+  border-radius: 8px;
+  background: rgba(15, 111, 92, 0.06);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.tickerAuthBadgeVisible {
+  opacity: 1;
+}
+
+.tickerAuthScore {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--seg-gold);
+  font-family: 'Courier New', monospace;
+}
+
+.tickerAuthLabel {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--seg-muted);
+  margin-top: 2px;
+}
+
+/* ─── RadarExplainer ─────────────────────────────────────────────────── */
+.radarWrap {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.radarChartArea {
+  flex: 0 0 220px;
+}
+
+.radarAnnotations {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 200px;
+}
+
+.radarAnnotCard {
+  border-left: 3px solid transparent;
+  padding: 8px 10px;
+  border-radius: 0 6px 6px 0;
+  background: var(--color-gold-pale);
+  opacity: 0;
+  transform: translateX(8px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--seg-text);
+}
+
+.radarAnnotCardVisible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.radarAnnotAxis {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+
+/* ─── HadithImpactWave ───────────────────────────────────────────────── */
+.waveCanvas {
+  width: 100%;
+  height: 220px;
+  display: block;
+}
+
+.waveTooltip {
+  position: absolute;
+  background: rgba(10, 8, 4, 0.9);
+  border: 1px solid var(--seg-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.7rem;
+  color: var(--seg-text);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* ─── LifeArcScroll ──────────────────────────────────────────────────── */
+.arcOuter {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.arcOuter::-webkit-scrollbar {
+  height: 4px;
+}
+.arcOuter::-webkit-scrollbar-track {
+  background: var(--color-gold-pale);
+  border-radius: 2px;
+}
+.arcOuter::-webkit-scrollbar-thumb {
+  background: var(--seg-border);
+  border-radius: 2px;
+}
+
+.arcTrack {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 16px 24px;
+  min-width: max-content;
+  position: relative;
+}
+
+.arcLine {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  right: 24px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--seg-gold), rgba(15, 111, 92, 0.15));
+  transform: translateY(-50%);
+  transform-origin: left center;
+  transform: translateY(-50%) scaleX(0);
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arcLineVisible {
+  transform: translateY(-50%) scaleX(1);
+}
+
+.arcNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  z-index: 2;
+  cursor: default;
+  margin: 0 20px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.arcNodeVisible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.arcDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--seg-gold);
+  background: var(--seg-bg);
+  flex-shrink: 0;
+}
+
+.arcDotBirth {
+  background: #1f7a3d;
+  border-color: #1f7a3d;
+}
+.arcDotDeath {
+  background: rgba(127, 29, 29, 0.6);
+  border-color: #7f1d1d;
+}
+.arcDotBattle {
+  background: rgba(180, 30, 30, 0.3);
+  border-color: #b41e1e;
+  width: 16px;
+  height: 16px;
+}
+.arcDotHijra {
+  background: rgba(26, 75, 110, 0.3);
+  border-color: #1a4b6e;
+}
+.arcDotHonor {
+  background: rgba(15, 111, 92, 0.3);
+  border-color: var(--seg-gold);
+}
+
+.arcYear {
+  font-size: 0.58rem;
+  color: var(--seg-muted);
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.arcLabel {
+  font-size: 0.68rem;
+  color: var(--seg-text);
+  text-align: center;
+  max-width: 80px;
+  white-space: normal;
+  line-height: 1.3;
+}
+
+.arcLabelAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 0.75rem;
+  direction: rtl;
+  color: var(--seg-gold-dim);
+}
+
+/* ─── BattleMapPulse ─────────────────────────────────────────────────── */
+.mapOuter {
+  position: relative;
+  width: 100%;
+  padding-top: 56%;
+  background: rgba(20, 14, 4, 0.8);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-gold-pale);
+}
+
+.mapSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mapBattleDot {
+  cursor: pointer;
+  transform-origin: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.mapBattleDotVisible {
+  opacity: 1;
+}
+
+.mapBattleLabel {
+  font-size: 9px;
+  fill: rgba(15, 111, 92, 0.9);
+  text-anchor: middle;
+  font-family: var(--font-serif, serif);
+  opacity: 0;
+  transition: opacity 0.4s ease 0.2s;
+}
+
+.mapBattleLabelVisible {
+  opacity: 1;
+}
+
+.mapYearBadge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(10, 8, 4, 0.7);
+  border: 1px solid var(--seg-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.65rem;
+  color: var(--seg-gold);
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+}
+
+.mapLegend {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0 0;
+  flex-wrap: wrap;
+}
+
+.mapLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.6rem;
+  color: var(--seg-muted);
+}
+
+.mapLegendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── QuranRevealMoment ──────────────────────────────────────────────── */
+.quranPanel {
+  min-height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.quranBg {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  border-radius: 8px;
+}
+
+.quranBgVisible {
+  opacity: 1;
+}
+
+.quranParticles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.quranParticle {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(15, 111, 92, 0.5);
+  animation: particleRise linear infinite;
+}
+
+.quranContent {
+  position: relative;
+  z-index: 2;
+  padding: 16px;
+}
+
+.quranAyahAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.4rem;
+  direction: rtl;
+  color: var(--seg-gold);
+  line-height: 2;
+  margin-bottom: 10px;
+  opacity: 0;
+  transition: opacity var(--seg-timing-slow);
+}
+
+.quranAyahArVisible {
+  opacity: 1;
+}
+
+.quranAyahEn {
+  font-size: 0.82rem;
+  color: var(--seg-text);
+  font-style: italic;
+  line-height: 1.65;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.quranAyahEnVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quranContextBanner {
+  background: var(--color-gold-pale);
+  border-left: 3px solid var(--seg-gold-dim);
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.76rem;
+  color: var(--seg-muted);
+  line-height: 1.55;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+  margin-bottom: 8px;
+}
+
+.quranContextBannerVisible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.quranSourceChip {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(15, 111, 92, 0.1);
+  border: 1px solid var(--seg-border);
+  border-radius: 4px;
+  padding: 2px 7px;
+  color: var(--seg-gold-dim);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.quranSourceChipVisible {
+  opacity: 1;
+}
+
+/* ─── FinalMomentsCinematic ──────────────────────────────────────────── */
+.finalPanel {
+  position: relative;
+  min-height: 220px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.finalDim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 1.4s ease;
+  border-radius: 8px;
+}
+
+.finalDimActive {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.finalContent {
+  position: relative;
+  z-index: 2;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.finalCrescent {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  opacity: 0;
+  transition: opacity 2s ease;
+  color: var(--seg-gold-dim);
+}
+
+.finalCrescentVisible {
+  opacity: 0.4;
+}
+
+.finalCrescentArc {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  transition: stroke-dashoffset 3s ease;
+}
+
+.finalCrescentArcVisible {
+  stroke-dashoffset: 0;
+}
+
+.finalWordsAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.5rem;
+  direction: rtl;
+  color: var(--seg-gold);
+  line-height: 2;
+  margin-bottom: 14px;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+
+.finalWordsArVisible {
+  opacity: 1;
+}
+
+.finalWordsEn {
+  font-size: 0.9rem;
+  color: var(--seg-text);
+  font-style: italic;
+  line-height: 1.7;
+  margin-bottom: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 1s ease 0.6s,
+    transform 1s ease 0.6s;
+}
+
+.finalWordsEnVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.finalLocation {
+  font-size: 0.72rem;
+  color: var(--seg-muted);
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.finalLocationVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.finalYearCount {
+  font-family: 'Courier New', monospace;
+  font-size: 1.4rem;
+  color: rgba(15, 111, 92, 0.5);
+  font-weight: 800;
+  margin: 8px 0;
+}
+
+.finalSourceChip {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-size: 0.55rem;
+  color: var(--seg-muted);
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.finalSourceChipVisible {
+  opacity: 0.7;
+}
+
+/* ─── Key Event Spotlight ────────────────────────────────────────────── */
+.spotlightPanel {
+  position: relative;
+  min-height: 240px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(6, 5, 3, 0.55);
+}
+
+.spotlightDim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 1.2s ease;
+  border-radius: 8px;
+}
+
+.spotlightDimActive {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.spotlightBeam {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spotlightBeamVisible {
+  opacity: 1;
+}
+
+.spotlightMarker {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translate(-50%, -8px) scale(0.6);
+  font-size: 1.6rem;
+  opacity: 0;
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3;
+  text-shadow: 0 0 18px currentColor;
+}
+
+.spotlightMarkerVisible {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.spotlightContent {
+  position: relative;
+  z-index: 2;
+  padding: 64px 24px 28px;
+  text-align: center;
+}
+
+.spotlightLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.spotlightLabelVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.spotlightLabelName {
+  color: var(--seg-text);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.spotlightStory {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.spotlightSentence {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--seg-text);
+  margin: 0 0 12px;
+  animation: spotlightFadeIn 0.85s ease both;
+}
+
+.spotlightDropCap {
+  font-family: var(--font-serif, serif);
+  font-size: 2.4rem;
+  font-weight: 800;
+  float: left;
+  line-height: 0.9;
+  margin: 4px 8px 0 0;
+  text-shadow: 0 0 12px currentColor;
+}
+
+.spotlightStamp {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 4px 8px;
+  border: 1px solid;
+  border-radius: 4px;
+  opacity: 0;
+  transform: rotate(-4deg) scale(0.9);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3;
+}
+
+.spotlightStampVisible {
+  opacity: 0.85;
+  transform: rotate(-4deg) scale(1);
+}
+
+@keyframes spotlightFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Appearance Portrait ────────────────────────────────────────────── */
+.portraitPanel {
+  position: relative;
+  min-height: 220px;
+  padding: 24px 22px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(15, 12, 8, 0.55), rgba(8, 6, 4, 0.7));
+  overflow: hidden;
+}
+
+.portraitFrame {
+  position: absolute;
+  inset: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  pointer-events: none;
+}
+
+.portraitFrameRect {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portraitFrameRectDrawn {
+  stroke-dashoffset: 0;
+}
+
+.portraitFrameRectInner {
+  stroke-dasharray: 950;
+  stroke-dashoffset: 950;
+  transition: stroke-dashoffset 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+
+.portraitFrameRectInnerDrawn {
+  stroke-dashoffset: 0;
+}
+
+.portraitOrnament {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translate(-50%, 0) scale(0.6);
+  font-size: 1rem;
+  background: var(--seg-bg);
+  padding: 0 8px;
+  opacity: 0;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portraitOrnamentVisible {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.portraitContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.portraitName {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.4rem;
+  direction: rtl;
+  margin-bottom: 14px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.portraitNameVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.portraitText {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--seg-text);
+  font-style: italic;
+  max-width: 480px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+
+.portraitTextVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.portraitAttrib {
+  font-size: 0.7rem;
+  color: var(--seg-muted);
+  margin-top: 14px;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+}
+
+.portraitAttribVisible {
+  opacity: 1;
+}
+
+/* ─── Tribal Lineage Tree ────────────────────────────────────────────── */
+.lineagePanel {
+  position: relative;
+  min-height: 240px;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.lineageSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.lineageLine {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 0.7s ease;
+}
+
+.lineageLineDrawn {
+  stroke-dashoffset: 0;
+}
+
+.lineageNodes {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 8px 0;
+}
+
+.lineageNode {
+  background: rgba(8, 6, 4, 0.85);
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 8px 14px;
+  min-width: 180px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px) scale(0.95);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lineageNodeVisible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.lineageNodeLabel {
+  font-size: 0.55rem;
+  color: var(--seg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 4px;
+}
+
+.lineageNodeName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.lineageParent .lineageNodeName {
+  font-size: 1.05rem;
+}
+
+.lineageCompanion .lineageNodeName {
+  font-size: 1rem;
+}
+
+.lineageTags {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.lineageTag {
+  font-size: 0.55rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--seg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ─── Caliphate Reign Timeline ───────────────────────────────────────── */
+.reignPanel {
+  padding: 18px 16px;
+  border-radius: 8px;
+}
+
+.reignHeader {
+  text-align: center;
+  margin-bottom: 22px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.reignHeaderVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reignTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.reignDuration {
+  font-size: 0.75rem;
+  color: var(--seg-muted);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.reignTimeline {
+  position: relative;
+  margin: 0 16px 18px;
+}
+
+.reignBarTrack {
+  position: relative;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  overflow: visible;
+}
+
+.reignBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.06s linear;
+}
+
+.reignMark {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reignMarkVisible {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.reignMarkStart {
+  left: 0;
+}
+
+.reignMarkEnd {
+  left: 100%;
+}
+
+.reignAxis {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+}
+
+.reignYear {
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.reignYearVisible {
+  opacity: 1;
+}
+
+.reignSpan {
+  font-size: 0.65rem;
+  color: var(--seg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-family: var(--font-serif, serif);
+}
+
+.reignDescription {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--seg-text);
+  text-align: center;
+  max-width: 520px;
+  margin: 8px auto 0;
+  padding: 0 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+.reignDescriptionVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Legacy Echo ─────────────────────────────────────────────────────── */
+.echoPanel {
+  position: relative;
+  min-height: 240px;
+  padding: 24px 18px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.echoRippleStage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 220px;
+  height: 220px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.echoRipple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+}
+
+.echoRippleActive {
+  animation: echoRippleAnim 4.2s ease-out infinite;
+}
+
+.echoCore {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition:
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.8s ease;
+}
+
+.echoCoreVisible {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0.55;
+}
+
+.echoContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.echoLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  margin-bottom: 90px;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.echoLabelVisible {
+  opacity: 1;
+}
+
+.echoText {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--seg-text);
+  max-width: 520px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+
+.echoTextVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.echoAttrib {
+  font-size: 0.72rem;
+  color: var(--seg-muted);
+  margin-top: 18px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.echoAttribVisible {
+  opacity: 0.95;
+}
+
+@keyframes echoRippleAnim {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.05;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0;
+  }
+}
+
+/* ─── Bond with the Prophet ﷺ ───────────────────────────────────────── */
+.bondPanel {
+  padding: 22px 18px;
+  border-radius: 8px;
+}
+
+.bondNodes {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  gap: 6px;
+  min-height: 110px;
+  margin-bottom: 18px;
+}
+
+.bondNode {
+  background: rgba(8, 6, 4, 0.85);
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 12px 8px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px) scale(0.9);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bondNodeVisible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.bondGlyph {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.8rem;
+  line-height: 1;
+  text-shadow: 0 0 16px currentColor;
+  margin-bottom: 4px;
+}
+
+.bondNodeLabel {
+  font-size: 0.55rem;
+  color: var(--seg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.bondCompanionName {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.bondSvg {
+  width: 100%;
+  height: 60px;
+}
+
+.bondPath {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bondPathDrawn {
+  stroke-dashoffset: 0;
+}
+
+.bondHeart {
+  opacity: 0;
+  transform-origin: 50px 30px;
+  transition: opacity 0.5s ease;
+}
+
+.bondHeartPulse {
+  opacity: 1;
+  animation: bondHeartBeat 1.6s ease-in-out infinite;
+}
+
+.bondText {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--seg-text);
+  text-align: center;
+  font-style: italic;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 0 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+.bondTextVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes bondHeartBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.4);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* ─── Miracles Shimmer ────────────────────────────────────────────────── */
+.miraclesPanel {
+  position: relative;
+  min-height: 220px;
+  padding: 22px 18px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.miraclesSparkleStage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.miraclesSparkle {
+  position: absolute;
+  opacity: 0;
+  text-shadow: 0 0 8px currentColor;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.miraclesSparkleActive {
+  animation: miraclesSparkleAnim 3.4s ease-in-out infinite;
+}
+
+.miraclesHeader {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.miraclesHeaderVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.miraclesHeaderIcon {
+  font-size: 1rem;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.miraclesList {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.miraclesItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--seg-text);
+  background: rgba(8, 6, 4, 0.55);
+  padding: 10px 12px;
+  border-radius: 6px;
+  border-left: 2px solid rgba(255, 255, 255, 0.06);
+  animation: miraclesItemFadeIn 0.85s ease both;
+}
+
+.miraclesItemMark {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  margin-top: 2px;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.miraclesItemText {
+  flex: 1;
+}
+
+@keyframes miraclesSparkleAnim {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1) rotate(180deg);
+  }
+}
+
+@keyframes miraclesItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ─── Honored Title (Laqab) ──────────────────────────────────────────── */
+.laqabPanel {
+  position: relative;
+  padding: 28px 22px 24px;
+  border: 1px solid;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(20, 16, 8, 0.85), rgba(8, 6, 4, 0.92));
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+}
+
+.laqabPanelVisible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.laqabSeal {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid;
+  border-radius: 50%;
+  background: var(--seg-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.laqabTitleAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin: 4px 0 6px;
+  text-shadow: 0 0 18px currentColor;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.laqabTitleArVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.laqabTitleEn {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--seg-text);
+  margin-bottom: 16px;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.laqabTitleEnVisible {
+  opacity: 1;
+}
+
+.laqabMeaning {
+  font-weight: 400;
+  color: var(--seg-muted);
+  font-style: italic;
+}
+
+.laqabWords {
+  margin: 14px auto 16px;
+  max-width: 480px;
+  padding: 12px 14px;
+  border-left: 2px solid;
+  border-right: 2px solid;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.laqabWordsVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.laqabWordsLabel {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.laqabWordsAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  direction: rtl;
+  margin-bottom: 8px;
+}
+
+.laqabWordsEn {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--seg-text);
+  line-height: 1.6;
+}
+
+.laqabOccasion {
+  font-size: 0.83rem;
+  line-height: 1.65;
+  color: var(--seg-text);
+  max-width: 520px;
+  margin: 0 auto 12px;
+  text-align: left;
+  padding: 0 6px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.laqabOccasionVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.laqabOccasionLabel {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
+
+.laqabSource {
+  font-size: 0.62rem;
+  color: var(--seg-muted);
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.laqabSourceVisible {
+  opacity: 0.8;
+}
+
+/* ─── Geographic Journey ──────────────────────────────────────────────── */
+.journeyPanel {
+  padding: 18px 16px;
+  border-radius: 8px;
+}
+
+.journeyHeader {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-align: center;
+  margin-bottom: 14px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.journeyHeaderVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.journeyMap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: rgba(8, 6, 4, 0.6);
+  border-radius: 6px;
+  border: 1px solid var(--seg-border);
+  overflow: hidden;
+}
+
+.journeySvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.journeyPath {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  transition: stroke-dashoffset 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.journeyPathDrawn {
+  stroke-dashoffset: 0;
+}
+
+.journeyPin {
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.journeyPinVisible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.journeyStop {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 12px));
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.2s;
+}
+
+.journeyStopVisible {
+  opacity: 1;
+}
+
+.journeyStopLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 2px;
+}
+
+.journeyStopLocation {
+  font-size: 0.72rem;
+  color: var(--seg-text);
+  background: rgba(8, 6, 4, 0.85);
+  padding: 2px 8px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.journeyLegend {
+  font-size: 0.68rem;
+  color: var(--seg-muted);
+  text-align: center;
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* ─── SegmentsTab Layout ─────────────────────────────────────────────── */
+.tabIntro {
+  padding: 0 0 16px;
+  font-size: 0.78rem;
+  color: var(--seg-muted);
+  line-height: 1.6;
+  border-bottom: 1px solid var(--color-gold-pale);
+  margin-bottom: 20px;
+}
+
+.tabIntroName {
+  color: var(--seg-gold);
+  font-weight: 700;
+}
+
+/* ─── Reading level modifiers ────────────────────────────────────────── */
+.modeChild .tickerNum {
+  font-size: 2rem;
+}
+.modeChild .arcLabel {
+  font-size: 0.78rem;
+}
+.modeChild .wrapperTitle {
+  letter-spacing: 0.06em;
+}
+
+/* ─── Animations ──────────────────────────────────────────────────────── */
+@keyframes topBarBreath {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes loadSlide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+@keyframes particleRise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-200px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(15, 111, 92, 0.4);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px rgba(15, 111, 92, 0);
+  }
+}
+
+@keyframes rippleExpand {
+  0% {
+    r: 0;
+    opacity: 0.8;
+  }
+  100% {
+    r: 100;
+    opacity: 0;
+  }
+}
+
+@keyframes nodePop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ─── Reduced motion overrides ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .wrapperTopBar,
+  .arcLine,
+  .quranBg,
+  .finalDim,
+  .finalCrescentArc {
+    transition: none !important;
+  }
+
+  .tickerCell,
+  .radarAnnotCard,
+  .arcNode,
+  .quranAyahAr,
+  .quranAyahEn,
+  .quranContextBanner,
+  .quranSourceChip,
+  .finalWordsAr,
+  .finalWordsEn,
+  .finalLocation,
+  .finalCrescent,
+  .finalSourceChip {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .quranParticle {
+    animation: none !important;
+    display: none;
+  }
+
+  .tickerBarFill {
+    transition: none !important;
+  }
+}
+
+/* ─── CalligraphyReveal ──────────────────────────────────────────────── */
+.calligWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.calligSvg {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  display: block;
+}
+
+.calligRingOuter {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.calligTitle {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-align: center;
+  font-family: var(--font-serif, serif);
+}
+
+/* ─── PersonalityConstellation ───────────────────────────────────────── */
+.constellWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.constellSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid var(--color-gold-pale);
+}
+
+.constellLine {
+  opacity: 0;
+  animation: constellLineIn 0.8s ease forwards;
+}
+
+.constellTraits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.constellTrait {
+  font-size: 0.68rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-gold-pale);
+  background: var(--color-gold-pale);
+  color: var(--seg-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.constellTraitActive {
+  background: rgba(15, 111, 92, 0.08);
+}
+
+.constellTraitDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ─── QuoteTypewriter ────────────────────────────────────────────────── */
+.typeWrap {
+  position: relative;
+  padding: 8px 16px 20px;
+  min-height: 160px;
+}
+
+.typeQuoteMark {
+  font-size: 2.5rem;
+  line-height: 1;
+  opacity: 0.15;
+  font-family: Georgia, serif;
+  margin-bottom: -8px;
+}
+
+.typeQuoteMarkClose {
+  font-size: 2.5rem;
+  line-height: 1;
+  opacity: 0.15;
+  font-family: Georgia, serif;
+  text-align: right;
+  margin-top: -8px;
+}
+
+.typeAr {
+  font-family: var(--font-arabic, 'Amiri', 'Noto Naskh Arabic', serif);
+  font-size: 1.25rem;
+  direction: rtl;
+  color: var(--seg-gold);
+  line-height: 2;
+  margin-bottom: 12px;
+  min-height: 2.5rem;
+  transition: text-shadow 0.4s ease;
+}
+
+.typeArGlow {
+  text-shadow: 0 0 20px var(--glow-color, rgba(15, 111, 92, 0.5));
+}
+
+.typeEn {
+  font-size: 0.85rem;
+  color: var(--seg-text);
+  font-style: italic;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  min-height: 2rem;
+  opacity: 0.85;
+}
+
+.typeCursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  border-radius: 1px;
+  animation: cursorBlink 0.7s steps(1) infinite;
+}
+
+.typeAttrib {
+  font-size: 0.72rem;
+  color: var(--seg-muted);
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+.typeAttribName {
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* ─── New Animations ─────────────────────────────────────────────────── */
+@keyframes constellLineIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cursorBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes calligCharIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .constellLine,
+  .constellTrait,
+  .calligTitle,
+  .typeAr,
+  .typeEn,
+  .typeAttrib {
+    opacity: 1 !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .typeCursor {
+    display: none;
+  }
+}

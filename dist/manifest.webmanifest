@@ -1,0 +1,20 @@
+{
+  "name": "Sahabah Reference Encyclopedia",
+  "short_name": "Sahabah",
+  "description": "Offline reference encyclopedia for Sahabah profiles, hadith data, scholarly links, and Quran revelation triggers.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#08111f",
+  "theme_color": "#0b1728",
+  "categories": ["education", "books", "reference"],
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

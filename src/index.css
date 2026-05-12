@@ -1,65 +1,92 @@
 /* Fonts loaded via <link> in index.html to avoid render-blocking @import */
 
 /* ─── Reset ──────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 /* ─── Design Tokens ──────────────────────────────────────── */
+/* Day mode: Parchment & Ink — ivory background, deep ink for text,
+   a single emerald accent for interactive elements. Earthy desaturated
+   branch hues. Variable names are preserved so cascading code keeps
+   working without per-file edits (e.g. --color-gold maps to emerald). */
 :root {
   /* Backgrounds */
-  --color-bg:        #f8f4ea;
-  --color-surface:   #f3ebd6;
-  --color-surface2:  #eadcbe;
-  --color-surface3:  #dfcfa7;
+  --color-bg: #f7f3ea;
+  --color-surface: #efe8d7;
+  --color-surface2: #e3d9bf;
+  --color-surface3: #d6caa9;
+  --color-bg-card: #fbf7ec;
 
   /* Borders */
-  --color-border:    rgba(184,134,11,.2);
-  --color-border-md: rgba(184,134,11,.34);
+  --color-border: rgba(27, 26, 23, 0.1);
+  --color-border-md: rgba(27, 26, 23, 0.18);
 
-  /* Gold spectrum */
-  --color-gold:      #8d620b;
-  --color-gold-dim:  #7a5218;
-  --color-gold-mid:  #b8860b;
-  --color-gold-glow: #c9a84c;
-  --color-gold-pale: rgba(184,134,11,.08);
-  --gold-grad: linear-gradient(135deg, #b8860b 0%, #9a6800 50%, #d4a017 100%);
-  --gold-text: linear-gradient(135deg, #c9a84c 0%, #9a6800 40%, #d4a017 80%, #a07018 100%);
+  /* "Gold" tokens remapped to a single emerald accent so the entire UI
+     re-skins from one place. Names kept for cascade compatibility. */
+  --color-gold: #0f6f5c;
+  --color-gold-dim: #0a5547;
+  --color-gold-mid: #138a73;
+  --color-gold-glow: #2fa890;
+  --color-gold-pale: rgba(15, 111, 92, 0.08);
+  --gold-grad: linear-gradient(135deg, #138a73 0%, #0f6f5c 50%, #0a5547 100%);
+  --gold-text: linear-gradient(135deg, #138a73 0%, #0f6f5c 40%, #0a5547 80%, #083f34 100%);
+
+  /* Highlight — reserved for badges / brand marks (a warm ochre against
+     the parchment, not saturated). */
+  --color-highlight: #a07f2c;
+  --color-highlight-soft: #c8a85a;
 
   /* Typography */
-  --color-text:      #1c1408;
-  --color-muted:     #634829;
-  --color-muted2:    #8e6a3b;
-  --color-text-soft: #745532;
-  --color-placeholder: #826340;
-  --color-disabled-text: #9b7d56;
+  --color-text: #1b1a17;
+  --color-muted: #4a463e;
+  --color-muted2: #6a655a;
+  --color-text-soft: #3a3630;
+  --color-placeholder: #8c8678;
+  --color-disabled-text: #c8c2b0;
 
   /* Accent / semantic */
-  --color-accent:    #8b4513;
-  --color-danger:    #8b1a1a;
+  --color-accent: #0f6f5c;
+  --color-danger: #8b1a1a;
 
-  /* Companion category colours */
-  --color-caliph:    #7a5a00;
-  --color-warrior:   #8b1a38;
-  --color-scholar:   #1a3462;
-  --color-wife:      #7a2060;
-  --color-narrator:  #0a5e3f;
-  --color-martyr:    #8b1a1a;
-  --color-general:   #6b3d0a;
-  --color-other:     #555;
-  --color-convert:   #334455;
-  --color-family:    #5a3800;
+  /* Semantic state text colours — must remain readable on both
+     bright sky-blue and dark navy backgrounds. Light-mode defaults
+     below; dark-mode overrides further down in this file. */
+  --color-danger-text: #8b1a1a;
+  --color-success-text: #0a5547;
+  --color-info-text: #0f6f5c;
 
-  /* Fonts */
-  --font-display:  'Cinzel Decorative', Georgia, serif;
-  --font-serif:    'DM Serif Display', Georgia, serif;
-  --font-sans:     'Inter', 'Segoe UI', system-ui, sans-serif;
-  --font-arabic:   'Amiri', 'Traditional Arabic', serif;
+  /* Companion category colours — desaturated ~30% for parchment surface */
+  --color-caliph: #6b5520;
+  --color-warrior: #7a4530;
+  --color-scholar: #2a4570;
+  --color-wife: #813434;
+  --color-narrator: #2a493d;
+  --color-martyr: #813434;
+  --color-general: #7a4318;
+  --color-other: #4a463e;
+  --color-convert: #3a4a44;
+  --color-family: #a07f2c;
+
+  /* Fonts — scholarly humanist serif for headings, Inter for UI body,
+     IBM Plex Mono for years/ranks, Amiri + Noto Nastaliq for ar/ur. */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --font-arabic: 'Amiri', 'Traditional Arabic', serif;
+  --font-urdu: 'Noto Nastaliq Urdu', 'Amiri', serif;
 
   /* Spacing & radius */
-  --radius-sm:  6px;
-  --radius-md:  12px;
-  --radius-lg:  18px;
-  --radius-xl:  26px;
-  --sidebar-w:  232px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+  --sidebar-w: 232px;
   --content-max: 1360px;
   --space-xs: 0.4rem;
   --space-sm: 0.75rem;
@@ -69,49 +96,110 @@
   --space-2xl: 2.75rem;
 
   /* Transitions */
-  --transition: .22s cubic-bezier(.22,1,.36,1);
-  --transition-slow: .42s cubic-bezier(.22,1,.36,1);
+  --transition: 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-slow: 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Shadows */
-  --shadow-sm:  0 2px 10px rgba(80,48,10,.09);
-  --shadow-md:  0 10px 28px rgba(75,44,10,.14);
-  --shadow-lg:  0 18px 54px rgba(60,36,8,.19);
-  --shadow-gold: 0 0 0 1px rgba(184,134,11,.16), 0 10px 32px rgba(184,134,11,.13);
+  /* Layered shadow system — multi-stop for depth.
+     `--shadow-card` is the primary card shadow, with a soft drop +
+     a tight inner highlight to feel "lifted". */
+  --shadow-sm: 0 1px 2px rgba(27, 26, 23, 0.04), 0 2px 8px rgba(27, 26, 23, 0.05);
+  --shadow-md:
+    0 1px 2px rgba(27, 26, 23, 0.05), 0 6px 14px rgba(27, 26, 23, 0.07),
+    0 14px 28px rgba(27, 26, 23, 0.05);
+  --shadow-lg:
+    0 2px 4px rgba(27, 26, 23, 0.06), 0 12px 28px rgba(27, 26, 23, 0.08),
+    0 28px 56px rgba(27, 26, 23, 0.08);
+  --shadow-card:
+    0 1px 0 rgba(255, 252, 244, 0.6) inset, 0 1px 2px rgba(27, 26, 23, 0.04),
+    0 8px 22px rgba(27, 26, 23, 0.06);
+  --shadow-card-hover:
+    0 1px 0 rgba(255, 252, 244, 0.7) inset, 0 4px 8px rgba(15, 111, 92, 0.08),
+    0 18px 40px rgba(15, 111, 92, 0.14);
+  --shadow-gold: 0 0 0 1px rgba(15, 111, 92, 0.16), 0 10px 32px rgba(15, 111, 92, 0.1);
+  --ring-focus: 0 0 0 3px rgba(15, 111, 92, 0.18), 0 0 0 1px rgba(15, 111, 92, 0.55);
 
-  /* Star pattern (Islamic 8-pointed star) */
-  --star-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpolygon points='40,6 45.3,27.1 64,16 52.9,34.7 74,40 52.9,45.3 64,64 45.3,52.9 40,74 34.7,52.9 16,64 27.1,45.3 6,40 27.1,34.7 16,16 34.7,27.1' fill='none' stroke='rgba(184,134,11,0.07)' stroke-width='0.7'/%3E%3C/svg%3E");
+  /* Refined easings */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Islamic 8-pointed star watermark — ink tint on parchment, very subtle */
+  --star-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpolygon points='40,6 45.3,27.1 64,16 52.9,34.7 74,40 52.9,45.3 64,64 45.3,52.9 40,74 34.7,52.9 16,64 27.1,45.3 6,40 27.1,34.7 16,16 34.7,27.1' fill='none' stroke='rgba(27,26,23,0.045)' stroke-width='0.7'/%3E%3C/svg%3E");
 }
 
 /* ─── Global keyframes ───────────────────────────────────── */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-24px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 @keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
 }
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(184,134,11,0); }
-  50%       { box-shadow: 0 0 20px 4px rgba(184,134,11,.2); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(184, 134, 11, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px rgba(184, 134, 11, 0.2);
+  }
 }
-@keyframes spin-slow { to { transform: rotate(360deg); } }
-@keyframes spin-slow-rev { to { transform: rotate(-360deg); } }
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin-slow-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(.92); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 @keyframes border-glow {
-  0%, 100% { border-color: rgba(184,134,11,.25); }
-  50%       { border-color: rgba(184,134,11,.55); }
+  0%,
+  100% {
+    border-color: rgba(184, 134, 11, 0.25);
+  }
+  50% {
+    border-color: rgba(184, 134, 11, 0.55);
+  }
 }
 
 /* ─── Base styles ────────────────────────────────────────── */
@@ -124,14 +212,23 @@ html {
 
 body {
   background: var(--color-bg);
-  background-image: var(--star-pattern);
-  background-size: 80px 80px;
   color: var(--color-text);
   font-family: var(--font-sans);
   font-weight: 400;
   line-height: 1.65;
   min-height: 100vh;
-  font-feature-settings: 'kern' 1, 'liga' 1;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1;
+}
+
+/* Watermark is now scoped to title bars / header strips only,
+   per brief: "never on top of the graph". Apply this class to any
+   page header that wants the geometric watermark behind it. */
+.title-watermark {
+  background-image: var(--star-pattern);
+  background-size: 80px 80px;
+  background-repeat: repeat;
 }
 
 :focus-visible {
@@ -140,35 +237,79 @@ body {
 }
 
 /* Global RTL support (Urdu) */
-html[dir="rtl"] body {
+html[dir='rtl'] body {
   direction: rtl;
 }
 
-
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif);
   color: var(--color-gold);
   line-height: 1.3;
   font-weight: 400;
 }
-h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
-h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
-h3 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
+h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+h3 {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+}
 
-a { color: var(--color-gold); text-decoration: none; transition: color var(--transition); }
-a:hover { color: var(--color-text); }
+a {
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover {
+  color: var(--color-text);
+}
 
-button { font-family: inherit; cursor: pointer; border: none; background: none; }
-input::placeholder, textarea::placeholder { color: var(--color-placeholder); opacity: 1; }
-button:disabled, input:disabled, textarea:disabled, select:disabled { color: var(--color-disabled-text); cursor: not-allowed; }
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-placeholder);
+  opacity: 1;
+}
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  color: var(--color-disabled-text);
+  cursor: not-allowed;
+}
 
-img { display: block; max-width: 100%; }
+img {
+  display: block;
+  max-width: 100%;
+}
 
 /* ─── Custom scrollbar ───────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--color-surface); }
-::-webkit-scrollbar-thumb { background: rgba(184,134,11,.32); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(184,134,11,.55); }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(184, 134, 11, 0.32);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(184, 134, 11, 0.55);
+}
 
 /* ═══════════════════════════════════════════════════════════════════════
    TAHAJJUD NIGHT MODE  (Feature 38)
@@ -176,37 +317,41 @@ img { display: block; max-width: 100%; }
    ═════════════════════════════════════════════════════════════════════ */
 body.tahajjud {
   /* Deep night — navy-blue midnight sky palette */
-  --color-bg:        #070f1b;
-  --color-surface:   #0f1c2f;
-  --color-surface2:  #172943;
-  --color-surface3:  #213553;
+  --color-bg: #070f1b;
+  --color-surface: #0f1c2f;
+  --color-surface2: #172943;
+  --color-surface3: #213553;
+  --color-bg-card: #0b1628;
 
-  --color-border:    rgba(110,170,255,.2);
-  --color-border-md: rgba(110,170,255,.35);
+  --color-border: rgba(110, 170, 255, 0.2);
+  --color-border-md: rgba(110, 170, 255, 0.35);
 
-  --color-gold:      #9ab8e8;
-  --color-gold-dim:  #6890c0;
-  --color-gold-mid:  #7aa8d8;
+  --color-gold: #9ab8e8;
+  --color-gold-dim: #6890c0;
+  --color-gold-mid: #7aa8d8;
   --color-gold-glow: #c0d8f8;
-  --color-gold-pale: rgba(100,160,255,.08);
+  --color-gold-pale: rgba(100, 160, 255, 0.08);
   --gold-grad: linear-gradient(135deg, #4a80c0, #2a5090, #6a9cd0);
   --gold-text: linear-gradient(135deg, #b0d0f8, #6090d0, #90b8e8, #4878b8);
 
-  --color-text:      #deebfa;
-  --color-muted:     #86a5c6;
-  --color-muted2:    #a6c1dc;
-  --color-text-soft: #9db6cf;
-  --color-placeholder: #8eaac5;
-  --color-disabled-text: #7f9db9;
-  --color-accent:    #4878b8;
-  --shadow-sm:       0 3px 12px rgba(4,12,24,.45);
-  --shadow-md:       0 10px 30px rgba(3,10,22,.55);
-  --shadow-lg:       0 20px 58px rgba(2,8,20,.68);
-  --shadow-gold:     0 0 0 1px rgba(100,160,255,.18), 0 12px 34px rgba(60,110,200,.22);
+  --color-text: #f1f6fc;
+  --color-muted: #b6cbe3;
+  --color-muted2: #c8d8ee;
+  --color-text-soft: #aabfd8;
+  --color-placeholder: #95aac3;
+  --color-disabled-text: #7891ad;
+  --color-accent: #6a98d0;
+  --color-danger-text: #ff8a8a;
+  --color-success-text: #6ad99a;
+  --color-info-text: #9cc0ec;
+  --shadow-sm: 0 3px 12px rgba(4, 12, 24, 0.45);
+  --shadow-md: 0 10px 30px rgba(3, 10, 22, 0.55);
+  --shadow-lg: 0 20px 58px rgba(2, 8, 20, 0.68);
+  --shadow-gold: 0 0 0 1px rgba(100, 160, 255, 0.18), 0 12px 34px rgba(60, 110, 200, 0.22);
 
   background-image:
-    radial-gradient(ellipse at 20% 20%, rgba(100,160,255,.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 80%, rgba(60,100,200,.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 20%, rgba(100, 160, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(60, 100, 200, 0.04) 0%, transparent 60%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpolygon points='40,6 45.3,27.1 64,16 52.9,34.7 74,40 52.9,45.3 64,64 45.3,52.9 40,74 34.7,52.9 16,64 27.1,45.3 6,40 27.1,34.7 16,16 34.7,27.1' fill='none' stroke='rgba(100,160,255,0.06)' stroke-width='0.7'/%3E%3C/svg%3E");
 }
 
@@ -216,26 +361,33 @@ body.tahajjud::before {
   position: fixed;
   inset: 0;
   background-image:
-    radial-gradient(circle 1px at 15% 25%, rgba(180,210,255,.6), transparent),
-    radial-gradient(circle 1px at 35% 10%, rgba(180,210,255,.5), transparent),
-    radial-gradient(circle 1px at 70% 18%, rgba(200,220,255,.7), transparent),
-    radial-gradient(circle 1px at 85% 35%, rgba(180,200,255,.5), transparent),
-    radial-gradient(circle 1px at 50% 5%,  rgba(220,230,255,.8), transparent),
-    radial-gradient(circle 1px at 90% 8%,  rgba(180,210,255,.6), transparent),
-    radial-gradient(circle 1px at 25% 5%,  rgba(200,220,255,.5), transparent),
-    radial-gradient(circle 1px at 60% 12%, rgba(180,210,255,.4), transparent),
-    radial-gradient(circle 1px at 8%  15%, rgba(200,220,255,.6), transparent),
-    radial-gradient(circle 1.5px at 45% 8%, rgba(220,235,255,.7), transparent);
+    radial-gradient(circle 1px at 15% 25%, rgba(180, 210, 255, 0.6), transparent),
+    radial-gradient(circle 1px at 35% 10%, rgba(180, 210, 255, 0.5), transparent),
+    radial-gradient(circle 1px at 70% 18%, rgba(200, 220, 255, 0.7), transparent),
+    radial-gradient(circle 1px at 85% 35%, rgba(180, 200, 255, 0.5), transparent),
+    radial-gradient(circle 1px at 50% 5%, rgba(220, 230, 255, 0.8), transparent),
+    radial-gradient(circle 1px at 90% 8%, rgba(180, 210, 255, 0.6), transparent),
+    radial-gradient(circle 1px at 25% 5%, rgba(200, 220, 255, 0.5), transparent),
+    radial-gradient(circle 1px at 60% 12%, rgba(180, 210, 255, 0.4), transparent),
+    radial-gradient(circle 1px at 8% 15%, rgba(200, 220, 255, 0.6), transparent),
+    radial-gradient(circle 1.5px at 45% 8%, rgba(220, 235, 255, 0.7), transparent);
   pointer-events: none;
   z-index: 0;
 }
 
 /* Tahajjud scrollbar */
-body.tahajjud ::-webkit-scrollbar-track { background: var(--color-surface); }
-body.tahajjud ::-webkit-scrollbar-thumb { background: rgba(100,160,255,.32); }
+body.tahajjud ::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+body.tahajjud ::-webkit-scrollbar-thumb {
+  background: rgba(100, 160, 255, 0.32);
+}
 
 /* ─── Utility classes ────────────────────────────────────── */
-.ar { font-family: var(--font-arabic); direction: rtl; }
+.ar {
+  font-family: var(--font-arabic);
+  direction: rtl;
+}
 
 /* Gold text gradient */
 .gold-text {
@@ -247,9 +399,10 @@ body.tahajjud ::-webkit-scrollbar-thumb { background: rgba(100,160,255,.32); }
 
 /* Glass surface */
 .glass {
-  background: rgba(255,253,242,.82);
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(184,134,11,.2);
+  border: 1px solid rgba(3, 105, 161, 0.18);
 }
 
 .premium-page {
@@ -259,22 +412,36 @@ body.tahajjud ::-webkit-scrollbar-thumb { background: rgba(100,160,255,.32); }
 }
 
 .premium-surface {
-  background: linear-gradient(170deg, color-mix(in srgb, var(--color-surface) 90%, #fff 10%), var(--color-surface2));
+  background: linear-gradient(
+    170deg,
+    color-mix(in srgb, var(--color-surface) 90%, #fff 10%),
+    var(--color-surface2)
+  );
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
 }
 
 /* Animate entrance helpers */
-.anim-1 { animation: fadeInUp .7s .1s ease both; }
-.anim-2 { animation: fadeInUp .7s .25s ease both; }
-.anim-3 { animation: fadeInUp .7s .4s ease both; }
-.anim-4 { animation: fadeInUp .7s .55s ease both; }
+.anim-1 {
+  animation: fadeInUp 0.7s 0.1s ease both;
+}
+.anim-2 {
+  animation: fadeInUp 0.7s 0.25s ease both;
+}
+.anim-3 {
+  animation: fadeInUp 0.7s 0.4s ease both;
+}
+.anim-4 {
+  animation: fadeInUp 0.7s 0.55s ease both;
+}
 
 /* ─── prefers-reduced-motion ─────────────────────────────── */
 /* Respect the OS accessibility setting — disable all animations */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -282,26 +449,279 @@ body.tahajjud ::-webkit-scrollbar-thumb { background: rgba(100,160,255,.32); }
   }
 }
 
-/* ─── prefers-color-scheme dark ──────────────────────────── */
-/* Apply Tahajjud night palette for system-level dark mode users */
-@media (prefers-color-scheme: dark) {
-  :root:not(body.tahajjud) {
-    --color-bg:        #0f1820;
-    --color-surface:   #162030;
-    --color-surface2:  #1e2d40;
-    --color-surface3:  #253550;
-    --color-border:    rgba(100,160,255,.15);
-    --color-border-md: rgba(100,160,255,.28);
-    --color-gold:      #9ab8e8;
-    --color-gold-dim:  #6890c0;
-    --color-gold-mid:  #7aa8d8;
-    --color-gold-glow: #c0d8f8;
-    --color-gold-pale: rgba(100,160,255,.08);
-    --gold-grad: linear-gradient(135deg, #4a80c0, #2a5090, #6a9cd0);
-    --gold-text: linear-gradient(135deg, #b0d0f8, #6090d0, #90b8e8, #4878b8);
-    --color-text:      #d8e8f8;
-    --color-muted:     #7898b8;
-    --color-muted2:    #9ab8d8;
-    --color-accent:    #4878b8;
-  }
+/* Day mode (Sky Blue & White) is the default for everyone. The OS-level
+   `prefers-color-scheme: dark` auto-override has been intentionally removed
+   so the site renders the day palette regardless of system setting.
+
+   Users who want night mode can opt in explicitly via the Tahajjud toggle
+   in the sidebar (which adds `body.tahajjud` and applies the night palette
+   defined above). */
+
+/* ============================================================
+   STYLE REFRESH — premium polish layer
+   Refined typography, layered shadows, accent flourishes.
+   Applied globally on top of the design tokens above.
+   ============================================================ */
+
+:root {
+  --grad-hero:
+    radial-gradient(
+      ellipse 90% 60% at 50% -20%,
+      color-mix(in srgb, var(--color-gold) 14%, transparent) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 50% 0%,
+      color-mix(in srgb, var(--color-highlight, var(--color-gold)) 8%, transparent) 0%,
+      transparent 60%
+    );
+  --grad-card: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-bg) 100%, transparent) 0%,
+    color-mix(in srgb, var(--color-surface) 92%, transparent) 100%
+  );
+  --grad-glass: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.78) 100%
+  );
+  --ornament-divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='12' viewBox='0 0 160 12'%3E%3Cpath d='M0 6 L60 6 M100 6 L160 6' stroke='%230369a1' stroke-opacity='0.35' stroke-width='1' fill='none'/%3E%3Cpath d='M80 2 L84 6 L80 10 L76 6 Z' fill='%230369a1' fill-opacity='0.5'/%3E%3Ccircle cx='66' cy='6' r='1.4' fill='%230369a1' fill-opacity='0.4'/%3E%3Ccircle cx='94' cy='6' r='1.4' fill='%230369a1' fill-opacity='0.4'/%3E%3C/svg%3E");
+}
+
+body.tahajjud {
+  --grad-glass: linear-gradient(160deg, rgba(15, 28, 47, 0.78) 0%, rgba(13, 24, 40, 0.62) 100%);
+}
+
+/* ── Refined headings — use the display font, tighter tracking, gold underline */
+h1,
+h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.005em;
+  font-weight: 700;
+}
+
+/* ── Premium button (pages can opt in via the .pill class on a button) */
+.btn-pill,
+button.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: var(--grad-glass);
+  border: 1px solid var(--color-border-md);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    transform 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out),
+    border-color 0.18s var(--ease-out),
+    background 0.18s var(--ease-out);
+  box-shadow: var(--shadow-sm);
+}
+.btn-pill:hover,
+button.pill:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-gold);
+  box-shadow: var(--shadow-md);
+}
+.btn-pill:focus-visible,
+button.pill:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-focus);
+}
+
+/* Primary variant — gradient sky-blue fill */
+.btn-pill.primary,
+button.pill.primary {
+  background: var(--gold-grad);
+  color: #fff;
+  border-color: transparent;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.25) inset,
+    0 8px 22px color-mix(in srgb, var(--color-gold) 30%, transparent);
+}
+.btn-pill.primary:hover,
+button.pill.primary:hover {
+  filter: brightness(1.05);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.3) inset,
+    0 12px 30px color-mix(in srgb, var(--color-gold) 40%, transparent);
+}
+
+/* ── Premium card — translucent gradient face, dual shadow lift */
+.premium-card {
+  position: relative;
+  background: var(--grad-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.22s var(--ease-out),
+    box-shadow 0.22s var(--ease-out),
+    border-color 0.22s var(--ease-out);
+}
+.premium-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: color-mix(in srgb, var(--color-gold) 40%, var(--color-border));
+}
+
+/* Top accent bar utility — drop a `.accent-bar` div inside any container */
+.accent-bar {
+  height: 3px;
+  background: var(--gold-grad);
+  border-radius: 999px;
+  opacity: 0.85;
+}
+
+/* Ornament divider — drop `<div class="divider-ornament" />` between sections */
+.divider-ornament {
+  height: 18px;
+  margin: 18px auto;
+  background-image: var(--ornament-divider);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 160px 12px;
+  opacity: 0.85;
+}
+
+/* Subtle card "corner ornaments" — dot in each corner */
+.corner-ornaments {
+  position: relative;
+}
+.corner-ornaments::before,
+.corner-ornaments::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-gold) 55%, transparent);
+  pointer-events: none;
+}
+.corner-ornaments::before {
+  top: 8px;
+  left: 8px;
+}
+.corner-ornaments::after {
+  bottom: 8px;
+  right: 8px;
+}
+
+/* ── Refined focus ring (applies to every focusable element) */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-focus);
+  border-radius: 4px;
+  transition: box-shadow 0.16s var(--ease-out);
+}
+
+/* ── Polished scrollbars — wider in day mode for usability */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-gold) 26%, transparent);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+  min-height: 40px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-gold) 50%, transparent);
+  background-clip: padding-box;
+}
+
+/* ── Selection highlight matches the brand */
+::selection {
+  background: color-mix(in srgb, var(--color-gold) 28%, transparent);
+  color: var(--color-text);
+}
+
+/* ── Subtle ambient lighting on the body */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 80% 100% at 50% 0%,
+    color-mix(in srgb, var(--color-gold) 6%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* ── Cleaner card-grid spacing utility */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+}
+
+/* ── Glass panel utility (frosted look on light bg) */
+.glass-panel {
+  background: var(--grad-glass);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 18%, var(--color-border));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Drop-cap utility for any leading paragraph */
+.drop-cap::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.2em;
+  float: left;
+  line-height: 0.85;
+  padding: 0.05em 0.1em 0 0;
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+/* ── Refined, animated section heading */
+.section-heading {
+  position: relative;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  letter-spacing: 0.01em;
+  color: var(--color-gold);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+}
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 56px;
+  height: 2px;
+  background: var(--gold-grad);
+  border-radius: 999px;
+}
+
+/* ── Tahajjud night-mode body ambient glow */
+body.tahajjud::before {
+  background: radial-gradient(
+    ellipse 80% 100% at 50% 0%,
+    rgba(150, 195, 255, 0.06) 0%,
+    transparent 70%
+  );
 }

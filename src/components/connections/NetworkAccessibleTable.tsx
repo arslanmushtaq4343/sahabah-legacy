@@ -13,18 +13,33 @@ import { COMPANIONS } from '../../data/companions';
 import styles from './NetworkAccessibleTable.module.css';
 
 const BRANCHES = [
-  { id: 'family',  label: 'Ahl al-Bayt',         color: '#b8860b', types: ['family'] as string[] },
-  { id: 'wives',   label: 'Mothers of Believers', color: '#8b1a1a', types: ['wife'] as string[] },
-  { id: 'comp',    label: 'Close Companions',     color: '#1a3462', types: ['companion'] as string[] },
-  { id: 'warrior', label: 'Warriors & Generals',  color: '#8b3a08', types: ['warrior', 'general', 'martyr'] as string[] },
-  { id: 'scholar', label: 'Scholars & Narrators', color: '#2a5080', types: ['scholar', 'narrator'] as string[] },
-  { id: 'convert', label: 'Converts & Others',    color: '#0a4030', types: ['convert', 'other', 'caliph'] as string[] },
+  { id: 'family', label: 'Ahl al-Bayt', color: '#b8860b', types: ['family'] as string[] },
+  { id: 'wives', label: 'Mothers of Believers', color: '#8b1a1a', types: ['wife'] as string[] },
+  { id: 'comp', label: 'Close Companions', color: '#1a3462', types: ['companion'] as string[] },
+  {
+    id: 'warrior',
+    label: 'Warriors & Generals',
+    color: '#8b3a08',
+    types: ['warrior', 'general', 'martyr'] as string[],
+  },
+  {
+    id: 'scholar',
+    label: 'Scholars & Narrators',
+    color: '#2a5080',
+    types: ['scholar', 'narrator'] as string[],
+  },
+  {
+    id: 'convert',
+    label: 'Converts & Others',
+    color: '#0a4030',
+    types: ['convert', 'other', 'caliph'] as string[],
+  },
 ];
 
 const ERA_LABEL: Record<string, string> = {
-  early:  'Pre-Hijrah (Mecca)',
+  early: 'Pre-Hijrah (Mecca)',
   middle: 'Hijrah Era (Medina)',
-  late:   'Conquest Era',
+  late: 'Conquest Era',
 };
 
 type SortKey = 'name' | 'branch' | 'hadiths' | 'battles' | 'era';
@@ -35,9 +50,9 @@ function getBranch(c: (typeof COMPANIONS)[number]) {
 
 export function NetworkAccessibleTable() {
   const tableId = useId();
-  const [open, setOpen]         = useState(false);
-  const [sortKey, setSortKey]   = useState<SortKey>('name');
-  const [sortAsc, setSortAsc]   = useState(true);
+  const [open, setOpen] = useState(false);
+  const [sortKey, setSortKey] = useState<SortKey>('name');
+  const [sortAsc, setSortAsc] = useState(true);
   const [branchFilter, setBranchFilter] = useState<string>('all');
 
   function handleSort(key: SortKey) {
@@ -53,8 +68,8 @@ export function NetworkAccessibleTable() {
     .filter(c => branchFilter === 'all' || getBranch(c).id === branchFilter)
     .sort((a, b) => {
       let cmp = 0;
-      if (sortKey === 'name')    cmp = a.name.localeCompare(b.name);
-      if (sortKey === 'branch')  cmp = getBranch(a).label.localeCompare(getBranch(b).label);
+      if (sortKey === 'name') cmp = a.name.localeCompare(b.name);
+      if (sortKey === 'branch') cmp = getBranch(a).label.localeCompare(getBranch(b).label);
       if (sortKey === 'hadiths') cmp = (a.hadiths ?? 0) - (b.hadiths ?? 0);
       if (sortKey === 'battles') cmp = (a.battles?.length ?? 0) - (b.battles?.length ?? 0);
       if (sortKey === 'era') {
@@ -90,8 +105,8 @@ export function NetworkAccessibleTable() {
         className={styles.tableRegion}
       >
         <p className={styles.description}>
-          This table presents the same companion network data as the D3 graph above.
-          Use it to sort, filter, and navigate companion relationships with a keyboard or screen reader.
+          This table presents the same companion network data as the D3 graph above. Use it to sort,
+          filter, and navigate companion relationships with a keyboard or screen reader.
         </p>
 
         {/* Branch filter */}
@@ -104,7 +119,11 @@ export function NetworkAccessibleTable() {
                 key={id}
                 type="button"
                 className={`${styles.filterBtn} ${branchFilter === id ? styles.filterBtnActive : ''}`}
-                style={branch && branchFilter === id ? { borderColor: branch.color, color: branch.color } : undefined}
+                style={
+                  branch && branchFilter === id
+                    ? { borderColor: branch.color, color: branch.color }
+                    : undefined
+                }
                 onClick={() => setBranchFilter(id)}
                 aria-pressed={branchFilter === id}
               >
@@ -185,7 +204,9 @@ export function NetworkAccessibleTable() {
                       <strong>{c.name}</strong>
                       {c.title && <span className={styles.title}>{c.title}</span>}
                     </td>
-                    <td className={styles.arCell} lang="ar" dir="rtl">{c.ar}</td>
+                    <td className={styles.arCell} lang="ar" dir="rtl">
+                      {c.ar}
+                    </td>
                     <td>
                       <span
                         className={styles.branch}
@@ -200,9 +221,11 @@ export function NetworkAccessibleTable() {
                       {c.hadiths > 0 ? c.hadiths.toLocaleString() : '—'}
                     </td>
                     <td className={styles.numCell}>
-                      {c.battles?.length > 0
-                        ? <span title={c.battles.join(', ')}>{c.battles.length}</span>
-                        : '—'}
+                      {c.battles?.length > 0 ? (
+                        <span title={c.battles.join(', ')}>{c.battles.length}</span>
+                      ) : (
+                        '—'
+                      )}
                     </td>
                   </tr>
                 );

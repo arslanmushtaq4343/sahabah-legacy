@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { COMPANIONS } from '../../data/companions';
 import styles from './OnboardingModal.module.css';
 
 const STORAGE_KEY = 'sahabah_onboarded_v1';
@@ -10,7 +11,7 @@ const STEPS = [
     ornament: '☽',
     title: 'Welcome to Sahabah',
     subtitle: 'An educational journey through Islamic history',
-    body: 'This app brings together 103 Companions of the Prophet ﷺ — with detailed biographies, hadiths they narrated, battle records, scholarly connections, and chains of knowledge that reach to this day.',
+    body: `This app brings together ${COMPANIONS.length} Companions of the Prophet ﷺ — with detailed biographies, hadiths they narrated, battle records, scholarly connections, and chains of knowledge that reach to this day.`,
     cta: 'Next',
   },
   {
@@ -20,7 +21,7 @@ const STEPS = [
     subtitle: 'Six interconnected sections',
     body: null,
     features: [
-      { icon: '📖', label: 'Companions', desc: '103 detailed profiles' },
+      { icon: '📖', label: 'Companions', desc: `${COMPANIONS.length} detailed profiles` },
       { icon: '🕸', label: 'Connections', desc: 'Relationship network' },
       { icon: '📊', label: 'Insights', desc: 'Data visualisations' },
       { icon: '⛓', label: 'Imam Chains', desc: 'Knowledge transmission' },
@@ -61,10 +62,13 @@ export function OnboardingModal() {
     setVisible(false);
   }, []);
 
-  const handleStart = useCallback((path: string) => {
-    dismiss();
-    navigate(path);
-  }, [dismiss, navigate]);
+  const handleStart = useCallback(
+    (path: string) => {
+      dismiss();
+      navigate(path);
+    },
+    [dismiss, navigate]
+  );
 
   if (!visible) return null;
 
@@ -82,7 +86,10 @@ export function OnboardingModal() {
         {/* Progress dots */}
         <div className={styles.dots} aria-hidden="true">
           {STEPS.map((s, i) => (
-            <span key={s.id} className={`${styles.dot} ${i === step ? styles.dotActive : ''} ${i < step ? styles.dotDone : ''}`} />
+            <span
+              key={s.id}
+              className={`${styles.dot} ${i === step ? styles.dotActive : ''} ${i < step ? styles.dotDone : ''}`}
+            />
           ))}
         </div>
 
@@ -92,21 +99,25 @@ export function OnboardingModal() {
         </button>
 
         {/* Ornament */}
-        <div className={styles.ornament} aria-hidden="true">{current.ornament}</div>
+        <div className={styles.ornament} aria-hidden="true">
+          {current.ornament}
+        </div>
 
         {/* Text */}
-        <h2 id="onboarding-title" className={styles.title}>{current.title}</h2>
+        <h2 id="onboarding-title" className={styles.title}>
+          {current.title}
+        </h2>
         <p className={styles.subtitle}>{current.subtitle}</p>
 
-        {'body' in current && current.body && (
-          <p className={styles.body}>{current.body}</p>
-        )}
+        {'body' in current && current.body && <p className={styles.body}>{current.body}</p>}
 
         {'features' in current && current.features && (
           <ul className={styles.featureList} aria-label="App sections">
             {current.features.map(f => (
               <li key={f.label} className={styles.featureItem}>
-                <span className={styles.featureIcon} aria-hidden="true">{f.icon}</span>
+                <span className={styles.featureIcon} aria-hidden="true">
+                  {f.icon}
+                </span>
                 <span className={styles.featureLabel}>{f.label}</span>
                 <span className={styles.featureDesc}>{f.desc}</span>
               </li>
@@ -124,7 +135,9 @@ export function OnboardingModal() {
               >
                 <span className={styles.startLabel}>{opt.label}</span>
                 <span className={styles.startDesc}>{opt.desc}</span>
-                <span className={styles.startArrow} aria-hidden="true">→</span>
+                <span className={styles.startArrow} aria-hidden="true">
+                  →
+                </span>
               </button>
             ))}
           </div>

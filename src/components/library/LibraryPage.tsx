@@ -7,7 +7,7 @@ const COLLECTIONS = [
     num: '01',
     title: 'Quranic Revelation Trigger Index',
     subtitle: 'Asbab al-Nuzul — Companion Edition',
-    desc: 'Every ayah of the Quran revealed because of a specific companion — with the full story, companion\'s response, Arabic text, English & Urdu translation, and hadith source. Never compiled in one digital place.',
+    desc: "Every ayah of the Quran revealed because of a specific companion — with the full story, companion's response, Arabic text, English & Urdu translation, and hadith source. Never compiled in one digital place.",
     count: 20,
     unit: 'Revelation Events',
     icon: '📖',
@@ -31,7 +31,7 @@ const COLLECTIONS = [
     num: '03',
     title: 'Death Encyclopedia',
     subtitle: 'Cause-of-Death + Interactive Map',
-    desc: 'Every major companion\'s exact death location, cause (martyrdom / natural / plague / assassination), year in AH & CE, who was present, final moments, burial site — visualised on a historical SVG map of the Islamic world.',
+    desc: "Every major companion's exact death location, cause (martyrdom / natural / plague / assassination), year in AH & CE, who was present, final moments, burial site — visualised on a historical SVG map of the Islamic world.",
     count: 30,
     unit: 'Companion Deaths',
     icon: '⚰️',
@@ -60,22 +60,33 @@ export default function LibraryPage() {
       <header className={s.header}>
         <div className={s.headerDecor} aria-hidden />
         <p className={s.superLabel}>Unique Data — Never Compiled Online</p>
-        <h1 className={s.title}>Companion <span className={s.gold}>Archive</span></h1>
+        <h1 className={s.title}>
+          Companion <span className={s.gold}>Archive</span>
+        </h1>
         <p className={s.subtitle}>
-          Four primary-source compilations drawn from Seerah, Tafsir, Tabaqat, and Hadith literature —
-          assembled here for the first time as an interconnected digital reference.
+          Four primary-source compilations drawn from Seerah, Tafsir, Tabaqat, and Hadith literature
+          — assembled here for the first time as an interconnected digital reference.
         </p>
         <div className={s.stats}>
-          <div className={s.stat}><span className={s.statNum}>85</span><span className={s.statLabel}>Total Entries</span></div>
+          <div className={s.stat}>
+            <span className={s.statNum}>85</span>
+            <span className={s.statLabel}>Total Entries</span>
+          </div>
           <div className={s.statDiv} />
-          <div className={s.stat}><span className={s.statNum}>4</span><span className={s.statLabel}>Collections</span></div>
+          <div className={s.stat}>
+            <span className={s.statNum}>4</span>
+            <span className={s.statLabel}>Collections</span>
+          </div>
           <div className={s.statDiv} />
-          <div className={s.stat}><span className={s.statNum}>50+</span><span className={s.statLabel}>Primary Sources</span></div>
+          <div className={s.stat}>
+            <span className={s.statNum}>50+</span>
+            <span className={s.statLabel}>Primary Sources</span>
+          </div>
         </div>
       </header>
 
       <div className={s.grid}>
-        {COLLECTIONS.map((col) => (
+        {COLLECTIONS.map(col => (
           <button
             key={col.id}
             className={s.card}
@@ -90,7 +101,14 @@ export default function LibraryPage() {
               <p className={s.cardDesc}>{col.desc}</p>
             </div>
             <div className={s.cardFooter}>
-              <span className={s.badge} style={{ background: col.accent + '22', color: col.accent, border: `1px solid ${col.accent}44` }}>
+              <span
+                className={s.badge}
+                style={{
+                  background: col.accent + '22',
+                  color: col.accent,
+                  border: `1px solid ${col.accent}44`,
+                }}
+              >
                 {col.count} {col.unit}
               </span>
               <span className={s.arrow}>→</span>

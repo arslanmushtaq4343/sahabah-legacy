@@ -1,0 +1,137 @@
+.wrap {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 260;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.status,
+.installBtn,
+.updateToast {
+  pointer-events: auto;
+  border: 1px solid rgba(110, 170, 255, 0.24);
+  background: rgba(8, 17, 31, 0.88);
+  color: #dbeaff;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #55d48f;
+  box-shadow: 0 0 0 4px rgba(85, 212, 143, 0.13);
+}
+
+.statusOffline .dot {
+  background: #d9ad4e;
+  box-shadow: 0 0 0 4px rgba(217, 173, 78, 0.13);
+}
+
+.installBtn {
+  min-height: 34px;
+  border-radius: 999px;
+  padding: 7px 13px;
+  color: #f8e4a8;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.installBtn:hover {
+  border-color: rgba(248, 228, 168, 0.56);
+  background: rgba(15, 35, 62, 0.96);
+}
+
+.updateToast {
+  width: min(360px, calc(100vw - 32px));
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.updateToast strong,
+.updateToast span {
+  display: block;
+}
+
+.updateToast strong {
+  font-size: 0.82rem;
+  color: #f8e4a8;
+}
+
+.updateToast span {
+  margin-top: 3px;
+  color: rgba(219, 234, 255, 0.74);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.updateToast button {
+  border: 1px solid rgba(110, 170, 255, 0.32);
+  background: rgba(110, 170, 255, 0.12);
+  color: #dbeaff;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.updateToast button:hover {
+  border-color: rgba(110, 170, 255, 0.52);
+  background: rgba(110, 170, 255, 0.18);
+}
+
+.dismissBtn {
+  width: 30px;
+  height: 30px;
+  padding: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    right: 10px;
+    left: 10px;
+    bottom: calc(var(--mobile-nav-h, 64px) + 10px);
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .updateToast {
+    order: -1;
+    width: 100%;
+  }
+}
+
+@media (max-width: 440px) {
+  .status {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .installBtn {
+    flex: 1 1 auto;
+  }
+}

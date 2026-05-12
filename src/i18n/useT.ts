@@ -8,4 +8,3 @@ export function useT() {
     return (key: TKey) => t(lang, key);
   }, [lang]);
 }
-

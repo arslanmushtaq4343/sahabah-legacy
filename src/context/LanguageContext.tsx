@@ -26,14 +26,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.body.classList.toggle('rtl', lang === 'ur');
   }, [lang]);
 
-  return (
-    <LanguageContext.Provider value={{ lang, toggle }}>
-      {children}
-    </LanguageContext.Provider>
-  );
+  return <LanguageContext.Provider value={{ lang, toggle }}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage() {
   return useContext(LanguageContext);
 }
-

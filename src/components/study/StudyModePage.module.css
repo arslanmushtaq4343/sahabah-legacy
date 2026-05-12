@@ -1,0 +1,402 @@
+.page {
+  min-height: 100vh;
+  padding: 28px;
+  color: var(--color-text);
+  background:
+    radial-gradient(900px 260px at 20% -10%, rgba(15, 111, 92, 0.1), transparent 65%),
+    var(--color-bg);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: end;
+  padding: 30px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.eyebrow,
+.kind,
+.continueLabel {
+  margin: 0;
+  color: var(--color-gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 6px 0 10px;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1;
+}
+
+.hero p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.65;
+}
+
+.heroStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.heroStats div,
+.progressPill,
+.continueBox,
+.panel,
+.planCard {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+}
+
+.heroStats div {
+  padding: 13px 16px;
+  min-width: 110px;
+}
+
+.heroStats strong {
+  display: block;
+  color: var(--color-gold);
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+}
+
+.heroStats span {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.progressBand {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.progressPill {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+}
+
+.progressPill strong,
+.sectionHead h2,
+.continueBox strong {
+  display: block;
+  color: var(--color-text);
+  font-family: var(--font-serif);
+}
+
+.progressPill span {
+  color: var(--color-muted);
+  font-size: 0.74rem;
+}
+
+.progressPill em {
+  color: var(--color-gold);
+  font-style: normal;
+  font-weight: 900;
+}
+
+.track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0f6f5c, #c9a84c);
+}
+
+.continueBox {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--color-gold);
+}
+
+.continueBox p {
+  margin: 5px 0 0;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.primaryLink,
+.cardActions a,
+.cardActions button {
+  border: 1px solid rgba(15, 111, 92, 0.28);
+  border-radius: var(--radius-md);
+  background: rgba(15, 111, 92, 0.1);
+  color: var(--color-gold);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  padding: 9px 13px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.primaryLink:hover,
+.cardActions a:hover,
+.cardActions button:hover {
+  border-color: var(--color-gold-mid);
+  background: rgba(15, 111, 92, 0.16);
+}
+
+.sectionHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 12px;
+  margin: 22px 0 12px;
+}
+
+.sectionHead h2 {
+  margin: 4px 0 0;
+  font-size: 1.2rem;
+}
+
+.sectionHead > span {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.planGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.planCard {
+  --accent: var(--color-gold);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 17px;
+  border-top: 3px solid var(--accent);
+}
+
+.planCardDone {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 42%),
+    var(--color-surface);
+}
+
+.planTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.kind {
+  color: var(--accent);
+}
+
+.minutes,
+.label {
+  color: var(--color-muted);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.ar {
+  margin: 0;
+  min-height: 34px;
+  color: var(--accent);
+  font-size: 1.15rem;
+  line-height: 1.45;
+  direction: rtl;
+}
+
+.planCard h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+}
+
+.planCard p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.planCard textarea {
+  min-height: 86px;
+  resize: vertical;
+  margin-top: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: 10px;
+  font: inherit;
+  font-size: 0.78rem;
+}
+
+.planCard textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cardActions button,
+.cardActions a {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.lowerGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.panel {
+  padding: 18px;
+}
+
+.panel .sectionHead {
+  margin-top: 0;
+}
+
+.bookmarkList,
+.noteList {
+  display: grid;
+  gap: 8px;
+}
+
+.bookmarkItem,
+.noteItem {
+  display: grid;
+  gap: 2px;
+  padding: 11px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  text-decoration: none;
+}
+
+.bookmarkItem {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.bookmarkItem span,
+.bookmarkItem em {
+  color: var(--color-muted);
+  font-style: normal;
+  font-size: 0.72rem;
+}
+
+.bookmarkItem strong,
+.noteItem strong {
+  color: var(--color-text);
+  font-family: var(--font-serif);
+}
+
+.noteItem p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.empty {
+  color: var(--color-muted);
+  font-size: 0.86rem;
+}
+
+:global(body.tahajjud) .page {
+  background:
+    radial-gradient(900px 280px at 20% -10%, rgba(110, 170, 255, 0.08), transparent 64%),
+    #0a1526;
+}
+
+:global(body.tahajjud) .hero,
+:global(body.tahajjud) .heroStats div,
+:global(body.tahajjud) .progressPill,
+:global(body.tahajjud) .continueBox,
+:global(body.tahajjud) .panel,
+:global(body.tahajjud) .planCard,
+:global(body.tahajjud) .bookmarkItem,
+:global(body.tahajjud) .noteItem {
+  background: rgba(126, 166, 220, 0.08);
+  border-color: rgba(110, 170, 255, 0.2);
+}
+
+@media (max-width: 1100px) {
+  .hero,
+  .progressBand,
+  .planGrid,
+  .lowerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroStats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 14px;
+  }
+
+  .hero {
+    padding: 20px;
+  }
+
+  .heroStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .progressPill,
+  .continueBox,
+  .bookmarkItem {
+    grid-template-columns: 1fr;
+  }
+
+  .continueBox {
+    align-items: stretch;
+  }
+}

@@ -42,4 +42,3 @@ export async function loadLoveRespectHadiths(): Promise<LoveRespectHadith[]> {
     return [];
   }
 }
-

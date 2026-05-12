@@ -10,14 +10,18 @@
 .header {
   position: relative;
   padding: 64px 40px 40px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid var(--color-gold-pale);
   overflow: hidden;
 }
 
 .headerGlow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 50% 60% at 50% -5%, rgba(90,26,26,0.18) 0%, transparent 65%);
+  background: radial-gradient(
+    ellipse 50% 60% at 50% -5%,
+    rgba(90, 26, 26, 0.18) 0%,
+    transparent 65%
+  );
   pointer-events: none;
 }
 
@@ -65,14 +69,24 @@
   align-items: center;
   gap: 7px;
   padding: 7px 14px;
-  border: 1px solid var(--cc, #b8860b)44;
+  border: 1px solid var(--cc, var(--color-gold)) 44;
   border-radius: 3px;
-  background: var(--cc, #b8860b)0d;
+  background: var(--cc, var(--color-gold)) 0d;
 }
 
-.statIcon { font-size: 0.9rem; }
-.statCount { font-size: 1.1rem; font-weight: 700; color: var(--cc, #b8860b); }
-.statLabel { font-size: 0.72rem; color: #7a6a50; letter-spacing: 0.05em; }
+.statIcon {
+  font-size: 0.9rem;
+}
+.statCount {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cc, var(--color-gold));
+}
+.statLabel {
+  font-size: 0.72rem;
+  color: #7a6a50;
+  letter-spacing: 0.05em;
+}
 
 /* ─── Controls ─── */
 .controls {
@@ -82,7 +96,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid var(--color-gold-pale);
 }
 
 .filterRow {
@@ -96,7 +110,7 @@
   align-items: center;
   gap: 5px;
   padding: 5px 14px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--color-gold-pale);
   border-radius: 20px;
   background: transparent;
   color: #7a6a50;
@@ -105,19 +119,25 @@
   transition: all 0.18s;
 }
 
-.filterBtn:hover { border-color: rgba(255,255,255,0.25); color: #e8dfc8; }
+.filterBtn:hover {
+  border-color: rgba(247, 243, 234, 0.25);
+  color: #e8dfc8;
+}
 
 .filterActive {
-  background: var(--ac, rgba(184,134,11,0.15));
-  border-color: var(--ac, #b8860b);
+  background: var(--ac, rgba(15, 111, 92, 0.15));
+  border-color: var(--ac, var(--color-gold));
   color: #e8dfc8 !important;
 }
 
-.viewToggle { display: flex; gap: 4px; }
+.viewToggle {
+  display: flex;
+  gap: 4px;
+}
 
 .viewBtn {
   padding: 6px 14px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--color-gold-pale);
   border-radius: 3px;
   background: transparent;
   color: #6a5a40;
@@ -127,9 +147,9 @@
 }
 
 .viewActive {
-  background: rgba(184,134,11,0.15);
+  background: rgba(15, 111, 92, 0.15);
   border-color: #b8860b44;
-  color: #b8860b;
+  color: var(--color-gold);
 }
 
 /* ─── Map ─── */
@@ -141,7 +161,7 @@
 .mapSvg {
   width: 100%;
   max-height: 460px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--color-gold-pale);
   border-radius: 4px;
   display: block;
   background: #0a0c14;
@@ -175,8 +195,8 @@
 /* ─── Detail panel ─── */
 .panel {
   margin: 0 40px 24px;
-  border: 1px solid var(--pc, #b8860b)40;
-  border-top: 2px solid var(--pc, #b8860b);
+  border: 1px solid var(--pc, var(--color-gold)) 40;
+  border-top: 2px solid var(--pc, var(--color-gold));
   border-radius: 4px;
   background: #0f0d09;
   padding: 28px 32px;
@@ -191,7 +211,11 @@
   align-items: flex-start;
 }
 
-.panelLeft { display: flex; flex-direction: column; gap: 4px; }
+.panelLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
 .panelCause {
   font-size: 0.72rem;
@@ -217,7 +241,7 @@
 
 .closeBtn {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--color-gold-pale);
   color: #6a5a40;
   padding: 4px 10px;
   border-radius: 3px;
@@ -226,7 +250,10 @@
   transition: all 0.18s;
 }
 
-.closeBtn:hover { border-color: rgba(255,255,255,0.3); color: #e8dfc8; }
+.closeBtn:hover {
+  border-color: rgba(247, 243, 234, 0.3);
+  color: #e8dfc8;
+}
 
 .panelMeta {
   display: grid;
@@ -234,7 +261,11 @@
   gap: 12px 24px;
 }
 
-.metaItem { display: flex; flex-direction: column; gap: 3px; }
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 
 .metaLabel {
   font-size: 0.62rem;
@@ -248,13 +279,17 @@
   color: #c8bfa8;
 }
 
-.panelSection { display: flex; flex-direction: column; gap: 8px; }
+.panelSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
 .panelSectLabel {
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--pc, #b8860b);
+  color: var(--pc, var(--color-gold));
   opacity: 0.7;
 }
 
@@ -267,8 +302,8 @@
 
 .propheticBox {
   background: #0a0806;
-  border: 1px solid rgba(184,134,11,0.15);
-  border-left: 3px solid #b8860b;
+  border: 1px solid rgba(15, 111, 92, 0.15);
+  border-left: 3px solid var(--color-gold);
   border-radius: 3px;
   padding: 14px 16px;
   display: flex;
@@ -280,7 +315,7 @@
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #b8860b;
+  color: var(--color-gold);
   opacity: 0.7;
 }
 
@@ -303,7 +338,7 @@
 }
 
 .listRow {
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid var(--color-gold-pale);
   border-radius: 3px;
   background: #0f0d09;
   overflow: hidden;
@@ -323,7 +358,9 @@
   transition: background 0.18s;
 }
 
-.listSummary:hover { background: rgba(255,255,255,0.02); }
+.listSummary:hover {
+  background: var(--color-gold-pale);
+}
 
 .listCauseDot {
   width: 10px;
@@ -332,13 +369,39 @@
   flex-shrink: 0;
 }
 
-.listNames { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px; }
-.listName { font-size: 0.9rem; font-weight: 600; color: #c8bfa8; }
-.listNameAr { font-size: 0.78rem; color: var(--color-text-soft); direction: rtl; text-align: left; }
+.listNames {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 160px;
+}
+.listName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #c8bfa8;
+}
+.listNameAr {
+  font-size: 0.78rem;
+  color: var(--color-text-soft);
+  direction: rtl;
+  text-align: left;
+}
 
-.listMeta { display: flex; flex-direction: column; gap: 2px; min-width: 140px; }
-.listYear { font-size: 0.78rem; color: #7a6a50; }
-.listLoc { font-size: 0.78rem; color: var(--color-text-soft); }
+.listMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+}
+.listYear {
+  font-size: 0.78rem;
+  color: #7a6a50;
+}
+.listLoc {
+  font-size: 0.78rem;
+  color: var(--color-text-soft);
+}
 
 .listCauseTag {
   font-size: 0.7rem;
@@ -347,14 +410,17 @@
   white-space: nowrap;
 }
 
-.listChev { font-size: 0.7rem; color: var(--color-muted); }
+.listChev {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+}
 
 .listDetail {
   padding: 4px 18px 20px 42px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-top: 1px solid rgba(255,255,255,0.04);
+  border-top: 1px solid var(--color-gold-pale);
 }
 
 .listCircumstance {
@@ -365,15 +431,22 @@
   padding-top: 14px;
 }
 
-.listLast, .listProphetic { display: flex; flex-direction: column; gap: 5px; }
-.listLastLabel, .listPropheticLabel {
+.listLast,
+.listProphetic {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.listLastLabel,
+.listPropheticLabel {
   font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-text-soft);
 }
 
-.listLastText, .listPropheticText {
+.listLastText,
+.listPropheticText {
   font-size: 0.84rem;
   line-height: 1.7;
   color: #7a6a50;
@@ -381,7 +454,9 @@
   font-style: italic;
 }
 
-.listRowOpen .listSummary { background: rgba(255,255,255,0.02); }
+.listRowOpen .listSummary {
+  background: var(--color-gold-pale);
+}
 
 :global(body.tahajjud) .metaLabel,
 :global(body.tahajjud) .listNameAr,
@@ -390,4 +465,49 @@
 :global(body.tahajjud) .listPropheticLabel,
 :global(body.tahajjud) .listChev {
   color: var(--color-muted2);
+}
+
+@media (max-width: 768px) {
+  .page {
+    min-height: auto;
+    padding-bottom: 48px;
+  }
+
+  .header {
+    padding: 42px 18px 32px;
+  }
+
+  .statsBar,
+  .filterRow {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
+  }
+
+  .statPill,
+  .filterBtn {
+    flex: 0 0 auto;
+  }
+
+  .controls {
+    padding: 18px 14px;
+    align-items: stretch;
+  }
+
+  .list {
+    padding-inline: 14px;
+  }
+
+  .listSummary {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .listMeta {
+    min-width: 0;
+  }
+
+  .listDetail {
+    padding: 10px 14px 18px;
+  }
 }

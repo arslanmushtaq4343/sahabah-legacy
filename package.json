@@ -8,6 +8,11 @@
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx",
     "format": "prettier --write src",
+    "qa:responsive": "npm run build && node scripts/responsive-smoke.mjs",
+    "audit:data": "node scripts/audit-data.mjs",
+    "import:wikidata": "node scripts/import-wikidata-companions.mjs",
+    "import:pew": "node scripts/import-pew-population.mjs",
+    "import:quran": "node scripts/import-quran-ref.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -20,6 +25,7 @@
     "recharts": "2.15.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/react": "18.3.27",
     "@types/react-dom": "18.3.7",
     "@typescript-eslint/eslint-plugin": "^8.57.2",

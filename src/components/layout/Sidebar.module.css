@@ -1,114 +1,47 @@
 /* ── Sidebar shell ───────────────────────────────────────── */
 .sidebar {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: var(--sidebar-w);
   height: 100vh;
-  background:
-    linear-gradient(175deg, #3a1e00 0%, #26140a 40%, #180c04 100%);
-  border-right: 1px solid rgba(184,134,11,.4);
+  background: var(--color-bg);
+  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   z-index: 200;
   overflow: hidden;
-  box-shadow: 6px 0 34px rgba(0,0,0,.36);
 }
 
 .sidebarTahajjud {
   background: linear-gradient(175deg, #0d1a30 0%, #0a1528 40%, #081120 100%);
   border-right-color: rgba(100, 160, 255, 0.3);
+  box-shadow: 6px 0 34px rgba(0, 0, 0, 0.36);
 }
 
-/* Subtle wood-grain texture */
-.sidebar::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    repeating-linear-gradient(
-      175deg,
-      transparent 0px,
-      transparent 34px,
-      rgba(255,200,80,.018) 34px,
-      rgba(255,200,80,.018) 35px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 70px,
-      rgba(255,200,80,.008) 70px,
-      rgba(255,200,80,.008) 71px
-    );
-}
-
-.sidebarTahajjud::before {
-  background-image:
-    repeating-linear-gradient(
-      175deg,
-      transparent 0px,
-      transparent 34px,
-      rgba(120,180,255,.02) 34px,
-      rgba(120,180,255,.02) 35px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 70px,
-      rgba(120,180,255,.01) 70px,
-      rgba(120,180,255,.01) 71px
-    );
-}
-
-/* Gold glow edge */
-.sidebar::after {
-  content: '';
-  position: absolute;
-  top: 0; right: -1px;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(197,155,39,.8) 20%,
-    rgba(197,155,39,.6) 50%,
-    rgba(197,155,39,.8) 80%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-.sidebarTahajjud::after {
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(100,160,255,.72) 20%,
-    rgba(100,160,255,.52) 50%,
-    rgba(100,160,255,.72) 80%,
-    transparent 100%
-  );
-}
+/* Wood-grain texture and glowing edge removed — parchment surface stays
+   plain, only the panel's right-hand hairline carries the rail divider. */
 
 /* ── Brand ───────────────────────────────────────────────── */
 .brand {
   position: relative;
   padding: 24px 16px 20px;
-  border-bottom: 1px solid rgba(184,134,11,.28);
-  background: linear-gradient(180deg, rgba(201,168,76,.1) 0%, transparent 100%);
+  border-bottom: 1px solid var(--color-border);
   text-align: center;
   overflow: hidden;
 }
 
-/* Spinning geometric star behind the brand */
+/* Static geometric star watermark — single subtle decoration */
 .brand::before {
   content: '';
   position: absolute;
-  top: 50%; left: 50%;
-  width: 120px; height: 120px;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
   margin: -60px 0 0 -60px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,7 56.6,33.9 80,20 66.1,43.4 92.3,50 66.1,56.6 80,80 56.6,66.1 50,92.3 43.4,66.1 20,80 33.9,56.6 7.7,50 33.9,43.4 20,20 43.4,33.9' fill='none' stroke='rgba(197,155,39,0.18)' stroke-width='0.8'/%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='rgba(197,155,39,0.08)' stroke-width='0.6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,7 56.6,33.9 80,20 66.1,43.4 92.3,50 66.1,56.6 80,80 56.6,66.1 50,92.3 43.4,66.1 20,80 33.9,56.6 7.7,50 33.9,43.4 20,20 43.4,33.9' fill='none' stroke='rgba(27,26,23,0.07)' stroke-width='0.8'/%3E%3C/svg%3E");
   background-size: contain;
-  animation: spin-slow 60s linear infinite;
   pointer-events: none;
 }
 
@@ -116,21 +49,20 @@
   display: block;
   position: relative;
   font-family: var(--font-arabic);
-  font-size: 1.65rem;
-  color: #d4a820;
+  font-size: 1.6rem;
+  color: var(--color-text);
   text-align: center;
-  text-shadow: 0 0 24px rgba(201,168,76,.55), 0 2px 0 rgba(0,0,0,.3);
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
   line-height: 1.3;
 }
 
 .brandEn {
   display: block;
   position: relative;
-  font-size: .58rem;
+  font-size: 0.58rem;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(201,168,76,.48);
+  color: var(--color-muted);
   text-align: center;
   margin-top: 4px;
   font-family: var(--font-sans);
@@ -148,7 +80,7 @@
 
 .navDivider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(184,134,11,0.3), transparent);
+  background: var(--color-border);
   margin: 8px 6px 6px;
 }
 
@@ -156,84 +88,108 @@
   display: flex;
   align-items: center;
   gap: 11px;
-  padding: 11px 13px;
+  padding: 10px 12px;
   border-radius: var(--radius-md);
-  color: rgba(224,194,128,.66);
-  font-size: .84rem;
+  color: var(--color-muted);
+  font-size: 0.84rem;
   font-family: var(--font-sans);
   font-weight: 500;
-  letter-spacing: .05em;
-  transition: background var(--transition), color var(--transition), transform var(--transition);
+  letter-spacing: 0.04em;
+  transition:
+    background var(--transition),
+    color var(--transition);
   border-left: 3px solid transparent;
   position: relative;
-  overflow: hidden;
 }
-
-/* Shimmer on hover */
-.link::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(201,168,76,.06), transparent);
-  transform: translateX(-100%);
-  transition: transform .4s ease;
-  pointer-events: none;
-}
-.link:hover::before { transform: translateX(100%); }
 
 .link:hover {
-  background: rgba(201,168,76,.13);
-  color: rgba(236,208,150,.95);
-  transform: translateX(2px);
+  background: var(--color-gold-pale);
+  color: var(--color-text);
 }
 
 .active {
-  background: linear-gradient(90deg, rgba(201,168,76,.24) 0%, rgba(201,168,76,.1) 100%);
-  color: #d4a820 !important;
-  border-left: 3px solid #d4a820;
-  font-weight: 700;
-  box-shadow: inset 0 0 12px rgba(201,168,76,.06);
-}
-
-/* Glowing active dot */
-.active::after {
-  content: '';
-  position: absolute;
-  right: 12px; top: 50%;
-  transform: translateY(-50%);
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #d4a820;
-  box-shadow: 0 0 8px rgba(212,168,32,.6);
+  background: var(--color-gold-pale);
+  color: var(--color-accent) !important;
+  border-left: 3px solid var(--color-accent);
+  font-weight: 600;
 }
 
 .icon {
-  font-size: .95rem;
+  font-size: 0.95rem;
   width: 22px;
   text-align: center;
   flex-shrink: 0;
   transition: transform var(--transition);
 }
-.link:hover .icon { transform: scale(1.1); }
+
+.linkLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link:hover .icon {
+  transform: scale(1.1);
+}
+
+.sidebarTahajjud .brand {
+  border-bottom-color: rgba(100, 160, 255, 0.24);
+}
+
+.sidebarTahajjud .brand::before {
+  opacity: 0.45;
+  filter: invert(1) hue-rotate(175deg);
+}
+
+.sidebarTahajjud .brandAr {
+  color: #f1f6fc;
+}
+
+.sidebarTahajjud .brandEn {
+  color: rgba(185, 207, 235, 0.82);
+}
+
+.sidebarTahajjud .navDivider {
+  background: rgba(100, 160, 255, 0.22);
+}
+
+.sidebarTahajjud .link {
+  min-height: 40px;
+  border: 1px solid rgba(87, 143, 218, 0.24);
+  border-left-color: rgba(87, 143, 218, 0.24);
+  border-radius: 12px;
+  background: rgba(10, 26, 48, 0.42);
+  color: rgba(202, 219, 240, 0.88);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.sidebarTahajjud .link:hover {
+  background: rgba(47, 105, 178, 0.18);
+  border-color: rgba(112, 174, 255, 0.42);
+  color: #f1f6fc;
+}
+
+.sidebarTahajjud .active {
+  background: linear-gradient(135deg, rgba(48, 112, 190, 0.4), rgba(25, 61, 110, 0.34));
+  border-color: rgba(112, 174, 255, 0.58);
+  color: #89bdff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 22px rgba(28, 83, 157, 0.18);
+}
+
+.sidebarTahajjud .icon {
+  color: #9dc7ff;
+}
 
 /* ── Footer ──────────────────────────────────────────────── */
 .footer {
   padding: 12px 10px;
-  border-top: 1px solid rgba(184,134,11,.25);
+  border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-/* Ornamental divider above footer */
-.footer::before {
-  content: '✦ · ✦';
-  display: block;
-  text-align: center;
-  font-size: .5rem;
-  color: rgba(201,168,76,.3);
-  letter-spacing: 6px;
-  margin-bottom: 4px;
 }
 
 .compareBtn {
@@ -241,121 +197,376 @@
   color: #fff8e8;
   border-radius: var(--radius-md);
   padding: 8px 10px;
-  font-size: .76rem;
+  font-size: 0.76rem;
   font-weight: 700;
   font-family: var(--font-sans);
   width: 100%;
-  letter-spacing: .06em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  transition: opacity var(--transition), box-shadow var(--transition);
+  transition:
+    opacity var(--transition),
+    box-shadow var(--transition);
   box-shadow: var(--shadow-gold);
 }
 .compareBtn:hover {
-  opacity: .92;
+  opacity: 0.92;
   transform: translateY(-1px);
 }
 
 .langBtn {
-  background: rgba(201,168,76,.06);
-  color: rgba(201,168,76,.58);
-  border: 1px solid rgba(184,134,11,.28);
+  background: var(--color-gold-pale);
+  color: var(--color-accent);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 7px 10px;
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-family: var(--font-arabic);
   width: 100%;
-  transition: all var(--transition);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
   text-align: center;
 }
 .langBtn:hover {
-  color: #d4a820;
-  border-color: rgba(184,134,11,.5);
-  background: rgba(201,168,76,.12);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: var(--color-gold-pale);
 }
 
-.tahajjudBtn {
-  background: rgba(40,70,130,.18);
-  color: rgba(140,180,255,.65);
-  border: 1px solid rgba(80,130,220,.28);
+.nightBtn {
+  background: var(--color-gold-pale);
+  color: var(--color-accent);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 7px 10px;
-  font-size: .75rem;
+  font-size: 0.76rem;
   font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.04em;
   width: 100%;
-  transition: all var(--transition);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
   text-align: center;
-  font-weight: 600;
-  letter-spacing: .04em;
-}
-.tahajjudBtn:hover {
-  color: #a0c8ff;
-  border-color: rgba(100,160,255,.5);
-  background: rgba(60,100,200,.22);
-}
-.tahajjudActive {
-  background: rgba(60,100,200,.28) !important;
-  color: #c0d8ff !important;
-  border-color: rgba(100,160,255,.5) !important;
-  box-shadow: 0 0 12px rgba(80,130,255,.25);
 }
 
+.nightBtn:hover,
+.nightBtnActive {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: var(--color-gold-pale);
+}
+
+.actionShort {
+  display: none;
+}
+
+.actionFull {
+  display: inline;
+}
+
+.sidebarTahajjud .footer {
+  border-top-color: rgba(100, 160, 255, 0.24);
+}
+
+.sidebarTahajjud .langBtn,
+.sidebarTahajjud .nightBtn,
+.sidebarTahajjud .footerOverflowSummary {
+  min-height: 34px;
+  background: rgba(10, 26, 48, 0.48);
+  border-color: rgba(87, 143, 218, 0.42);
+  color: #91c2ff;
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sidebarTahajjud .langBtn:hover,
+.sidebarTahajjud .nightBtn:hover,
+.sidebarTahajjud .nightBtnActive,
+.sidebarTahajjud .footerOverflowSummary:hover {
+  background: rgba(47, 105, 178, 0.2);
+  border-color: rgba(112, 174, 255, 0.56);
+  color: #dbeaff;
+}
+
+/* Footer overflow kebab — Tahajjud (and future rail-level options)
+   live behind a single ⋯ summary so the rail's footer stays quiet. */
+.footerOverflow {
+  position: relative;
+  width: 100%;
+  display: none;
+}
+
+.footerOverflowSummary {
+  list-style: none;
+  cursor: pointer;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  color: var(--color-muted);
+  font-size: 1rem;
+  line-height: 1;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  transition: background var(--transition), color var(--transition);
+}
+
+.footerOverflowSummary::-webkit-details-marker {
+  display: none;
+}
+
+.footerOverflowSummary:hover {
+  background: var(--color-gold-pale);
+  color: var(--color-text);
+}
+
+.footerOverflowMenu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  margin-bottom: 6px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 50;
+}
+
+.footerOverflowItem {
+  text-align: start;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: var(--color-text);
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  width: 100%;
+}
+
+.footerOverflowItem:hover {
+  background: var(--color-gold-pale);
+  color: var(--color-accent);
+}
+
+.footerOverflowItemActive {
+  background: var(--color-gold-pale);
+  color: var(--color-accent);
+}
 
 /* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
-    height: 56px;
+    height: 64px;
     flex-direction: row;
     align-items: center;
     border-right: none;
-    border-bottom: 1px solid rgba(184,134,11,.4);
-    background: linear-gradient(90deg, #2a1400 0%, #1a0c04 100%);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+    overflow: hidden;
   }
-  .sidebar::before, .sidebar::after { display: none; }
+
+  .sidebarTahajjud {
+    background: linear-gradient(90deg, #081120 0%, #0d1a30 52%, #081120 100%);
+    border-bottom-color: rgba(100, 160, 255, 0.28);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  }
+
+  .sidebar::before,
+  .sidebar::after {
+    display: none;
+  }
+
   .brand {
-    padding: 0 14px;
+    flex: 0 0 74px;
+    justify-content: center;
+    padding: 0 8px;
     border-bottom: none;
-    border-right: 1px solid rgba(184,134,11,.28);
-    height: 56px;
+    border-right: 1px solid rgba(184, 134, 11, 0.28);
+    height: 64px;
     display: flex;
     align-items: center;
     gap: 8px;
+    min-width: 0;
   }
-  .brand::before { display: none; }
-  .brandAr { font-size: 1.1rem; }
-  .brandEn { display: none; }
+
+  .sidebarTahajjud .brand {
+    border-right-color: rgba(100, 160, 255, 0.24);
+  }
+
+  .brand::before {
+    display: none;
+  }
+
+  .brandAr {
+    font-size: 1rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .brandEn {
+    display: none;
+  }
+
   .nav {
     flex-direction: row;
     flex: 1;
-    padding: 0 6px;
+    min-width: 0;
+    height: 64px;
+    padding: 10px 6px;
     overflow-x: auto;
-    gap: 0;
+    overflow-y: hidden;
+    gap: 6px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
   }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav > div {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .navDivider {
+    display: none;
+  }
+
   .link {
-    border-left: none;
-    border-bottom: 3px solid transparent;
-    border-radius: 0;
+    height: 44px;
+    min-width: 46px;
+    max-width: 118px;
+    border: 1px solid rgba(184, 134, 11, 0.24);
+    border-left-color: rgba(184, 134, 11, 0.24);
+    border-radius: 12px;
     padding: 0 10px;
-    height: 56px;
-    font-size: .72rem;
+    font-size: 0.68rem;
+    gap: 7px;
     transform: none !important;
+    white-space: nowrap;
   }
-  .link::before { display: none; }
+
+  .sidebarTahajjud .link {
+    height: 44px;
+    min-height: 44px;
+    border-left-color: rgba(87, 143, 218, 0.32);
+  }
+
+  .link::before {
+    display: none;
+  }
+
+  .icon {
+    width: 18px;
+    font-size: 0.86rem;
+  }
+
   .active {
-    background: transparent;
-    border-left-color: transparent;
-    border-bottom-color: #d4a820;
-    box-shadow: none;
+    border-color: var(--color-accent);
+    box-shadow: inset 0 -2px 0 var(--color-accent);
   }
-  .active::after { display: none; }
+
+  .active::after {
+    display: none;
+  }
+
   .footer {
+    flex: 0 0 auto;
     flex-direction: row;
-    padding: 0 8px;
+    gap: 5px;
+    padding: 0 8px 0 6px;
     border-top: none;
-    border-left: 1px solid rgba(184,134,11,.25);
-    height: 56px;
+    border-left: 1px solid rgba(184, 134, 11, 0.25);
+    height: 64px;
     align-items: center;
   }
-  .footer::before { display: none; }
-  .compareBtn, .langBtn { padding: 5px 8px; font-size: .7rem; }
+
+  .sidebarTahajjud .footer {
+    border-left-color: rgba(100, 160, 255, 0.24);
+  }
+
+  .footer::before {
+    display: none;
+  }
+
+  .compareBtn,
+  .langBtn,
+  .nightBtn {
+    width: auto;
+    min-width: 42px;
+    height: 38px;
+    padding: 0 8px;
+    font-size: 0.64rem;
+    border-radius: 11px;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  .actionFull {
+    display: none;
+  }
+
+  .actionShort {
+    display: inline;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand {
+    flex-basis: 56px;
+    padding: 0 6px;
+  }
+
+  .brandAr {
+    font-size: 0.88rem;
+  }
+
+  .nav {
+    padding-inline: 5px;
+    gap: 5px;
+  }
+
+  .link {
+    width: 42px;
+    min-width: 42px;
+    max-width: 42px;
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+  }
+
+  .linkLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .footer {
+    padding-inline: 5px;
+  }
+
+  .langBtn,
+  .nightBtn {
+    min-width: 38px;
+    height: 36px;
+    padding-inline: 6px;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand {
+    display: none;
+  }
+
+  .footer {
+    padding-left: 4px;
+  }
 }

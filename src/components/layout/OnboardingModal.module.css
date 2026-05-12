@@ -19,7 +19,9 @@
   padding: 2.5rem 2rem 2rem;
   max-width: 480px;
   width: 100%;
-  box-shadow: var(--shadow-lg), 0 0 48px rgba(184,134,11,.12);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 48px rgba(15, 111, 92, 0.12);
   animation: scale-in 0.35s ease both;
 }
 
@@ -48,7 +50,9 @@
   height: 8px;
   border-radius: 50%;
   background: var(--color-surface3);
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
 .dotActive {
@@ -75,7 +79,9 @@
   transition: color var(--transition);
 }
 
-.dismissBtn:hover { color: var(--color-text); }
+.dismissBtn:hover {
+  color: var(--color-text);
+}
 .dismissBtn:focus-visible {
   outline: 2px solid var(--color-gold-mid);
   outline-offset: 2px;
@@ -176,7 +182,9 @@
   padding: 0.8rem 1rem;
   text-align: left;
   cursor: pointer;
-  transition: border-color var(--transition), background var(--transition);
+  transition:
+    border-color var(--transition),
+    background var(--transition);
 }
 
 .startBtn:hover {
@@ -227,10 +235,15 @@
   font-size: 0.85rem;
   color: var(--color-muted);
   cursor: pointer;
-  transition: color var(--transition), border-color var(--transition);
+  transition:
+    color var(--transition),
+    border-color var(--transition);
 }
 
-.backBtn:hover { color: var(--color-text); border-color: var(--color-gold-mid); }
+.backBtn:hover {
+  color: var(--color-text);
+  border-color: var(--color-gold-mid);
+}
 
 .nextBtn {
   background: var(--gold-grad);
@@ -246,7 +259,9 @@
   margin-left: auto;
 }
 
-.nextBtn:hover { opacity: 0.85; }
+.nextBtn:hover {
+  opacity: 0.85;
+}
 .nextBtn:focus-visible {
   outline: 2px solid var(--color-gold-mid);
   outline-offset: 3px;
@@ -261,7 +276,9 @@
   cursor: pointer;
   text-decoration: underline;
   text-decoration-color: transparent;
-  transition: color var(--transition), text-decoration-color var(--transition);
+  transition:
+    color var(--transition),
+    text-decoration-color var(--transition);
 }
 
 .skipBtn:hover {

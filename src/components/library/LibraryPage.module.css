@@ -1,10 +1,10 @@
 .page {
   min-height: calc(100vh - 24px);
-  background: linear-gradient(180deg, #0f0d08 0%, #090805 100%);
+  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
   padding: 0 0 80px;
-  color: #e8dfc8;
+  color: var(--color-text);
   font-family: var(--font-body, 'Inter', sans-serif);
-  border: 1px solid rgba(184,134,11,.2);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
@@ -16,15 +16,15 @@
   text-align: center;
   padding: 80px 40px 60px;
   overflow: hidden;
-  border-bottom: 1px solid rgba(184,134,11,0.18);
+  border-bottom: 1px solid rgba(15, 111, 92, 0.18);
 }
 
 .headerDecor {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(184,134,11,0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(184,134,11,0.06) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(15, 111, 92, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(15, 111, 92, 0.06) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -32,7 +32,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #b8860b;
+  color: var(--color-gold);
   margin: 0 0 16px;
   opacity: 0.9;
 }
@@ -42,13 +42,13 @@
   font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #e8dfc8;
+  color: var(--color-text);
   margin: 0 0 16px;
   line-height: 1.1;
 }
 
 .gold {
-  background: linear-gradient(135deg, #d4af37 0%, #b8860b 40%, #f0d060 70%, #b8860b 100%);
+  background: linear-gradient(135deg, #d4af37 0%, var(--color-gold) 40%, #f0d060 70%, var(--color-gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -59,7 +59,7 @@
   margin: 0 auto 40px;
   font-size: 1rem;
   line-height: 1.7;
-  color: #c8bfa8;
+  color: var(--color-muted);
 }
 
 .stats {
@@ -79,7 +79,7 @@
   font-family: 'Cinzel Decorative', serif;
   font-size: 2.2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #d4af37, #b8860b);
+  background: linear-gradient(135deg, #d4af37, var(--color-gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -96,7 +96,7 @@
 .statDiv {
   width: 1px;
   height: 40px;
-  background: rgba(184,134,11,0.25);
+  background: rgba(15, 111, 92, 0.25);
 }
 
 /* ─── Grid ─── */
@@ -111,15 +111,18 @@
 
 .card {
   position: relative;
-  background: #131009;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-top: 2px solid var(--accent, #b8860b);
+  background: var(--color-surface);
+  border: 1px solid var(--color-gold-pale);
+  border-top: 2px solid var(--accent, var(--color-gold));
   border-radius: 4px;
   padding: 36px 32px 28px;
   text-align: left;
   cursor: pointer;
   overflow: hidden;
-  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -128,8 +131,10 @@
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: var(--accent, #b8860b);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--accent, #b8860b)33;
+  border-color: var(--accent, var(--color-gold));
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px var(--accent, var(--color-gold)) 33;
 }
 
 .card:hover .cardBg {
@@ -138,7 +143,7 @@
 
 .card:hover .arrow {
   transform: translateX(4px);
-  color: var(--accent, #b8860b);
+  color: var(--accent, var(--color-gold));
 }
 
 .cardBg {
@@ -153,7 +158,7 @@
   font-family: 'Cinzel Decorative', serif;
   font-size: 3.5rem;
   font-weight: 700;
-  color: var(--accent, #b8860b);
+  color: var(--accent, var(--color-gold));
   opacity: 0.15;
   line-height: 1;
   position: absolute;
@@ -176,7 +181,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--accent, #b8860b);
+  color: var(--accent, var(--color-gold));
   margin: 0 0 8px;
   opacity: 0.85;
 }
@@ -185,7 +190,7 @@
   font-family: 'DM Serif Display', serif;
   font-size: 1.45rem;
   font-weight: 400;
-  color: #e8dfc8;
+  color: var(--color-text);
   margin: 0 0 12px;
   line-height: 1.25;
 }
@@ -215,7 +220,9 @@
 .arrow {
   font-size: 1.1rem;
   color: var(--color-muted);
-  transition: transform 0.22s, color 0.22s;
+  transition:
+    transform 0.22s,
+    color 0.22s;
 }
 
 /* ─── Notice ─── */
@@ -235,7 +242,7 @@
 }
 
 .starDeco {
-  color: #b8860b;
+  color: var(--color-gold);
   opacity: 0.5;
   font-size: 0.7rem;
 }
@@ -243,4 +250,45 @@
 :global(body.tahajjud) .arrow,
 :global(body.tahajjud) .notice {
   color: var(--color-muted2);
+}
+
+@media (max-width: 768px) {
+  .page {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    padding-bottom: 48px;
+  }
+
+  .header {
+    padding: 48px 18px 36px;
+  }
+
+  .subtitle {
+    margin-bottom: 28px;
+  }
+
+  .stats {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .statDiv {
+    display: none;
+  }
+
+  .grid {
+    margin-top: 36px;
+    padding-inline: 14px;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 26px 20px 22px;
+  }
+
+  .notice {
+    margin-top: 42px;
+    padding-inline: 18px;
+  }
 }

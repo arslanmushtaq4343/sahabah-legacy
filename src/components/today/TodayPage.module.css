@@ -1,0 +1,400 @@
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 0 36px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-gold);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  margin: 0 0 14px;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+/* ── Today's spotlight ────────────────────────────────── */
+.todayCard {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-gold) 10%, transparent) 0%,
+    color-mix(in srgb, var(--color-gold) 4%, transparent) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--color-gold) 30%, var(--color-border));
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todayLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.todayDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  animation: todayPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes todayPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+
+.todayEvent {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.todayLink {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+.todayLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Year navigator ────────────────────────────────────── */
+.navigator {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.navBtn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    border-color 0.18s;
+  font-family: inherit;
+}
+
+.navBtn:first-child {
+  text-align: left;
+  justify-self: stretch;
+}
+
+.navBtn:last-child {
+  text-align: right;
+  justify-self: stretch;
+}
+
+.navBtn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-gold) 10%, var(--color-surface));
+  border-color: var(--color-gold);
+}
+
+.navBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.navCenter {
+  text-align: center;
+  padding: 0 24px;
+  white-space: nowrap;
+}
+
+.yearLabel {
+  font-family: 'Courier New', monospace;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: var(--color-gold);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+}
+
+.yearCe {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  margin-top: 4px;
+}
+
+/* ── Slider ────────────────────────────────────────────── */
+.slider {
+  margin: 0 0 36px;
+  padding: 0 20px;
+}
+
+.sliderTrack {
+  position: relative;
+  height: 28px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  margin-bottom: 6px;
+}
+
+.sliderMarker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-gold) 60%, transparent);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    transform 0.18s,
+    background 0.18s;
+}
+
+.sliderMarker:hover {
+  transform: translate(-50%, -50%) scale(1.4);
+  background: var(--color-gold);
+}
+
+.sliderHandle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-gold) 60%, transparent);
+  pointer-events: none;
+  transition: left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sliderRange {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--color-muted);
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.08em;
+}
+
+/* ── Cards row ─────────────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cardHead h2 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1;
+}
+
+.cardIcon {
+  color: var(--color-gold);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.cardCount {
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  background: var(--color-bg);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+.empty {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  font-style: italic;
+  padding: 10px 4px;
+  margin: 0;
+}
+
+.eventList,
+.companionList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eventItem {
+  padding: 10px 12px;
+  background: var(--color-bg);
+  border-left: 3px solid var(--color-gold);
+  border-radius: 6px;
+}
+
+.eventLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 3px;
+}
+
+.eventNote {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.companionItem {
+  padding: 10px 12px;
+  background: var(--color-bg);
+  border-left: 3px solid;
+  border-radius: 6px;
+}
+
+.companionAr {
+  font-family: var(--font-arabic, serif);
+  font-size: 1.05rem;
+  direction: rtl;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.companionName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.companionCat {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  margin-top: 3px;
+}
+
+/* ── Footer ────────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  margin-top: 28px;
+}
+
+.footerLink {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 22px 14px 52px;
+  }
+
+  .hero {
+    padding: 20px 0 26px;
+    margin-bottom: 24px;
+  }
+
+  .todayCard {
+    padding: 16px;
+  }
+
+  .navigator {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .navBtn:first-child,
+  .navBtn:last-child {
+    text-align: center;
+  }
+
+  .navCenter {
+    order: -1;
+    padding: 0;
+  }
+
+  .eventsGrid,
+  .companionsGrid {
+    grid-template-columns: 1fr;
+  }
+}

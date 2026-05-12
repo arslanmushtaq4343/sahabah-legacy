@@ -29,10 +29,13 @@ export class RouteErrorBoundary extends Component<Props, State> {
       return (
         <div className={styles.wrapper} role="alert">
           <div className={styles.inner}>
-            <div className={styles.ornament} aria-hidden="true">✦</div>
+            <div className={styles.ornament} aria-hidden="true">
+              ✦
+            </div>
             <h2 className={styles.title}>Something went wrong</h2>
             <p className={styles.message}>
-              This page encountered an unexpected error. You can try again or navigate to another section.
+              This page encountered an unexpected error. You can try again or navigate to another
+              section.
             </p>
             <details className={styles.details}>
               <summary>Technical details</summary>

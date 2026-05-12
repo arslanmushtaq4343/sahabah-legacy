@@ -10,14 +10,18 @@
 .header {
   position: relative;
   padding: 64px 40px 48px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid var(--color-gold-pale);
   overflow: hidden;
 }
 
 .headerGlow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 50% 60% at 50% -5%, rgba(42,10,74,0.2) 0%, transparent 65%);
+  background: radial-gradient(
+    ellipse 50% 60% at 50% -5%,
+    rgba(42, 10, 74, 0.2) 0%,
+    transparent 65%
+  );
   pointer-events: none;
 }
 
@@ -67,7 +71,7 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid var(--color-gold-pale);
 }
 
 .row1 {
@@ -79,7 +83,7 @@
 
 .search {
   background: #110e14;
-  border: 1px solid rgba(107,52,144,0.25);
+  border: 1px solid rgba(107, 52, 144, 0.25);
   border-radius: 4px;
   color: #e8dfc8;
   padding: 10px 16px;
@@ -90,8 +94,12 @@
   transition: border-color 0.2s;
 }
 
-.search:focus { border-color: #6b3490; }
-.search::placeholder { color: #3a2a4a; }
+.search:focus {
+  border-color: #6b3490;
+}
+.search::placeholder {
+  color: #3a2a4a;
+}
 
 .obscureToggle {
   display: flex;
@@ -102,9 +110,13 @@
   color: #7a6a5a;
 }
 
-.obscureToggle input { accent-color: #6b3490; }
+.obscureToggle input {
+  accent-color: #6b3490;
+}
 
-.toggleLabel { user-select: none; }
+.toggleLabel {
+  user-select: none;
+}
 
 .cats {
   display: flex;
@@ -115,7 +127,7 @@
 .catBtn {
   padding: 5px 14px;
   border-radius: 20px;
-  border: 1px solid rgba(107,52,144,0.2);
+  border: 1px solid rgba(107, 52, 144, 0.2);
   background: transparent;
   color: #7a6a5a;
   font-size: 0.75rem;
@@ -123,16 +135,23 @@
   transition: all 0.18s;
 }
 
-.catBtn:hover { border-color: #6b3490; color: #c0a8e0; }
+.catBtn:hover {
+  border-color: #6b3490;
+  color: #c0a8e0;
+}
 
 .catActive {
-  background: var(--ac, rgba(107,52,144,0.2));
+  background: var(--ac, rgba(107, 52, 144, 0.2));
   border-color: var(--ac, #6b3490) !important;
   color: #e8dfc8 !important;
   font-weight: 600;
 }
 
-.count { font-size: 0.75rem; color: #4a3a50; margin: 0; }
+.count {
+  font-size: 0.75rem;
+  color: #4a3a50;
+  margin: 0;
+}
 
 /* ─── Cards ─── */
 .cards {
@@ -154,15 +173,16 @@
 /* ─── Card ─── */
 .card {
   background: #0d0a10;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--color-gold-pale);
   border-left: 3px solid var(--cc, #6b3490);
   border-radius: 3px;
   overflow: hidden;
   transition: box-shadow 0.22s;
 }
 
-.card:hover, .cardOpen {
-  box-shadow: 0 4px 28px rgba(0,0,0,0.5);
+.card:hover,
+.cardOpen {
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.5);
 }
 
 .cardBtn {
@@ -179,7 +199,9 @@
   transition: background 0.18s;
 }
 
-.cardBtn:hover { background: rgba(255,255,255,0.015); }
+.cardBtn:hover {
+  background: var(--color-gold-pale);
+}
 
 .candleCol {
   display: flex;
@@ -190,7 +212,10 @@
   min-width: 36px;
 }
 
-.candleIcon { font-size: 1.3rem; opacity: 0.7; }
+.candleIcon {
+  font-size: 1.3rem;
+  opacity: 0.7;
+}
 
 .rareBadge {
   font-size: 0.58rem;
@@ -204,7 +229,12 @@
   white-space: nowrap;
 }
 
-.cardMain { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.cardMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .cardTop {
   display: flex;
@@ -214,9 +244,22 @@
   flex-wrap: wrap;
 }
 
-.compInfo { display: flex; flex-direction: column; gap: 2px; }
-.compName { font-size: 0.95rem; font-weight: 600; color: #e8dfc8; }
-.compAr { font-size: 0.8rem; color: #5a4a60; direction: rtl; text-align: left; }
+.compInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.compName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e8dfc8;
+}
+.compAr {
+  font-size: 0.8rem;
+  color: #5a4a60;
+  direction: rtl;
+  text-align: left;
+}
 
 .cardRight {
   display: flex;
@@ -229,7 +272,7 @@
   font-family: 'Cinzel Decorative', serif;
   font-size: 0.68rem;
   color: #6a5a70;
-  background: rgba(255,255,255,0.04);
+  background: var(--color-gold-pale);
   padding: 2px 7px;
   border-radius: 3px;
 }
@@ -240,7 +283,10 @@
   border-radius: 20px;
 }
 
-.chevron { font-size: 0.7rem; color: #3a2a4a; }
+.chevron {
+  font-size: 0.7rem;
+  color: #3a2a4a;
+}
 
 /* Arabic words — the centrepiece */
 .wordsAr {
@@ -251,8 +297,8 @@
   text-align: right;
   margin: 0;
   padding: 12px 0;
-  border-top: 1px solid rgba(107,52,144,0.12);
-  border-bottom: 1px solid rgba(107,52,144,0.12);
+  border-top: 1px solid rgba(107, 52, 144, 0.12);
+  border-bottom: 1px solid rgba(107, 52, 144, 0.12);
 }
 
 .wordsEn {
@@ -269,7 +315,7 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
-  border-top: 1px solid rgba(255,255,255,0.04);
+  border-top: 1px solid var(--color-gold-pale);
   padding-top: 16px;
 }
 
@@ -281,10 +327,14 @@
   text-align: right;
   margin: 0;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid var(--color-gold-pale);
 }
 
-.contextBlock { display: flex; flex-direction: column; gap: 8px; }
+.contextBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
 .contextLabel {
   font-size: 0.62rem;
@@ -306,7 +356,7 @@
   flex-direction: column;
   gap: 4px;
   padding-top: 8px;
-  border-top: 1px solid rgba(255,255,255,0.04);
+  border-top: 1px solid var(--color-gold-pale);
 }
 
 .srcLabel {
@@ -328,4 +378,47 @@
 :global(body.tahajjud) .srcLabel,
 :global(body.tahajjud) .srcText {
   color: var(--color-muted2);
+}
+
+@media (max-width: 768px) {
+  .page {
+    min-height: auto;
+    padding-bottom: 48px;
+  }
+
+  .header {
+    padding: 42px 18px 32px;
+  }
+
+  .controls {
+    padding: 18px 14px 12px;
+  }
+
+  .row1 {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .cats {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .catBtn {
+    flex: 0 0 auto;
+  }
+
+  .list {
+    padding-inline: 14px;
+  }
+
+  .summary {
+    gap: 12px;
+  }
+
+  .detail {
+    padding: 14px;
+  }
 }

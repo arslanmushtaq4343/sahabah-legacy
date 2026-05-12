@@ -1,4 +1,4 @@
-import type { Companion } from '@sahabah/shared-types';
+import type { Companion } from '../../types';
 
 export type GraphLayer = 'scholarly' | 'family' | 'trade' | 'ikhtilaf' | 'teaching';
 export type GraphView = 'network' | 'diaspora';

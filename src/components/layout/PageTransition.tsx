@@ -19,8 +19,6 @@ export function PageTransition({ children }: Props) {
   }, [location.key]);
 
   return (
-    <div className={`${styles.page} ${visible ? styles.visible : styles.hidden}`}>
-      {children}
-    </div>
+    <div className={`${styles.page} ${visible ? styles.visible : styles.hidden}`}>{children}</div>
   );
 }

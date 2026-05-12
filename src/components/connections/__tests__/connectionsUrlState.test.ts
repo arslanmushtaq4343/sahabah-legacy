@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { parseConnectionsStateFromSearch, serializeConnectionsStateToSearch } from '../connectionsUrlState';
+import {
+  parseConnectionsStateFromSearch,
+  serializeConnectionsStateToSearch,
+} from '../connectionsUrlState';
 import { INITIAL_CONNECTIONS_STATE } from '../connectionsState';
 
 describe('connectionsUrlState', () => {

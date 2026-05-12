@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(20,10,0,.55);
+  background: rgba(20, 10, 0, 0.55);
   backdrop-filter: blur(3px);
   z-index: 200;
   display: flex;
@@ -9,6 +9,10 @@
   justify-content: center;
   padding: 32px 16px;
   overflow-y: auto;
+  animation: cmFadeIn 0.2s ease both;
+}
+.overlayOut {
+  animation: cmFadeOut 0.22s ease both;
 }
 
 .modal {
@@ -17,22 +21,212 @@
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 760px;
+  max-height: calc(100vh - 64px);
   overflow: hidden;
   position: relative;
-  box-shadow: 0 20px 60px rgba(100,60,0,.25);
+  box-shadow: 0 20px 60px rgba(100, 60, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  animation: cmModalIn 0.26s ease both;
+  transform-origin: top center;
+}
+.modalOut {
+  animation: cmModalOut 0.22s ease both;
+}
+
+/* Reverse-exit micro timeline for key header elements */
+.modalOut .arSvgText {
+  animation: arInkOut 0.18s ease both !important;
+}
+.modalOut .arSvgTextShadow {
+  animation: arInkShadowOut 0.18s ease both !important;
+}
+.modalOut .arSvgTextHighlight {
+  animation: arInkHighlightOut 0.18s ease both !important;
+}
+.modalOut .name {
+  animation: nameSlideOut 0.18s ease both;
+}
+.modalOut .cat {
+  animation: catShrink 0.16s ease both;
+}
+.modalOut .tabs,
+.modalOut .body,
+.modalOut .footerTools {
+  animation: restFadeOut 0.18s ease both;
+}
+
+.atmosphereOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      70% 60% at 20% 0%,
+      color-mix(in srgb, var(--atm-primary, #4a5568) 16%, transparent) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      70% 60% at 80% 10%,
+      color-mix(in srgb, var(--atm-secondary, #2d3748) 14%, transparent) 0%,
+      transparent 70%
+    );
+  opacity: 1;
+}
+.atmosphereOverlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--tab-tint, var(--color-gold-pale));
+  transition: background-color 0.25s ease;
+}
+
+.atmosphereCanvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+}
+
+.header,
+.tabs,
+.body,
+.footerTools {
+  position: relative;
+  z-index: 2;
+}
+
+.entranceActive .headerContent,
+.entranceActive .tabs,
+.entranceActive .body {
+  will-change: opacity, transform;
 }
 
 /* ─── Header ─────────────────────────────────────────── */
-.header { position: relative; }
+.header {
+  position: relative;
+}
 
 .headerAccent {
   height: 4px;
   background: var(--cat-color, var(--color-gold));
+  animation: breathe var(--breath-duration, 5.2s) ease-in-out infinite;
 }
 
 .headerContent {
   padding: 24px 28px 20px;
-  background: linear-gradient(to bottom, rgba(184,134,11,.06), transparent);
+  background: linear-gradient(to bottom, rgba(15, 111, 92, 0.06), transparent);
+  position: relative;
+}
+
+.catSigWrap {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  opacity: 0.15;
+  filter: blur(0.1px);
+}
+
+.catSig {
+  width: 60px;
+  height: 60px;
+  display: block;
+  color: var(--sig-color, var(--cat-color));
+}
+.catSig path,
+.catSig circle,
+.catSig rect,
+.catSig ellipse {
+  fill: none;
+  stroke: var(--sig-color, var(--cat-color));
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.catSig text {
+  font-family: var(--font-arabic);
+  font-size: 18px;
+  fill: var(--sig-color, var(--cat-color));
+  opacity: 0.9;
+}
+.catSigStatic * {
+  animation: none !important;
+}
+
+/* Caliph: slow rotate */
+.catSig_caliph {
+  animation: sigRotate 10s linear infinite;
+  transform-origin: 50% 50%;
+}
+.sigStar path {
+  opacity: 0.95;
+}
+
+/* Warrior: diagonal slash sweep */
+.catSig_warrior {
+  overflow: visible;
+}
+.catSig_warrior .sigSlash rect {
+  opacity: 0.35;
+}
+.catSig_warrior .sigSlash path {
+  stroke-width: 2.2px;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: sigSlash 2.2s ease-in-out infinite;
+}
+
+/* Scholar: floating fragments */
+.catSig_scholar .sigLetters text {
+  animation: sigFloat 3.6s ease-in-out infinite;
+}
+.catSig_scholar .sigLetters text:nth-child(2) {
+  animation-delay: 0.35s;
+}
+.catSig_scholar .sigLetters text:nth-child(3) {
+  animation-delay: 0.7s;
+}
+
+/* Wife: petal bloom */
+.catSig_wife .sigFlower ellipse {
+  animation: sigBloom 3.4s ease-in-out infinite;
+  transform-origin: 30px 30px;
+}
+
+/* Narrator: scroll unfurl */
+.catSig_narrator .sigScroll path {
+  animation: sigUnroll 3.6s ease-in-out infinite;
+}
+.catSig_narrator .sigScroll path:nth-child(2) {
+  animation-delay: 0.45s;
+}
+
+/* General: compass rotate */
+.catSig_general {
+  animation: sigRotate 7.8s linear infinite;
+  transform-origin: 50% 50%;
+}
+.catSig_general .sigCompass path {
+  animation: sigNeedle 2.8s ease-in-out infinite;
+  transform-origin: 30px 30px;
+}
+
+/* Martyr: rising light particle */
+.catSig_martyr .sigMartyr circle {
+  animation: sigRise 2.6s ease-in-out infinite;
+}
+
+/* Companion/Other/Family: pulse ring */
+.catSig_companion .sigPulse circle {
+  animation: sigPulse 2.8s ease-in-out infinite;
+}
+.catSig_companion .sigPulse circle:nth-child(2) {
+  animation-delay: 0.55s;
 }
 
 .headerTop {
@@ -42,7 +236,21 @@
   margin-bottom: 12px;
 }
 
-.rank { font-size: 0.75rem; color: var(--color-muted); }
+.rank {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+.rankHidden {
+  opacity: 0;
+  transform: translateY(-2px);
+}
+.rankVisible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
 
 .cat {
   font-size: 0.64rem;
@@ -53,6 +261,13 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+.catHidden {
+  opacity: 0;
+  transform: scale(0.98);
+}
+.catStamp {
+  animation: catStamp 0.2s cubic-bezier(0.2, 0.85, 0.2, 1) both;
 }
 
 .closeBtn {
@@ -65,17 +280,82 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition), color var(--transition);
+  transition:
+    background var(--transition),
+    color var(--transition);
   border: 1px solid var(--color-border);
 }
-.closeBtn:hover { background: var(--color-surface2); color: var(--color-text); }
+.closeBtn:hover {
+  background: var(--color-surface2);
+  color: var(--color-text);
+}
 
 .ar {
   font-family: var(--font-arabic);
-  font-size: 1.6rem;
+  font-size: 2.4rem;
+  line-height: 1.15;
   color: var(--color-gold);
   direction: rtl;
+  text-align: right;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.arSvg {
+  width: 100%;
+  height: 56px;
+  display: block;
   margin-bottom: 2px;
+}
+.arHidden {
+  opacity: 0;
+}
+.arDraw {
+  animation: arDraw 1.2s ease both;
+}
+.arSvgText {
+  font-family: var(--font-arabic);
+  font-size: 44px;
+  direction: rtl;
+  fill: color-mix(in srgb, var(--color-gold) 18%, transparent);
+  stroke: var(--color-gold);
+  stroke-width: 1.35px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: arInk 1.2s ease forwards;
+}
+
+.arSvgTextShadow {
+  font-family: var(--font-arabic);
+  font-size: 44px;
+  direction: rtl;
+  fill: transparent;
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 3.2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  filter: blur(0.25px);
+  opacity: 0.55;
+  animation: arInkShadow 1.2s ease forwards;
+}
+
+.arSvgTextHighlight {
+  font-family: var(--font-arabic);
+  font-size: 44px;
+  direction: rtl;
+  fill: transparent;
+  stroke: rgba(247, 243, 234, 0.25);
+  stroke-width: 0.9px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1100;
+  stroke-dashoffset: 1100;
+  opacity: 0.55;
+  animation: arInkHighlight 1.2s ease forwards;
 }
 
 .urName {
@@ -85,11 +365,189 @@
   direction: rtl;
 }
 
-.name { font-size: 1.5rem; margin-bottom: 2px; color: var(--color-text); }
-.title { font-size: 0.82rem; color: var(--color-gold-dim); font-style: italic; }
+.name {
+  font-size: 1.5rem;
+  margin-bottom: 2px;
+  color: var(--color-text);
+}
+.title {
+  font-size: 0.82rem;
+  color: var(--color-gold-dim);
+  font-style: italic;
+}
+
+.nameHidden {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+.nameSlideIn {
+  animation: nameSlideIn 0.4s ease both;
+}
+.restHidden {
+  opacity: 0;
+}
+.restFadeIn {
+  animation: restFadeIn 0.3s ease both;
+}
 
 /* ─── Body ───────────────────────────────────────────── */
-.body { padding: 24px 28px 32px; display: flex; flex-direction: column; gap: 20px; background: var(--color-bg); }
+.body {
+  padding: 24px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--color-bg);
+  overflow-y: auto;
+  min-height: 0;
+  animation: cmBodyIn 0.22s ease both;
+}
+
+/* Hadith scroll ribbon (Animation 4) */
+.hadithRibbonWrap {
+  width: 100%;
+  border: 1px solid var(--color-gold-pale);
+  border-radius: 999px;
+  background: var(--color-gold-pale);
+  padding: 6px 14px 6px 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+}
+.hadithRibbon {
+  height: 18px;
+  border-radius: 999px;
+  position: relative;
+  background: linear-gradient(90deg, rgba(15, 111, 92, 0.4), rgba(15, 111, 92, 0.18));
+  border: 1px solid rgba(15, 111, 92, 0.35);
+  box-shadow: 0 4px 14px rgba(15, 111, 92, 0.18);
+  flex-shrink: 0;
+  min-width: 24px;
+  max-width: calc(100% - 140px);
+}
+.hadithRibbonLabel {
+  font-size: 12px;
+  color: rgba(247, 243, 234, 0.92);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.hadithRibbonShimmer,
+.hadithRibbonShimmerFast {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 0 42%,
+    rgba(247, 243, 234, 0.22) 50%,
+    transparent 58%
+  );
+  transform: translateX(-120%);
+  opacity: 0.55;
+  animation: ribbonShimmer 3.2s linear infinite;
+}
+.hadithRibbonShimmerFast {
+  opacity: 0.35;
+  animation-duration: 1.8s;
+}
+
+@keyframes ribbonShimmer {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(120%);
+  }
+}
+
+.bodySwap {
+  animation: cmBodySwap 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.tabFadingOut {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.tabFadingIn {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* Battle aura (Animation 6) */
+.battle0 {
+}
+.battleLow {
+  box-shadow:
+    0 20px 60px rgba(100, 60, 0, 0.25),
+    0 0 0 1px var(--color-gold-pale);
+}
+.battleMed {
+  animation: borderPulseMed 2.5s ease-in-out infinite;
+}
+.battleHigh {
+  animation: borderPulseHigh 1.5s ease-in-out infinite;
+}
+.battleMax {
+}
+.battleMax::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--cat-color) 55%, transparent),
+    transparent
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: borderShimmer 2.2s linear infinite;
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.footerTools {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--color-gold-pale);
+  background: var(--color-bg);
+  flex-shrink: 0;
+}
+
+.dedicationBtn,
+.voiceBtn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dedicationBtn {
+  border: 1px solid;
+}
+
+.voiceBtn {
+  border: 1px solid #666;
+  background: transparent;
+  color: #ccc;
+}
+
+.dedicationBtn:hover,
+.voiceBtn:hover {
+  opacity: 0.9;
+}
 
 /* Facts bar */
 .facts {
@@ -110,8 +568,18 @@
   gap: 2px;
 }
 
-.factLabel { font-size: 0.64rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.6px; font-family: var(--font-serif); }
-.factVal { font-size: 0.85rem; color: var(--color-text); font-weight: 600; }
+.factLabel {
+  font-size: 0.64rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-family: var(--font-serif);
+}
+.factVal {
+  font-size: 0.85rem;
+  color: var(--color-text);
+  font-weight: 600;
+}
 
 /* Sections */
 .section h3 {
@@ -126,7 +594,116 @@
   padding-bottom: 4px;
 }
 
-.section p { font-size: 0.88rem; color: var(--color-text); line-height: 1.72; }
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sectionHead h3 {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.confidenceBadge {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 2px 8px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.authScoreBadge {
+  animation: authPulse 0.9s ease both;
+}
+/* Quote reveal (Animation 8) */
+.quoteWord {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: quoteWordIn 0.38s ease forwards;
+}
+
+.quoteCitation {
+  opacity: 0;
+  animation: quoteCitationIn 0.35s ease forwards;
+}
+
+@keyframes quoteWordIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes quoteCitationIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.confidenceHigh {
+  color: #1f7a3d;
+  background: rgba(31, 122, 61, 0.12);
+  border-color: rgba(31, 122, 61, 0.35);
+}
+
+.confidenceMedium {
+  color: #9a6d08;
+  background: rgba(15, 111, 92, 0.12);
+  border-color: rgba(15, 111, 92, 0.35);
+}
+
+.confidenceContextual {
+  color: #8b4c00;
+  background: rgba(139, 76, 0, 0.12);
+  border-color: rgba(139, 76, 0, 0.35);
+}
+
+.confidenceLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.confidenceLegendLabel {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-dim);
+  font-weight: 700;
+}
+
+.confidenceLegendItem {
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section p {
+  font-size: 0.88rem;
+  color: var(--color-text);
+  line-height: 1.72;
+}
 
 .twoCol {
   display: grid;
@@ -187,7 +764,11 @@
   line-height: 1.72;
 }
 
-.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
 
 .tag {
   font-size: 0.74rem;
@@ -213,17 +794,26 @@
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 700;
   font-family: var(--font-sans);
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
   color: var(--color-muted);
   cursor: pointer;
-  transition: all .2s;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
   margin-bottom: -1px;
 }
-.tabBtn:hover { color: var(--color-text); }
-.tabActive { color: var(--color-gold) !important; font-weight: 800; }
+.tabBtn:hover {
+  color: var(--color-text);
+  background: rgba(15, 111, 92, 0.06);
+}
+.tabActive {
+  color: var(--color-gold) !important;
+  font-weight: 800;
+}
 
 /* Study button in header */
 .studyBtn {
@@ -231,16 +821,19 @@
   padding: 5px 12px;
   border: 1px solid var(--color-border);
   border-radius: 999px;
-  font-size: .66rem;
+  font-size: 0.66rem;
   font-weight: 700;
   color: var(--color-muted);
   background: transparent;
   cursor: pointer;
   font-family: var(--font-sans);
-  letter-spacing: .06em;
-  transition: all .2s;
+  letter-spacing: 0.06em;
+  transition: all 0.2s;
 }
-.studyBtn:hover { border-color: var(--color-gold-mid); color: var(--color-gold); }
+.studyBtn:hover {
+  border-color: var(--color-gold-mid);
+  color: var(--color-gold);
+}
 .studyBtnActive {
   background: var(--gold-grad) !important;
   color: #fff8e8 !important;
@@ -254,7 +847,8 @@
   gap: 12px;
   margin-top: 6px;
 }
-.occBefore, .occAfter {
+.occBefore,
+.occAfter {
   flex: 1;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -263,22 +857,41 @@
 }
 .occLabel {
   display: block;
-  font-size: .62rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   color: var(--color-gold-dim);
   font-weight: 700;
   margin-bottom: 4px;
 }
-.occBefore p, .occAfter p { font-size: .82rem; color: var(--color-text); line-height: 1.5; }
-.occArrow { color: var(--color-gold); font-size: 1.2rem; padding-top: 14px; flex-shrink: 0; }
-.occNote { font-size: .75rem; color: var(--color-muted2); font-style: italic; margin-top: 8px; }
+.occBefore p,
+.occAfter p {
+  font-size: 0.82rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+.occArrow {
+  color: var(--color-gold);
+  font-size: 1.2rem;
+  padding-top: 14px;
+  flex-shrink: 0;
+}
+.occNote {
+  font-size: 0.75rem;
+  color: var(--color-muted2);
+  font-style: italic;
+  margin-top: 8px;
+}
 
 /* ── Prophet's Du'a (Feature 05) ─────────────────────────── */
-.duaList { display: flex; flex-direction: column; gap: 14px; }
+.duaList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 .duaCard {
-  background: linear-gradient(135deg, rgba(184,134,11,.05), rgba(184,134,11,.02));
-  border: 1px solid rgba(184,134,11,.2);
+  background: linear-gradient(135deg, rgba(15, 111, 92, 0.05), rgba(15, 111, 92, 0.02));
+  border: 1px solid rgba(15, 111, 92, 0.2);
   border-radius: var(--radius-md);
   padding: 16px 18px;
 }
@@ -291,26 +904,30 @@
   line-height: 2;
 }
 .duaEn {
-  font-size: .85rem;
+  font-size: 0.85rem;
   color: var(--color-text);
   font-style: italic;
   margin-bottom: 6px;
   line-height: 1.6;
 }
 .duaOccasion {
-  font-size: .77rem;
+  font-size: 0.77rem;
   color: var(--color-muted);
   line-height: 1.55;
   margin-bottom: 4px;
 }
 .duaSource {
-  font-size: .66rem;
+  font-size: 0.66rem;
   color: var(--color-muted2);
   font-style: italic;
 }
 
 /* ── Last Words (Feature 04) ─────────────────────────────── */
-.lastWordsBlock { display: flex; flex-direction: column; gap: 12px; }
+.lastWordsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .lastWordCard {
   border-left: 3px solid var(--color-gold-dim);
   padding: 12px 16px;
@@ -326,7 +943,7 @@
   line-height: 2;
 }
 .lwEn {
-  font-size: .84rem;
+  font-size: 0.84rem;
   color: var(--color-text);
   font-style: italic;
   margin-bottom: 4px;
@@ -334,13 +951,22 @@
 }
 .lwUr {
   font-family: var(--font-arabic);
-  font-size: .85rem;
+  font-size: 0.85rem;
   direction: rtl;
   color: var(--color-muted);
   margin-bottom: 4px;
 }
-.lwContext { font-size: .77rem; color: var(--color-muted); line-height: 1.5; margin-bottom: 3px; }
-.lwSource { font-size: .65rem; color: var(--color-muted2); font-style: italic; }
+.lwContext {
+  font-size: 0.77rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-bottom: 3px;
+}
+.lwSource {
+  font-size: 0.65rem;
+  color: var(--color-muted2);
+  font-style: italic;
+}
 
 /* ── Dreams (Feature 10) ─────────────────────────────────── */
 .dreamCard {
@@ -352,21 +978,29 @@
 }
 .dreamSummary {
   font-family: var(--font-serif);
-  font-size: .87rem;
+  font-size: 0.87rem;
   color: var(--color-text);
   margin-bottom: 5px;
   font-weight: 600;
 }
 .dreamDetail {
-  font-size: .78rem;
+  font-size: 0.78rem;
   color: var(--color-muted);
   line-height: 1.55;
   margin-bottom: 5px;
 }
-.dreamSource { font-size: .65rem; color: var(--color-muted2); font-style: italic; }
+.dreamSource {
+  font-size: 0.65rem;
+  color: var(--color-muted2);
+  font-style: italic;
+}
 
 /* ── Source Reliability (Feature 35) ─────────────────────── */
-.sourceList { display: flex; flex-direction: column; gap: 6px; }
+.sourceList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 .sourceItem {
   display: flex;
   align-items: center;
@@ -374,27 +1008,42 @@
   padding: 7px 0;
   border-bottom: 1px solid var(--color-border);
 }
-.sourceItem:last-child { border-bottom: none; }
+.sourceItem:last-child {
+  border-bottom: none;
+}
 .reliabilityBadge {
-  font-size: .62rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   padding: 2px 8px;
   border-radius: 999px;
   flex-shrink: 0;
   text-transform: uppercase;
 }
-.sourceTopic { font-size: .8rem; color: var(--color-text); flex: 1; font-weight: 500; }
-.sourceRef { font-size: .67rem; color: var(--color-muted2); font-style: italic; }
+.sourceTopic {
+  font-size: 0.8rem;
+  color: var(--color-text);
+  flex: 1;
+  font-weight: 500;
+}
+.sourceRef {
+  font-size: 0.67rem;
+  color: var(--color-muted2);
+  font-style: italic;
+}
 
 /* ── Quran Tab (Feature 01) ──────────────────────────────── */
-.quranTab { display: flex; flex-direction: column; gap: 20px; }
+.quranTab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 .quranIntro {
-  font-size: .82rem;
+  font-size: 0.82rem;
   color: var(--color-muted);
   font-style: italic;
-  background: rgba(184,134,11,.05);
-  border: 1px solid rgba(184,134,11,.15);
+  background: rgba(15, 111, 92, 0.05);
+  border: 1px solid rgba(15, 111, 92, 0.15);
   border-radius: var(--radius-md);
   padding: 10px 14px;
 }
@@ -406,6 +1055,15 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+.quranEntry:hover {
+  transform: translateY(-2px);
+  border-color: rgba(15, 111, 92, 0.28);
+  box-shadow: 0 10px 24px rgba(90, 60, 15, 0.12);
 }
 .quranRef {
   display: flex;
@@ -414,17 +1072,31 @@
 }
 .quranSurah {
   font-family: var(--font-serif);
-  font-size: .85rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--color-gold);
 }
 .quranAyahNum {
-  font-size: .7rem;
+  font-size: 0.7rem;
   color: var(--color-muted2);
   background: var(--color-surface2);
   border: 1px solid var(--color-border);
   padding: 1px 8px;
   border-radius: 999px;
+}
+.quranAudioLink {
+  color: var(--color-gold);
+  background: rgba(15, 111, 92, 0.08);
+  border: 1px solid rgba(15, 111, 92, 0.22);
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.quranAudioLink:hover {
+  background: rgba(15, 111, 92, 0.16);
+  border-color: var(--color-gold-mid);
 }
 .quranAr {
   font-family: var(--font-arabic) !important;
@@ -436,46 +1108,53 @@
   padding-right: 14px;
 }
 .quranEn {
-  font-size: .86rem;
+  font-size: 0.86rem;
   color: var(--color-text);
   font-style: italic;
   line-height: 1.7;
 }
 .quranUr {
   font-family: var(--font-arabic);
-  font-size: .9rem;
+  font-size: 0.9rem;
   direction: rtl;
   color: var(--color-muted);
   line-height: 1.8;
 }
-.quranStory h4, .quranResponse h4 {
-  font-size: .65rem;
+.quranStory h4,
+.quranResponse h4 {
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: .12em;
+  letter-spacing: 0.12em;
   color: var(--color-gold-dim);
   font-weight: 700;
   margin-bottom: 5px;
   font-family: var(--font-serif);
 }
-.quranStory p, .quranResponse p {
-  font-size: .82rem;
+.quranStory p,
+.quranResponse p {
+  font-size: 0.82rem;
   color: var(--color-muted);
   line-height: 1.6;
 }
 .quranResponse {
-  background: rgba(184,134,11,.04);
-  border: 1px solid rgba(184,134,11,.15);
+  background: rgba(15, 111, 92, 0.04);
+  border: 1px solid rgba(15, 111, 92, 0.15);
   border-radius: var(--radius-md);
   padding: 12px;
 }
-.quranSource { font-size: .66rem; color: var(--color-muted2); font-style: italic; }
+.quranSource {
+  font-size: 0.66rem;
+  color: var(--color-muted2);
+  font-style: italic;
+}
 
 /* ── No Data blocks ──────────────────────────────────────── */
-.noData, .noDataBlock {
+.noData,
+.noDataBlock {
   padding: 32px;
   text-align: center;
   color: var(--color-muted2);
-  font-size: .85rem;
+  font-size: 0.85rem;
   line-height: 1.7;
 }
 .noDataAr {
@@ -485,17 +1164,26 @@
   display: block;
   margin-bottom: 10px;
 }
-.noDataSub { font-size: .75rem; color: var(--color-muted2); margin-top: 6px; font-style: italic; }
+.noDataSub {
+  font-size: 0.75rem;
+  color: var(--color-muted2);
+  margin-top: 6px;
+  font-style: italic;
+}
 
 /* ── Family Tab (Feature 30) ─────────────────────────────── */
-.familyTab { display: flex; flex-direction: column; gap: 16px; }
+.familyTab {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 .familyIntro {
-  font-size: .82rem;
+  font-size: 0.82rem;
   color: var(--color-muted);
   font-style: italic;
   padding: 10px 14px;
-  background: rgba(184,134,11,.04);
-  border: 1px solid rgba(184,134,11,.12);
+  background: rgba(15, 111, 92, 0.04);
+  border: 1px solid rgba(15, 111, 92, 0.12);
   border-radius: var(--radius-md);
 }
 .familyTreeWrap {
@@ -505,76 +1193,196 @@
   border-radius: var(--radius-lg);
   padding: 16px;
 }
-.familySvg { width: 100%; min-width: 580px; }
+.familySvg {
+  width: 100%;
+  min-width: 580px;
+}
 
 @media (max-width: 600px) {
-  .body, .headerContent { padding: 16px; }
-  .facts { grid-template-columns: repeat(2, 1fr); }
-  .twoCol { grid-template-columns: 1fr; }
-  .occupationRow { flex-direction: column; }
-  .occArrow { padding: 0; transform: rotate(90deg); align-self: center; }
+  .body,
+  .headerContent {
+    padding: 16px;
+  }
+  .facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+  .occupationRow {
+    flex-direction: column;
+  }
+  .occArrow {
+    padding: 0;
+    transform: rotate(90deg);
+    align-self: center;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 52 — PROPHETIC PRAISE
    ═══════════════════════════════════════════════════════════ */
-.praiseList { display: flex; flex-direction: column; gap: 12px; }
+.praiseList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .praiseCard {
   padding: 14px 16px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--cat-color, #b8860b);
+  border-left: 3px solid var(--cat-color, var(--color-gold));
 }
 .praiseCat {
-  display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .12em; padding: 2px 8px; border-radius: 10px;
-  background: var(--cat-color, #b8860b); color: #1a0e06; margin-bottom: 8px;
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--cat-color, var(--color-gold));
+  color: #1a0e06;
+  margin-bottom: 8px;
 }
-.praiseAr { font-size: 16px; color: var(--color-gold); direction: rtl; margin: 8px 0; line-height: 1.7; }
-.praiseEn { font-size: 13.5px; color: var(--color-text); line-height: 1.65; margin: 8px 0; font-style: italic; }
-.praiseOccasion { font-size: 11.5px; color: var(--color-muted); margin-top: 6px; font-style: normal; }
-.praiseSource { font-size: 10.5px; color: var(--color-gold-dim); font-style: italic; }
+.praiseAr {
+  font-size: 16px;
+  color: var(--color-gold);
+  direction: rtl;
+  margin: 8px 0;
+  line-height: 1.7;
+}
+.praiseEn {
+  font-size: 13.5px;
+  color: var(--color-text);
+  line-height: 1.65;
+  margin: 8px 0;
+  font-style: italic;
+}
+.praiseOccasion {
+  font-size: 11.5px;
+  color: var(--color-muted);
+  margin-top: 6px;
+  font-style: normal;
+}
+.praiseSource {
+  font-size: 10.5px;
+  color: var(--color-gold-dim);
+  font-style: italic;
+}
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 54 — WEAPONS
    ═══════════════════════════════════════════════════════════ */
-.weaponList { display: flex; flex-direction: column; gap: 14px; }
+.weaponList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 .weaponCard {
   padding: 14px 16px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
-.weaponHeader { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-.weaponName { font-size: 14px; font-weight: 700; color: var(--color-text); font-family: 'Cinzel Decorative', serif; }
-.weaponNameAr { font-family: 'Amiri', serif; font-size: 15px; color: var(--color-gold); }
-.weaponType {
-  font-size: 9px; text-transform: uppercase; letter-spacing: .1em; padding: 2px 8px;
-  border-radius: 10px; background: var(--color-surface2); color: var(--color-muted);
+.weaponHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
-.weaponDesc { font-size: 12.5px; color: var(--color-text); line-height: 1.6; margin-bottom: 6px; }
-.weaponAcq  { font-size: 12px; color: var(--color-muted); margin-bottom: 4px; }
-.weaponNow  { font-size: 12px; color: var(--color-muted2); font-style: italic; }
-.weaponSource { font-size: 10.5px; color: var(--color-gold-dim); }
+.weaponName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  font-family: 'Cinzel Decorative', serif;
+}
+.weaponNameAr {
+  font-family: 'Amiri', serif;
+  font-size: 15px;
+  color: var(--color-gold);
+}
+.weaponType {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--color-surface2);
+  color: var(--color-muted);
+}
+.weaponDesc {
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+.weaponAcq {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+.weaponNow {
+  font-size: 12px;
+  color: var(--color-muted2);
+  font-style: italic;
+}
+.weaponSource {
+  font-size: 10.5px;
+  color: var(--color-gold-dim);
+}
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 56 — GIFTS
    ═══════════════════════════════════════════════════════════ */
-.giftList { display: flex; flex-direction: column; gap: 12px; }
+.giftList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .giftCard {
   padding: 14px 16px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
-.giftFromProphet { border-left: 3px solid #b8860b; }
-.giftToCompanion { border-left: 3px solid #1a3462; }
-.giftDir { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--color-muted); margin-bottom: 8px; }
-.giftItem { font-size: 14px; font-weight: 600; color: var(--color-gold); margin-bottom: 6px; }
-.giftOccasion { font-size: 12.5px; color: var(--color-text); margin-bottom: 6px; line-height: 1.6; }
-.giftMeaning { font-size: 12px; color: var(--color-muted2); line-height: 1.55; }
-.giftSource { font-size: 10.5px; color: var(--color-gold-dim); }
+.giftFromProphet {
+  border-left: 3px solid var(--color-gold);
+}
+.giftToCompanion {
+  border-left: 3px solid var(--color-scholar);
+}
+.giftDir {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+.giftItem {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin-bottom: 6px;
+}
+.giftOccasion {
+  font-size: 12.5px;
+  color: var(--color-text);
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+.giftMeaning {
+  font-size: 12px;
+  color: var(--color-muted2);
+  line-height: 1.55;
+}
+.giftSource {
+  font-size: 10.5px;
+  color: var(--color-gold-dim);
+}
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 57 — POW
@@ -587,36 +1395,112 @@
   border-top: 2px solid #8b3a08;
   margin-bottom: 12px;
 }
-.powHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 6px; }
-.powEvent { font-size: 13px; font-weight: 600; color: var(--color-text); }
-.powYear { font-size: 11px; color: var(--color-muted); }
-.powRansom { font-size: 12.5px; color: #b8860b; margin-bottom: 4px; }
-.powPaidBy { font-size: 12.5px; color: var(--color-muted2); margin-bottom: 8px; }
-.powStory { font-size: 12.5px; color: var(--color-text); line-height: 1.65; margin-bottom: 8px; }
-.powFaith { font-size: 12px; color: var(--color-muted2); line-height: 1.55; font-style: italic; }
-.powSource { font-size: 10.5px; color: var(--color-gold-dim); }
+.powHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.powEvent {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.powYear {
+  font-size: 11px;
+  color: var(--color-muted);
+}
+.powRansom {
+  font-size: 12.5px;
+  color: var(--color-gold);
+  margin-bottom: 4px;
+}
+.powPaidBy {
+  font-size: 12.5px;
+  color: var(--color-muted2);
+  margin-bottom: 8px;
+}
+.powStory {
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+.powFaith {
+  font-size: 12px;
+  color: var(--color-muted2);
+  line-height: 1.55;
+  font-style: italic;
+}
+.powSource {
+  font-size: 10.5px;
+  color: var(--color-gold-dim);
+}
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 60 — NAMED ANIMALS
    ═══════════════════════════════════════════════════════════ */
-.animalList { display: flex; flex-direction: column; gap: 12px; }
+.animalList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .animalCard {
   padding: 14px 16px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
-.animalHeader { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-.animalName { font-size: 14px; font-weight: 700; color: var(--color-gold); font-family: 'Cinzel Decorative', serif; }
-.animalNameAr { font-family: 'Amiri', serif; font-size: 16px; color: var(--color-gold-dim); }
-.animalSpecies {
-  font-size: 9px; text-transform: uppercase; letter-spacing: .1em; padding: 2px 8px;
-  border-radius: 10px; background: var(--color-surface2); color: var(--color-muted);
+.animalHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
-.animalRole { font-size: 12px; font-weight: 600; color: var(--color-muted2); margin-bottom: 6px; font-style: italic; }
-.animalStory { font-size: 12.5px; color: var(--color-text); line-height: 1.65; margin-bottom: 6px; }
-.animalFate { font-size: 12px; color: var(--color-muted); }
-.animalSource { font-size: 10.5px; color: var(--color-gold-dim); }
+.animalName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-gold);
+  font-family: 'Cinzel Decorative', serif;
+}
+.animalNameAr {
+  font-family: 'Amiri', serif;
+  font-size: 16px;
+  color: var(--color-gold-dim);
+}
+.animalSpecies {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--color-surface2);
+  color: var(--color-muted);
+}
+.animalRole {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted2);
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.animalStory {
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.65;
+  margin-bottom: 6px;
+}
+.animalFate {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+.animalSource {
+  font-size: 10.5px;
+  color: var(--color-gold-dim);
+}
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 61 — LAND GRANTS
@@ -626,72 +1510,194 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  border-left: 3px solid #0a5c2e;
+  border-left: 3px solid var(--color-success-text);
   margin-bottom: 12px;
 }
-.landCard p { font-size: 12.5px; color: var(--color-text); line-height: 1.6; margin-bottom: 4px; }
-.landHeader { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
-.landProp { font-size: 14px; font-weight: 700; color: var(--color-gold); }
-.landLoc { font-size: 11px; color: var(--color-muted); font-style: italic; }
-.landSource { font-size: 10.5px; color: var(--color-gold-dim); }
+.landCard p {
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.landHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.landProp {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+.landLoc {
+  font-size: 11px;
+  color: var(--color-muted);
+  font-style: italic;
+}
+.landSource {
+  font-size: 10.5px;
+  color: var(--color-gold-dim);
+}
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 62 — BATTLE WOUNDS
    ═══════════════════════════════════════════════════════════ */
-.woundList { display: flex; flex-direction: column; gap: 12px; }
+.woundList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .woundCard {
   padding: 12px 14px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
-.woundHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.woundBattle { font-size: 13px; font-weight: 600; color: var(--color-text); }
-.woundYear { font-size: 11px; color: var(--color-muted); }
-.woundInjury { font-size: 12.5px; color: var(--color-text); line-height: 1.6; margin-bottom: 4px; }
-.woundWeapon { font-size: 11.5px; color: var(--color-muted2); margin-bottom: 3px; }
-.woundTreated { font-size: 11.5px; color: var(--color-muted); margin-bottom: 3px; }
-.woundOutcome { font-size: 12px; color: var(--color-muted2); font-style: italic; margin-bottom: 4px; }
-.woundMartyr { color: #b8860b !important; font-weight: 600; }
-.woundSource { font-size: 10.5px; color: var(--color-gold-dim); }
+.woundHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.woundBattle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.woundYear {
+  font-size: 11px;
+  color: var(--color-muted);
+}
+.woundInjury {
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.woundWeapon {
+  font-size: 11.5px;
+  color: var(--color-muted2);
+  margin-bottom: 3px;
+}
+.woundTreated {
+  font-size: 11.5px;
+  color: var(--color-muted);
+  margin-bottom: 3px;
+}
+.woundOutcome {
+  font-size: 12px;
+  color: var(--color-muted2);
+  font-style: italic;
+  margin-bottom: 4px;
+}
+.woundMartyr {
+  color: var(--color-gold) !important;
+  font-weight: 600;
+}
+.woundSource {
+  font-size: 10.5px;
+  color: var(--color-gold-dim);
+}
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 51 — MIRACLES TAB
    ═══════════════════════════════════════════════════════════ */
-.miraclesTab, .poetryTab {
+.miraclesTab,
+.poetryTab {
   padding: 20px 24px;
 }
 .tabIntro {
-  font-size: 13px; color: var(--color-muted2); line-height: 1.65; margin-bottom: 24px;
-  padding: 12px 16px; background: var(--color-surface); border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--color-muted2);
+  line-height: 1.65;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
   border-left: 3px solid var(--color-gold-dim);
 }
 .karamaCard {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-left: 4px solid var(--cat-color, #b8860b);
+  border-left: 4px solid var(--cat-color, var(--color-gold));
   border-radius: var(--radius-md);
   padding: 18px 20px;
   margin-bottom: 20px;
-  transition: box-shadow .2s;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
-.karamaCard:hover { box-shadow: 0 0 0 1px var(--color-border-md); }
+.karamaCard:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px var(--color-border-md),
+    0 10px 24px rgba(80, 50, 10, 0.12);
+}
 .karamaNum {
-  display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .14em; padding: 3px 10px; border-radius: 12px; margin-bottom: 10px;
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
 }
-.karamaTitle { font-size: 16px; font-weight: 700; color: var(--color-text); margin-bottom: 12px; font-family: 'DM Serif Display', serif; }
-.karamaStory { font-size: 13px; color: var(--color-text); line-height: 1.7; margin-bottom: 12px; }
-.karamaAr { font-family: 'Amiri', serif; font-size: 17px; color: var(--color-gold); direction: rtl; margin: 10px 0; line-height: 1.8; }
+.karamaTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 12px;
+  font-family: 'DM Serif Display', serif;
+}
+.karamaStory {
+  font-size: 13px;
+  color: var(--color-text);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.karamaAr {
+  font-family: 'Amiri', serif;
+  font-size: 17px;
+  color: var(--color-gold);
+  direction: rtl;
+  margin: 10px 0;
+  line-height: 1.8;
+}
 .karamaEn {
-  font-size: 13.5px; color: var(--color-gold); font-style: italic; margin: 8px 0;
-  padding: 10px 14px; border-left: 2px solid var(--color-gold-dim);
-  background: var(--color-gold-pale); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 13.5px;
+  color: var(--color-gold);
+  font-style: italic;
+  margin: 8px 0;
+  padding: 10px 14px;
+  border-left: 2px solid var(--color-gold-dim);
+  background: var(--color-gold-pale);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
-.karamaMeta { font-size: 12px; color: var(--color-muted2); margin-top: 6px; }
-.karamaFooter { display: flex; flex-direction: column; gap: 2px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--color-border); }
-.karamaAuth { font-size: 11px; color: var(--color-muted2); font-style: italic; }
-.karamaSource { font-size: 11px; color: var(--color-gold-dim); }
+.karamaMeta {
+  font-size: 12px;
+  color: var(--color-muted2);
+  margin-top: 6px;
+}
+.karamaFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+}
+.karamaAuth {
+  font-size: 11px;
+  color: var(--color-muted2);
+  font-style: italic;
+}
+.karamaSource {
+  font-size: 11px;
+  color: var(--color-gold-dim);
+}
 
 /* ═══════════════════════════════════════════════════════════
    FEATURE 53 — POETRY TAB
@@ -702,11 +1708,37 @@
   border-radius: var(--radius-md);
   padding: 18px 20px;
   margin-bottom: 20px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
-.poemHeader { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
-.poemTitle { font-size: 16px; font-weight: 700; color: var(--color-text); font-family: 'DM Serif Display', serif; }
-.poemMeter { font-size: 10px; font-style: italic; }
-.poemOccasion { font-size: 12px; color: var(--color-muted2); margin-bottom: 14px; font-style: italic; }
+.poemCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(80, 50, 10, 0.1);
+}
+.poemHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.poemTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  font-family: 'DM Serif Display', serif;
+}
+.poemMeter {
+  font-size: 10px;
+  font-style: italic;
+}
+.poemOccasion {
+  font-size: 12px;
+  color: var(--color-muted2);
+  margin-bottom: 14px;
+  font-style: italic;
+}
 .poemVerses {
   background: var(--color-surface2);
   border-radius: var(--radius-md);
@@ -714,48 +1746,629 @@
   margin: 12px 0;
 }
 .poemAr {
-  font-family: 'Amiri', serif; font-size: 18px; color: var(--color-gold);
-  direction: rtl; text-align: right; line-height: 2.2; white-space: pre-line; margin-bottom: 14px;
+  font-family: 'Amiri', serif;
+  font-size: 18px;
+  color: var(--color-gold);
+  direction: rtl;
+  text-align: right;
+  line-height: 2.2;
+  white-space: pre-line;
+  margin-bottom: 14px;
 }
-.poemEn { font-size: 13px; color: var(--color-text); line-height: 1.8; white-space: pre-line; font-style: italic; }
-.poemTheme { font-size: 12px; color: var(--color-muted2); margin: 8px 0; }
-.poemContext { font-size: 12.5px; color: var(--color-text); line-height: 1.65; margin-bottom: 8px; }
-.poemSource { font-size: 10.5px; color: var(--color-gold-dim); }
+.poemEn {
+  font-size: 13px;
+  color: var(--color-text);
+  line-height: 1.8;
+  white-space: pre-line;
+  font-style: italic;
+}
+.poemTheme {
+  font-size: 12px;
+  color: var(--color-muted2);
+  margin: 8px 0;
+}
+.poemContext {
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+.poemSource {
+  font-size: 10.5px;
+  color: var(--color-gold-dim);
+}
 
-/* ---- Feature 92 � Quran Memorization Record ---- */
-.memRecord { margin-top:24px;border-top:1px solid rgba(255,255,255,.08);padding-top:20px; }
-.memTitle { font-size:14px;font-weight:700;color:#eee;margin:0 0 12px; }
-.memDesig { border-left:3px solid;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:0 6px 6px 0;font-size:13px;color:#bbb;margin-bottom:10px; }
-.memHadith { font-size:13px;color:#bbb;line-height:1.7;margin:0 0 6px; }
-.memSource { font-size:11px;color:#666;display:block;margin-bottom:10px; }
-.memSurahs { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center; }
-.memSurahs strong { font-size:12px;color:#aaa; }
-.memSurah { font-size:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:2px 8px;border-radius:4px;color:#ccc; }
-.memNote { font-size:12px;color:#888;line-height:1.6;border-left:2px solid rgba(212,168,32,.3);padding-left:10px;margin:0; }
+/* ---- Feature 92 · Quran Memorization Record ---- */
+.memRecord {
+  margin-top: 24px;
+  border-top: 1px solid var(--color-gold-pale);
+  padding-top: 20px;
+}
+.memTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #eee;
+  margin: 0 0 12px;
+}
+.memDesig {
+  border-left: 3px solid;
+  padding: 8px 12px;
+  background: var(--color-gold-pale);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  color: #bbb;
+  margin-bottom: 10px;
+}
+.memHadith {
+  font-size: 13px;
+  color: #bbb;
+  line-height: 1.7;
+  margin: 0 0 6px;
+}
+.memSource {
+  font-size: 11px;
+  color: #666;
+  display: block;
+  margin-bottom: 10px;
+}
+.memSurahs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+.memSurahs strong {
+  font-size: 12px;
+  color: #aaa;
+}
+.memSurah {
+  font-size: 11px;
+  background: var(--color-gold-pale);
+  border: 1px solid var(--color-gold-pale);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #ccc;
+}
+.memNote {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.6;
+  border-left: 2px solid rgba(15, 111, 92, 0.3);
+  padding-left: 10px;
+  margin: 0;
+}
 
-/* ---- Feature 87 � Tafsir Tab ---- */
-.tafsirTab { }
-.tafsirIntro { font-size:13px;color:#aaa;line-height:1.7;margin:0 0 20px; }
-.tafsirEntry { border-left:3px solid;padding:16px 18px;background:rgba(255,255,255,.03);border-radius:0 8px 8px 0;margin-bottom:14px; }
-.tafsirRef { display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap; }
-.tafsirSurah { font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em; }
-.tafsirContext { font-size:11px;color:#888;background:rgba(255,255,255,.05);padding:2px 8px;border-radius:4px; }
-.tafsirAyah { font-size:20px;color:#d4a820;margin:6px 0 10px;line-height:1.5;direction:rtl; }
-.tafsirInterp { font-size:13px;color:#ccc;line-height:1.75;margin:0 0 10px; }
-.tafsirSig { font-size:12px;color:#bbb;background:rgba(212,168,32,.06);border-radius:6px;padding:8px 12px;margin-bottom:8px;line-height:1.6; }
-.tafsirSig strong { color:#d4a820; }
-.tafsirSource { font-size:11px;color:#666;font-style:italic; }
+/* ---- Feature 87 · Tafsir Tab ---- */
+.tafsirTab {
+}
+.tafsirIntro {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+.tafsirEntry {
+  border-left: 3px solid;
+  padding: 16px 18px;
+  background: var(--color-gold-pale);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 14px;
+}
+.tafsirEntry {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.tafsirEntry:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(80, 50, 10, 0.08);
+}
 
-/* ---- Feature 100 � Legacy Score ---- */
-.legacyScore { border:2px solid;border-radius:12px;padding:18px 20px;margin-bottom:24px;background:rgba(255,255,255,.02); }
-.lsHeader { display:flex;justify-content:space-between;align-items:center;margin-bottom:14px; }
-.lsTitle { font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#aaa; }
-.lsTotal { font-size:32px;font-weight:900;letter-spacing:-.01em; }
-.lsMax { font-size:16px;opacity:.5; }
-.lsBars { display:flex;flex-direction:column;gap:8px;margin-bottom:14px; }
-.lsBar { display:flex;align-items:center;gap:10px; }
-.lsBarLabel { font-size:11px;color:#888;width:80px;flex-shrink:0; }
-.lsBarTrack { flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px; }
-.lsBarFill { height:100%;border-radius:3px;transition:width .6s ease; }
-.lsBarVal { font-size:11px;color:#666;width:50px;text-align:right;flex-shrink:0; }
-.lsBreakdown { font-size:12px;color:#999;line-height:1.6;margin:0;border-top:1px solid rgba(255,255,255,.06);padding-top:12px; }
+@keyframes cmFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cmFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes cmModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes cmModalOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+    filter: blur(1px);
+  }
+}
+@keyframes cmBodyIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cmBodySwap {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes authPulse {
+  0% {
+    transform: scale(0.96);
+  }
+  55% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes arDraw {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes arInk {
+  0% {
+    stroke-dashoffset: 1200;
+    opacity: 0.75;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+@keyframes arInkShadow {
+  0% {
+    stroke-dashoffset: 1400;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.55;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.55;
+  }
+}
+@keyframes arInkHighlight {
+  0% {
+    stroke-dashoffset: 1100;
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.45;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.55;
+  }
+}
+@keyframes arInkOut {
+  from {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  to {
+    stroke-dashoffset: 1200;
+    opacity: 0;
+  }
+}
+@keyframes arInkShadowOut {
+  from {
+    stroke-dashoffset: 0;
+    opacity: 0.55;
+  }
+  to {
+    stroke-dashoffset: 1400;
+    opacity: 0;
+  }
+}
+@keyframes arInkHighlightOut {
+  from {
+    stroke-dashoffset: 0;
+    opacity: 0.55;
+  }
+  to {
+    stroke-dashoffset: 1100;
+    opacity: 0;
+  }
+}
+@keyframes nameSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes nameSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+@keyframes catStamp {
+  from {
+    transform: scale(1.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes catShrink {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+@keyframes restFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes restFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.02);
+  }
+}
+@keyframes borderPulseMed {
+  0%,
+  100% {
+    box-shadow:
+      0 20px 60px rgba(100, 60, 0, 0.25),
+      0 0 0 1px var(--color-gold-pale);
+  }
+  50% {
+    box-shadow:
+      0 20px 60px rgba(100, 60, 0, 0.25),
+      0 0 0 1px color-mix(in srgb, var(--cat-color) 35%, var(--color-gold-pale));
+  }
+}
+@keyframes borderPulseHigh {
+  0%,
+  100% {
+    box-shadow:
+      0 20px 60px rgba(100, 60, 0, 0.25),
+      0 0 0 1px var(--color-gold-pale);
+  }
+  50% {
+    box-shadow:
+      0 20px 60px rgba(100, 60, 0, 0.25),
+      0 0 0 1px color-mix(in srgb, var(--cat-color) 60%, var(--color-gold-pale));
+  }
+}
+@keyframes borderShimmer {
+  from {
+    transform: translateX(-40%);
+  }
+  to {
+    transform: translateX(40%);
+  }
+}
+
+@keyframes sigRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes sigSlash {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  55% {
+    opacity: 0.9;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@keyframes sigFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-6px);
+    opacity: 0.95;
+  }
+}
+@keyframes sigBloom {
+  0%,
+  100% {
+    transform: scale(0.98);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes sigUnroll {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(2px);
+    opacity: 1;
+  }
+}
+@keyframes sigNeedle {
+  0%,
+  100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+@keyframes sigRise {
+  0% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+}
+@keyframes sigPulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headerAccent,
+  .battleMed,
+  .battleHigh,
+  .battleMax::after,
+  .arSvgText,
+  .arSvgTextShadow,
+  .arSvgTextHighlight,
+  .arDraw,
+  .nameSlideIn,
+  .catStamp,
+  .restFadeIn,
+  .catSig_caliph,
+  .catSig_warrior .sigSlash path,
+  .catSig_scholar .sigLetters text,
+  .catSig_wife .sigFlower ellipse,
+  .catSig_narrator .sigScroll path,
+  .catSig_general,
+  .catSig_general .sigCompass path,
+  .catSig_martyr .sigMartyr circle,
+  .catSig_companion .sigPulse circle,
+  .hadithRibbonShimmer,
+  .hadithRibbonShimmerFast,
+  .quoteWord,
+  .quoteCitation {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .modal,
+  .body,
+  .quranEntry,
+  .karamaCard,
+  .poemCard,
+  .tafsirEntry {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+.tafsirRef {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.tafsirSurah {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.tafsirContext {
+  font-size: 11px;
+  color: #888;
+  background: var(--color-gold-pale);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.tafsirAyah {
+  font-size: 20px;
+  color: var(--color-gold);
+  margin: 6px 0 10px;
+  line-height: 1.5;
+  direction: rtl;
+}
+.tafsirInterp {
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.75;
+  margin: 0 0 10px;
+}
+.tafsirSig {
+  font-size: 12px;
+  color: #bbb;
+  background: rgba(15, 111, 92, 0.06);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+.tafsirSig strong {
+  color: var(--color-gold);
+}
+.tafsirSource {
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+}
+
+/* ---- Feature 100 · Legacy Score ---- */
+.legacyScore {
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  background: var(--color-gold-pale);
+}
+.lsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.lsTitle {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #aaa;
+}
+.lsTotal {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+.lsMax {
+  font-size: 16px;
+  opacity: 0.5;
+}
+.lsBars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.lsBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.lsBarLabel {
+  font-size: 11px;
+  color: #888;
+  width: 80px;
+  flex-shrink: 0;
+}
+.lsBarTrack {
+  flex: 1;
+  height: 6px;
+  background: var(--color-gold-pale);
+  border-radius: 3px;
+}
+.lsBarFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+.lsBarVal {
+  font-size: 11px;
+  color: #666;
+  width: 50px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.lsBreakdown {
+  font-size: 12px;
+  color: #999;
+  line-height: 1.6;
+  margin: 0;
+  border-top: 1px solid var(--color-gold-pale);
+  padding-top: 12px;
+}

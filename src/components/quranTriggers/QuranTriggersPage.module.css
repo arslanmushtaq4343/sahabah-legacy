@@ -10,14 +10,18 @@
 .header {
   position: relative;
   padding: 64px 40px 48px;
-  border-bottom: 1px solid rgba(184,134,11,0.15);
+  border-bottom: 1px solid rgba(15, 111, 92, 0.15);
   overflow: hidden;
 }
 
 .headerGlow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 70% at 50% -10%, rgba(184,134,11,0.1) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse 60% 70% at 50% -10%,
+    rgba(15, 111, 92, 0.1) 0%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -25,7 +29,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #b8860b;
+  color: var(--color-gold);
   margin: 0 0 14px;
 }
 
@@ -39,7 +43,7 @@
 }
 
 .gold {
-  background: linear-gradient(135deg, #d4af37 0%, #b8860b 50%, #f0d060 100%);
+  background: linear-gradient(135deg, #d4af37 0%, var(--color-gold) 50%, #f0d060 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -59,12 +63,12 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid var(--color-gold-pale);
 }
 
 .search {
   background: #181410;
-  border: 1px solid rgba(184,134,11,0.2);
+  border: 1px solid rgba(15, 111, 92, 0.2);
   border-radius: 4px;
   color: #e8dfc8;
   padding: 10px 16px;
@@ -76,7 +80,7 @@
 }
 
 .search:focus {
-  border-color: #b8860b;
+  border-color: var(--color-gold);
 }
 
 .search::placeholder {
@@ -92,7 +96,7 @@
 .catBtn {
   padding: 5px 14px;
   border-radius: 20px;
-  border: 1px solid rgba(184,134,11,0.2);
+  border: 1px solid rgba(15, 111, 92, 0.2);
   background: transparent;
   color: #8a7a5a;
   font-size: 0.75rem;
@@ -103,13 +107,13 @@
 }
 
 .catBtn:hover {
-  border-color: #b8860b;
-  color: #b8860b;
+  border-color: var(--color-gold);
+  color: var(--color-gold);
 }
 
 .catActive {
-  background: linear-gradient(135deg, #b8860b, #d4af37);
-  border-color: #b8860b;
+  background: linear-gradient(135deg, var(--color-gold), #d4af37);
+  border-color: var(--color-gold);
   color: #0c0a06 !important;
   font-weight: 600;
 }
@@ -139,18 +143,20 @@
 
 /* ─── Card ─── */
 .card {
-  border: 1px solid rgba(255,255,255,0.06);
-  border-left: 3px solid var(--cc, #b8860b);
+  border: 1px solid var(--color-gold-pale);
+  border-left: 3px solid var(--cc, var(--color-gold));
   border-radius: 3px;
   background: #0f0d09;
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .card:hover,
 .cardOpen {
-  border-left-color: var(--cc, #b8860b);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  border-left-color: var(--cc, var(--color-gold));
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 /* summary row */
@@ -169,7 +175,7 @@
 }
 
 .summary:hover {
-  background: rgba(255,255,255,0.02);
+  background: var(--color-gold-pale);
 }
 
 .summaryLeft {
@@ -182,7 +188,7 @@
 .surahRef {
   font-family: 'Cinzel Decorative', serif;
   font-size: 0.82rem;
-  color: var(--cc, #b8860b);
+  color: var(--cc, var(--color-gold));
   letter-spacing: 0.05em;
 }
 
@@ -239,7 +245,7 @@
 /* ─── Detail ─── */
 .detail {
   padding: 0 24px 28px;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--color-gold-pale);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -248,12 +254,29 @@
 .ayahBlock {
   padding: 24px;
   background: #0a0806;
-  border: 1px solid rgba(184,134,11,0.15);
+  border: 1px solid rgba(15, 111, 92, 0.15);
   border-radius: 3px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-top: 20px;
+}
+
+.audioLink {
+  align-self: flex-start;
+  color: var(--color-gold);
+  border: 1px solid rgba(15, 111, 92, 0.28);
+  background: rgba(15, 111, 92, 0.1);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.audioLink:hover {
+  border-color: var(--color-gold);
+  background: rgba(15, 111, 92, 0.18);
 }
 
 .ayahAr {
@@ -268,8 +291,8 @@
 .refBadge {
   font-family: 'Cinzel Decorative', serif;
   font-size: 0.72rem;
-  background: rgba(184,134,11,0.15);
-  color: #b8860b;
+  background: rgba(15, 111, 92, 0.15);
+  color: var(--color-gold);
   padding: 2px 7px;
   border-radius: 3px;
   margin-right: 6px;
@@ -291,7 +314,7 @@
   text-align: right;
   margin: 0;
   padding-top: 10px;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--color-gold-pale);
 }
 
 .companionBox {
@@ -299,8 +322,8 @@
   flex-direction: column;
   gap: 4px;
   padding: 16px;
-  background: rgba(184,134,11,0.04);
-  border: 1px solid rgba(184,134,11,0.1);
+  background: rgba(15, 111, 92, 0.04);
+  border: 1px solid rgba(15, 111, 92, 0.1);
   border-radius: 3px;
 }
 
@@ -308,7 +331,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #b8860b;
+  color: var(--color-gold);
 }
 
 .compFull {
@@ -333,7 +356,7 @@
   font-family: 'DM Serif Display', serif;
   font-size: 0.95rem;
   font-weight: 400;
-  color: #b8860b;
+  color: var(--color-gold);
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -352,7 +375,7 @@
   flex-direction: column;
   gap: 4px;
   padding-top: 8px;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--color-gold-pale);
 }
 
 .sourceLabel {
@@ -373,4 +396,34 @@
 :global(body.tahajjud) .chevron,
 :global(body.tahajjud) .sourceLabel {
   color: var(--color-muted2);
+}
+
+@media (max-width: 768px) {
+  .page {
+    min-height: auto;
+    padding-bottom: 48px;
+  }
+
+  .header {
+    padding: 42px 18px 32px;
+  }
+
+  .controls {
+    padding: 18px 14px 12px;
+  }
+
+  .cats {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .catBtn {
+    flex: 0 0 auto;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    padding: 20px 14px;
+  }
 }

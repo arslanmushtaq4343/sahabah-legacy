@@ -22,24 +22,34 @@
 
 .shell {
   display: flex;
-  height: 100vh;        /* definite height so flex children can resolve % heights */
+  height: 100vh; /* definite height so flex children can resolve % heights */
+  height: 100dvh;
   overflow: hidden;
-  background: linear-gradient(160deg, color-mix(in srgb, var(--color-bg) 92%, #fff 8%), var(--color-surface));
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-bg) 92%, #fff 8%),
+    var(--color-surface)
+  );
+}
+
+:global(body.tahajjud) .shell {
+  background: linear-gradient(160deg, #07101d 0%, #102039 48%, #172a45 100%);
+  border-color: rgba(110, 170, 255, 0.18);
 }
 
 .main {
   flex: 1;
   margin-left: var(--sidebar-w);
   overflow-x: hidden;
-  overflow-y: auto;     /* pages that need scrolling still scroll */
+  overflow-y: auto; /* pages that need scrolling still scroll */
   min-width: 0;
-  min-height: 0;        /* allows flex children to shrink below content size */
+  min-height: 0; /* allows flex children to shrink below content size */
   padding-inline: 0.25rem;
 }
 
 /* Page transition — only animate opacity, never dimensions */
 .main > * {
-  animation: fadeIn .25s ease forwards;
+  animation: fadeIn 0.25s ease forwards;
 }
 
 .weeklyBadgeWrap {
@@ -50,8 +60,31 @@
 }
 
 @media (max-width: 768px) {
+  .shell {
+    display: block;
+  }
+
   .main {
     margin-left: 0;
-    padding-top: 56px;
+    padding-top: 64px;
+    height: 100dvh;
+    overflow-x: clip;
+  }
+
+  .weeklyBadgeWrap {
+    left: 10px;
+    right: auto;
+    bottom: 64px;
+    max-width: calc(100vw - 76px);
+  }
+}
+
+@media (max-width: 520px) {
+  .main {
+    padding-inline: 0;
+  }
+
+  .weeklyBadgeWrap {
+    display: none;
   }
 }

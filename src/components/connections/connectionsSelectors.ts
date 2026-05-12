@@ -1,7 +1,11 @@
-import type { Companion } from '@sahabah/shared-types';
+import type { Companion } from '../../types';
 import type { BranchDef, GraphLayer } from './connectionsTypes';
 
-export function filterCompanionsByBranch(companions: Companion[], branches: BranchDef[], activeFilter: string) {
+export function filterCompanionsByBranch(
+  companions: Companion[],
+  branches: BranchDef[],
+  activeFilter: string
+) {
   if (activeFilter === 'all') return companions;
   return companions.filter(c => {
     const br = branches.find(b => b.types.includes(c.relType) || b.types.includes(c.cat));

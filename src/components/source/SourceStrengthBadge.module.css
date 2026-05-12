@@ -1,0 +1,48 @@
+.badge {
+  --strength-color: #c9a84c;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid color-mix(in srgb, var(--strength-color) 48%, transparent);
+  background: color-mix(in srgb, var(--strength-color) 14%, transparent);
+  color: var(--strength-color);
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.compact {
+  padding: 2px 7px;
+  font-size: 0.6rem;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--strength-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--strength-color) 16%, transparent);
+}
+
+.strong {
+  --strength-color: #2ca66f;
+}
+
+.moderate {
+  --strength-color: #c9a84c;
+}
+
+.weak {
+  --strength-color: #d78a3d;
+}
+
+.disputed {
+  --strength-color: #cf5c5c;
+}

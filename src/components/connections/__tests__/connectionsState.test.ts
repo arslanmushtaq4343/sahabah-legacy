@@ -3,7 +3,10 @@ import { connectionsReducer, INITIAL_CONNECTIONS_STATE } from '../connectionsSta
 
 describe('connectionsReducer', () => {
   it('sets graph layer and tab', () => {
-    const s1 = connectionsReducer(INITIAL_CONNECTIONS_STATE, { type: 'setGraphLayer', value: 'trade' });
+    const s1 = connectionsReducer(INITIAL_CONNECTIONS_STATE, {
+      type: 'setGraphLayer',
+      value: 'trade',
+    });
     const s2 = connectionsReducer(s1, { type: 'setGraphTab', value: 'journeys' });
     expect(s2.graphLayer).toBe('trade');
     expect(s2.graphTab).toBe('journeys');
@@ -17,7 +20,10 @@ describe('connectionsReducer', () => {
   });
 
   it('resets to defaults', () => {
-    const changed = connectionsReducer(INITIAL_CONNECTIONS_STATE, { type: 'setActiveFilter', value: 'family' });
+    const changed = connectionsReducer(INITIAL_CONNECTIONS_STATE, {
+      type: 'setActiveFilter',
+      value: 'family',
+    });
     const reset = connectionsReducer(changed, { type: 'resetAll' });
     expect(reset).toEqual(INITIAL_CONNECTIONS_STATE);
   });

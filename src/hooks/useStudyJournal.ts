@@ -15,7 +15,9 @@ function load(): Set<number> {
 function save(set: Set<number>) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
-  } catch { /* storage full */ }
+  } catch {
+    /* storage full */
+  }
 }
 
 export function useStudyJournal() {
@@ -51,7 +53,8 @@ export function useStudyJournal() {
   const toggleStudied = useCallback((rank: number) => {
     setStudied(prev => {
       const next = new Set(prev);
-      if (next.has(rank)) next.delete(rank); else next.add(rank);
+      if (next.has(rank)) next.delete(rank);
+      else next.add(rank);
       save(next);
       return next;
     });

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { LAQAB_DATA, type Laqab } from '../../data/laqab';
+import { normalizeTransliteration } from '../../data/transliteration';
 import s from './LaqabPage.module.css';
 
 export default function LaqabPage() {
@@ -10,11 +11,11 @@ export default function LaqabPage() {
     const q = search.toLowerCase();
     if (!q) return LAQAB_DATA;
     return LAQAB_DATA.filter(
-      (l) =>
+      l =>
         l.companion.toLowerCase().includes(q) ||
-        l.laqab.toLowerCase().includes(q) ||
-        l.laqabEn.toLowerCase().includes(q) ||
-        l.occasionEn.toLowerCase().includes(q),
+        normalizeTransliteration(l.laqab).toLowerCase().includes(q) ||
+        normalizeTransliteration(l.laqabEn).toLowerCase().includes(q) ||
+        normalizeTransliteration(l.occasionEn).toLowerCase().includes(q)
     );
   }, [search]);
 
@@ -28,8 +29,8 @@ export default function LaqabPage() {
           Prophetic <span className={s.gold}>Laqab</span> Encyclopedia
         </h1>
         <p className={s.lead}>
-          Every honorific personally bestowed by the Prophet ﷺ — with Arabic script, meaning,
-          the occasion given, the Prophet's exact words, and hadith source.
+          Every honorific personally bestowed by the Prophet ﷺ — with Arabic script, meaning, the
+          occasion given, the Prophet's exact words, and hadith source.
         </p>
       </header>
 
@@ -39,14 +40,14 @@ export default function LaqabPage() {
           className={s.search}
           placeholder="Search companion or nickname…"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={e => setSearch(e.target.value)}
         />
         <span className={s.countLabel}>{filtered.length} titles</span>
       </div>
 
       {/* Grid */}
       <div className={s.grid}>
-        {filtered.map((l) => (
+        {filtered.map(l => (
           <LaqabCard
             key={l.id}
             laqab={l}
@@ -59,7 +60,15 @@ export default function LaqabPage() {
   );
 }
 
-function LaqabCard({ laqab: l, isActive, onToggle }: { laqab: Laqab; isActive: boolean; onToggle: () => void }) {
+function LaqabCard({
+  laqab: l,
+  isActive,
+  onToggle,
+}: {
+  laqab: Laqab;
+  isActive: boolean;
+  onToggle: () => void;
+}) {
   return (
     <article
       className={`${s.card} ${isActive ? s.cardActive : ''}`}
@@ -72,13 +81,13 @@ function LaqabCard({ laqab: l, isActive, onToggle }: { laqab: Laqab; isActive: b
         </div>
 
         <div className={s.cardMeta}>
-          <p className={s.laqabEn}>{l.laqabEn}</p>
+          <p className={s.laqabEn}>{normalizeTransliteration(l.laqabEn)}</p>
           <h2 className={s.laqabAr}>{l.laqabAr}</h2>
-          <p className={s.laqabLatin}>{l.laqab}</p>
+          <p className={s.laqabLatin}>{normalizeTransliteration(l.laqab)}</p>
         </div>
 
         <div className={s.compRow}>
-          <span className={s.compName}>{l.companion}</span>
+          <span className={s.compName}>{normalizeTransliteration(l.companion)}</span>
           <span className={s.compAr}>{l.companionAr}</span>
         </div>
 
@@ -90,20 +99,24 @@ function LaqabCard({ laqab: l, isActive, onToggle }: { laqab: Laqab; isActive: b
         <div className={s.detail}>
           <div className={s.sect}>
             <span className={s.sectLabel}>Occasion Given</span>
-            <p className={s.sectText}>{l.occasionEn}</p>
+            <p className={s.sectText}>{normalizeTransliteration(l.occasionEn)}</p>
           </div>
 
           {l.prophetsWordsAr && (
             <div className={s.quoteBlock}>
-              <p className={s.quoteAr} dir="rtl">{l.prophetsWordsAr}</p>
-              {l.prophetsWordsEn && <p className={s.quoteEn}>"{l.prophetsWordsEn}"</p>}
+              <p className={s.quoteAr} dir="rtl">
+                {l.prophetsWordsAr}
+              </p>
+              {l.prophetsWordsEn && (
+                <p className={s.quoteEn}>"{normalizeTransliteration(l.prophetsWordsEn)}"</p>
+              )}
               <span className={s.quoteLabel}>— Words of the Prophet ﷺ</span>
             </div>
           )}
 
           <div className={s.sect}>
             <span className={s.sectLabel}>Historical Significance</span>
-            <p className={s.sectText}>{l.significance}</p>
+            <p className={s.sectText}>{normalizeTransliteration(l.significance)}</p>
           </div>
 
           <div className={s.sourceRow}>

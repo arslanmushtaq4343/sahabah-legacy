@@ -39,19 +39,25 @@ function useTahajjud() {
   return { active, toggle: () => setActive(a => !a) };
 }
 
-const NAV = [
-  { to: '/',            icon: '🕌', key: 'nav.home' },
-  { to: '/companions',  icon: '📖', key: 'nav.companions' },
-  { to: '/connections', icon: '🕸', key: 'nav.connections' },
-  { to: '/insights',    icon: '📊', key: 'nav.insights' },
-  { to: '/imams',       icon: '⛓', key: 'nav.imams' },
-  { to: '/library',     icon: '✦',  key: 'nav.archive', divider: true },
+const NAV: { to: string; icon: string; key: string; divider?: boolean }[] = [
+  { to: '/', icon: '◇', key: 'nav.home' },
+  { to: '/companions', icon: '◷', key: 'nav.companions' },
+  { to: '/connections', icon: '⌬', key: 'nav.connections' },
+  { to: '/insights', icon: '◐', key: 'nav.insights' },
+  { to: '/imams', icon: '⌖', key: 'nav.imams' },
+  { to: '/today', icon: '☼', key: 'nav.today', divider: true },
+  { to: '/voices', icon: '❝', key: 'nav.voices' },
+  { to: '/compass', icon: '✧', key: 'nav.compass' },
+  { to: '/study', icon: 'S', key: 'nav.study' },
+  { to: '/timeline', icon: 'T', key: 'nav.timeline' },
+  { to: '/research', icon: 'R', key: 'nav.research' },
+  { to: '/library', icon: '✦', key: 'nav.archive', divider: true },
 ];
 
 export default function Sidebar() {
   const { lang, toggle } = useLanguage();
   const t = useT();
-  const { selected, openPanel } = useCompare();
+  const { selectedItems, openPanel } = useCompare();
   const { active: tahajjud, toggle: toggleTahajjud } = useTahajjud();
 
   return (
@@ -68,35 +74,62 @@ export default function Sidebar() {
             <NavLink
               to={to}
               end={to === '/'}
-              className={({ isActive }) =>
-                [styles.link, isActive ? styles.active : ''].join(' ')
-              }
+              aria-label={t(key as any)}
+              className={({ isActive }) => [styles.link, isActive ? styles.active : ''].join(' ')}
             >
               <span className={styles.icon}>{icon}</span>
-              <span>{t(key as any)}</span>
+              <span className={styles.linkLabel}>{t(key as any)}</span>
             </NavLink>
           </div>
         ))}
       </nav>
 
       <div className={styles.footer}>
-        {selected.length > 0 && (
+        {selectedItems.length > 0 && (
           <button className={styles.compareBtn} onClick={openPanel}>
-            {t('ui.compare')} ({selected.length})
+            {t('ui.compare')} ({selectedItems.length})
           </button>
         )}
         <button className={styles.langBtn} onClick={toggle}>
-          {lang === 'en' ? t('ui.language.ur') : t('ui.language.en')}
+          <span className={styles.actionFull}>
+            {lang === 'en' ? t('ui.language.ur') : t('ui.language.en')}
+          </span>
+          <span className={styles.actionShort}>{lang === 'en' ? 'UR' : 'EN'}</span>
         </button>
         <button
-          className={`${styles.tahajjudBtn} ${tahajjud ? styles.tahajjudActive : ''}`}
+          type="button"
+          className={`${styles.nightBtn} ${tahajjud ? styles.nightBtnActive : ''}`}
           onClick={toggleTahajjud}
-          title={tahajjud ? 'Exit Night Mode' : 'Tahajjud Night Mode (auto-activates 12–4 AM)'}
+          title={tahajjud ? 'Exit Night Mode' : 'Tahajjud Night Mode (auto-activates 12-4 AM)'}
+          aria-pressed={tahajjud}
         >
-          {tahajjud ? t('ui.nightMode.exit') : t('ui.nightMode.enter')}
+          <span className={styles.actionFull}>
+            {tahajjud ? t('ui.nightMode.exit') : t('ui.nightMode.enter')}
+          </span>
+          <span className={styles.actionShort}>{tahajjud ? 'Day' : 'Night'}</span>
         </button>
+        <details className={styles.footerOverflow}>
+          <summary
+            className={styles.footerOverflowSummary}
+            aria-label="More rail options"
+            title="More options"
+          >
+            {'⋯'}
+          </summary>
+          <div className={styles.footerOverflowMenu}>
+            <button
+              type="button"
+              className={`${styles.footerOverflowItem} ${tahajjud ? styles.footerOverflowItemActive : ''}`}
+              onClick={toggleTahajjud}
+              title={
+                tahajjud ? 'Exit Night Mode' : 'Tahajjud Night Mode (auto-activates 12–4 AM)'
+              }
+            >
+              {tahajjud ? t('ui.nightMode.exit') : t('ui.nightMode.enter')}
+            </button>
+          </div>
+        </details>
       </div>
     </aside>
   );
 }
-

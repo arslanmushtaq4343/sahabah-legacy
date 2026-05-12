@@ -1,4 +1,4 @@
-import type { Companion } from '@sahabah/shared-types';
+import type { Companion } from '../../types';
 
 function csvEscape(value: string | number) {
   const s = String(value ?? '');
@@ -9,7 +9,17 @@ function csvEscape(value: string | number) {
 }
 
 export function exportCompanionsCsv(rows: Companion[], fileName = 'connections-export.csv') {
-  const header = ['rank', 'name', 'ar', 'category', 'relType', 'hadiths', 'battles', 'place', 'tribe'];
+  const header = [
+    'rank',
+    'name',
+    'ar',
+    'category',
+    'relType',
+    'hadiths',
+    'battles',
+    'place',
+    'tribe',
+  ];
   const body = rows.map(c =>
     [
       c.rank,

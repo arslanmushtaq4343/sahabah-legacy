@@ -1,5 +1,7 @@
 .page {
-  transition: opacity var(--transition), transform var(--transition);
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
   will-change: opacity, transform;
 }
 

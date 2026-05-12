@@ -74,7 +74,8 @@ export function connectionsReducer(
         next.graphTab = action.value.graphTab;
       }
       if (action.value.isPathMode !== undefined) next.isPathMode = Boolean(action.value.isPathMode);
-      if (action.value.compareMode !== undefined) next.compareMode = Boolean(action.value.compareMode);
+      if (action.value.compareMode !== undefined)
+        next.compareMode = Boolean(action.value.compareMode);
       return next;
     }
     case 'resetAll':

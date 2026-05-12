@@ -7,6 +7,12 @@ export type TKey =
   | 'nav.insights'
   | 'nav.imams'
   | 'nav.archive'
+  | 'nav.today'
+  | 'nav.voices'
+  | 'nav.compass'
+  | 'nav.study'
+  | 'nav.timeline'
+  | 'nav.research'
   | 'ui.compare'
   | 'ui.language.ur'
   | 'ui.language.en'
@@ -71,7 +77,20 @@ export type TKey =
   | 'comp.modal.duaFor'
   | 'comp.modal.aboutName'
   | 'comp.modal.quran.triggerIntro'
-  | 'comp.modal.quran.noTrigger';
+  | 'comp.modal.quran.noTrigger'
+  | 'comp.modal.confidence.guide'
+  | 'comp.modal.confidence.high'
+  | 'comp.modal.confidence.medium'
+  | 'comp.modal.confidence.contextual'
+  | 'comp.modal.confidence.tabNote'
+  | 'comp.modal.confidence.highDesc'
+  | 'comp.modal.confidence.mediumDesc'
+  | 'comp.modal.confidence.contextualDesc'
+  | 'comp.modal.sourceReliability.title'
+  | 'comp.modal.sourceReliability.topic'
+  | 'comp.modal.sourceReliability.reference'
+  | 'comp.modal.authenticity.label'
+  | 'comp.modal.authenticity.hint';
 
 const EN: Record<TKey, string> = {
   'nav.home': 'Home',
@@ -80,6 +99,12 @@ const EN: Record<TKey, string> = {
   'nav.insights': 'Insights',
   'nav.imams': 'Imam Chain',
   'nav.archive': 'Archive',
+  'nav.today': 'On This Day',
+  'nav.voices': 'Voices',
+  'nav.compass': 'Compass',
+  'nav.study': 'Study',
+  'nav.timeline': 'Timeline',
+  'nav.research': 'Research',
   'ui.compare': 'Compare',
   'ui.language.ur': 'اردو',
   'ui.language.en': 'English',
@@ -87,7 +112,8 @@ const EN: Record<TKey, string> = {
   'ui.nightMode.enter': '🌙 Tahajjud',
 
   'imams.title': 'The Transmission Chain',
-  'imams.subtitle': 'How prophetic knowledge passed from the Messenger ﷺ through companions, successors, and classical scholars — intact, to the present day.',
+  'imams.subtitle':
+    'How prophetic knowledge passed from the Messenger ﷺ through companions, successors, and classical scholars — intact, to the present day.',
   'imams.tabs.fourImams': 'Four Imams',
   'imams.tabs.ahadith': 'Ahadith',
   'imams.tabs.transmission': 'Transmission',
@@ -146,8 +172,22 @@ const EN: Record<TKey, string> = {
   'comp.modal.battles': 'Battles',
   'comp.modal.duaFor': "Prophet's ﷺ Du'a for",
   'comp.modal.aboutName': 'What the Prophet ﷺ Said About',
-  'comp.modal.quran.triggerIntro': 'These Quranic ayahs were revealed because of or directly relating to',
+  'comp.modal.quran.triggerIntro':
+    'These Quranic ayahs were revealed because of or directly relating to',
   'comp.modal.quran.noTrigger': 'No specific Quranic revelation linked to',
+  'comp.modal.confidence.guide': 'Confidence Guide:',
+  'comp.modal.confidence.high': 'Strong',
+  'comp.modal.confidence.medium': 'Moderate',
+  'comp.modal.confidence.contextual': 'Weak',
+  'comp.modal.confidence.tabNote': 'Confidence levels used in this tab:',
+  'comp.modal.confidence.highDesc': 'Quran/Sahih-grounded',
+  'comp.modal.confidence.mediumDesc': 'Broadly accepted report',
+  'comp.modal.confidence.contextualDesc': 'Report-based / debated',
+  'comp.modal.sourceReliability.title': 'Source Reliability',
+  'comp.modal.sourceReliability.topic': 'Topic',
+  'comp.modal.sourceReliability.reference': 'Reference',
+  'comp.modal.authenticity.label': 'Authenticity',
+  'comp.modal.authenticity.hint': 'Computed from claim confidence and available source depth',
 };
 
 const UR: Record<TKey, string> = {
@@ -157,6 +197,12 @@ const UR: Record<TKey, string> = {
   'nav.insights': 'بصیرت',
   'nav.imams': 'سلسلۂ ائمہ',
   'nav.archive': 'آرکائیو',
+  'nav.today': 'اس دن',
+  'nav.voices': 'آوازیں',
+  'nav.compass': 'قطب نما',
+  'nav.study': 'مطالعہ',
+  'nav.timeline': 'ٹائم لائن',
+  'nav.research': 'تحقیق',
   'ui.compare': 'موازنہ',
   'ui.language.ur': 'اردو',
   'ui.language.en': 'English',
@@ -164,7 +210,8 @@ const UR: Record<TKey, string> = {
   'ui.nightMode.enter': '🌙 تہجد',
 
   'imams.title': 'سلسلۂ روایت',
-  'imams.subtitle': 'علمِ نبوی ﷺ کس طرح صحابہ، تابعین اور ائمہ کے ذریعے — محفوظ حالت میں — آج تک پہنچا۔',
+  'imams.subtitle':
+    'علمِ نبوی ﷺ کس طرح صحابہ، تابعین اور ائمہ کے ذریعے — محفوظ حالت میں — آج تک پہنچا۔',
   'imams.tabs.fourImams': 'چار ائمہ',
   'imams.tabs.ahadith': 'احادیث',
   'imams.tabs.transmission': 'ترسیل',
@@ -223,12 +270,26 @@ const UR: Record<TKey, string> = {
   'comp.modal.battles': 'غزوات',
   'comp.modal.duaFor': 'نبی ﷺ کی دعا برائے',
   'comp.modal.aboutName': 'نبی ﷺ نے فرمایا (بابت)',
-  'comp.modal.quran.triggerIntro': 'یہ قرآنی آیات اس صحابی کے بارے میں/ان کے سبب نازل ہوئیں یا براہِ راست ان سے متعلق ہیں:',
-  'comp.modal.quran.noTrigger': 'ہمارے موجودہ ڈیٹا میں اس صحابی کے بارے میں کوئی مخصوص آیت درج نہیں۔',
+  'comp.modal.quran.triggerIntro':
+    'یہ قرآنی آیات اس صحابی کے بارے میں/ان کے سبب نازل ہوئیں یا براہِ راست ان سے متعلق ہیں:',
+  'comp.modal.quran.noTrigger':
+    'ہمارے موجودہ ڈیٹا میں اس صحابی کے بارے میں کوئی مخصوص آیت درج نہیں۔',
+  'comp.modal.confidence.guide': 'درجۂ اعتماد:',
+  'comp.modal.confidence.high': 'اعلیٰ',
+  'comp.modal.confidence.medium': 'درمیانہ',
+  'comp.modal.confidence.contextual': 'سیاقی',
+  'comp.modal.confidence.tabNote': 'اس ٹیب میں استعمال ہونے والے درجاتِ اعتماد:',
+  'comp.modal.confidence.highDesc': 'قرآن/صحیح روایت پر مبنی',
+  'comp.modal.confidence.mediumDesc': 'عمومی طور پر مقبول روایت',
+  'comp.modal.confidence.contextualDesc': 'روایتی/اختلافی بیان',
+  'comp.modal.sourceReliability.title': 'ماخذ کی درجہ بندی',
+  'comp.modal.sourceReliability.topic': 'موضوع',
+  'comp.modal.sourceReliability.reference': 'حوالہ',
+  'comp.modal.authenticity.label': 'درجۂ اصالت',
+  'comp.modal.authenticity.hint': 'دعویٰ کے اعتماد اور دستیاب مصادر کی گہرائی کی بنیاد پر حساب',
 };
 
 export function t(lang: Language, key: TKey): string {
   const dict = lang === 'ur' ? UR : EN;
-  return dict[key] ?? (EN[key] ?? key);
+  return dict[key] ?? EN[key] ?? key;
 }
-

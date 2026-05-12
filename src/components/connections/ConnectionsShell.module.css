@@ -17,8 +17,30 @@
 .mainCanvas {
   border-radius: 14px;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(15, 10, 6, 0.78), rgba(10, 7, 4, 0.85));
-  border: 1px solid rgba(212, 168, 67, 0.16);
+  background:
+    radial-gradient(
+      900px 280px at 0% -20%,
+      color-mix(in srgb, var(--color-gold) 9%, transparent) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      720px 240px at 100% 0%,
+      color-mix(in srgb, var(--color-gold-glow) 7%, transparent) 0%,
+      transparent 65%
+    ),
+    linear-gradient(180deg, var(--color-surface), var(--color-bg));
+  border: 1px solid var(--color-border);
+  position: relative;
+}
+.mainCanvas::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--gold-grad);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .headerStrip {
@@ -26,28 +48,74 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--conn-space-3);
-  padding: 10px 16px;
-  border-bottom: 1px solid rgba(212, 168, 67, 0.15);
-  background: rgba(10, 8, 6, 0.75);
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: color-mix(in srgb, var(--color-surface) 92%, #fff 8%);
+  background-image: var(--star-pattern);
+  background-size: 80px 80px;
+  background-repeat: repeat;
+  position: relative;
+}
+.headerStrip > :global(header) {
+  flex: 1;
+  min-width: 0;
+}
+.headerStrip :global(h1) {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.2vw, 1.95rem);
+  font-weight: 500;
+  color: var(--color-gold);
+  line-height: 1.15;
+  letter-spacing: 0.005em;
+  margin: 0 0 0.3rem;
+  position: relative;
+  padding-top: 0.35rem;
+}
+.headerStrip :global(h1)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 2px;
+  background: var(--gold-grad);
+  border-radius: 1px;
+  opacity: 0.85;
+}
+.headerStrip :global(p) {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+  margin: 0;
 }
 
 .headerTitle {
   margin: 0;
   font-size: var(--conn-title-size);
   letter-spacing: 0.03em;
-  color: rgba(255, 242, 206, 0.95);
+  color: var(--color-text);
   font-weight: 700;
 }
 
 .headerMeta {
   margin: 0;
   font-size: var(--conn-subtitle-size);
-  color: rgba(212, 168, 67, 0.82);
+  color: var(--color-muted);
   line-height: 1.6;
 }
 
 .contentCanvas {
   padding: 10px 12px 14px;
+  /* Anchor for the floating Focus panel. Without an explicit containing
+     block here, the Focus card was escaping to the page-level right
+     edge instead of staying inside the canvas frame. */
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 :global(body.tahajjud) .mainCanvas,

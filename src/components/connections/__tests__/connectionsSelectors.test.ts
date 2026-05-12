@@ -33,11 +33,7 @@ describe('connectionsSelectors.computeTopConnected', () => {
   it('supports source-only edges for teaching-style rankings', () => {
     const edgeSets = {
       ...emptyLayerSet,
-      teaching: [
-        { source: 1 },
-        { source: 1 },
-        { source: 2 },
-      ],
+      teaching: [{ source: 1 }, { source: 1 }, { source: 2 }],
     };
     const top = computeTopConnected(companions, edgeSets, 'teaching', 2);
     expect(top[0].companion.rank).toBe(1);
