@@ -1,13 +1,32 @@
-# Git Automation MCP
+# Generic Git Automation MCP
 
-This repo includes a local MCP server named `sahabah-git`.
+This MCP is generic. It is not tied to this repo.
 
-It exposes two tools:
+Server name in local MCP config:
 
-- `mscp`: commits and pushes current work, creates a new `work/YYYYMMDD-HHMM-name` branch, pushes it, and switches to it.
-- `git_status`: shows branch, remote, latest commit, and Git identity.
+```text
+git-auto
+```
 
-Use `mscp` before changing code:
+Main tool:
+
+```text
+mscp
+```
+
+What `mscp` does:
+
+1. Checks whether the target folder is already a Git repo.
+2. If not, runs `git init -b main`.
+3. Creates a starter `.gitignore` only when the folder has none.
+4. Checks Git user name and email.
+5. Checks whether `origin` exists.
+6. If `origin` exists, commits and pushes current work.
+7. If `origin` does not exist, it can create a GitHub repo with `gh` or `GITHUB_TOKEN`/`GH_TOKEN`, or use a supplied `remoteUrl`.
+8. Creates a new branch like `work/20260512-1820-homepage-update`.
+9. Pushes that new branch and switches to it.
+
+Use it with the current default repo:
 
 ```json
 {
@@ -15,24 +34,64 @@ Use `mscp` before changing code:
 }
 ```
 
-The local MCP config is in `.mcp.json`. It is intentionally ignored by Git because it contains machine-specific paths.
+Use it for any other project:
 
-You can test the underlying workflow without MCP:
-
-```bash
-npm run branch -- homepage-update
+```json
+{
+  "repoPath": "D:\\Tools_Updated\\another-project",
+  "name": "navbar-fix"
+}
 ```
 
-You can test the MCP server process:
+Use it for a folder with no Git remote yet, when you already created the GitHub repo:
 
-```bash
-npm run mcp:git
+```json
+{
+  "repoPath": "D:\\Tools_Updated\\another-project",
+  "name": "first-work-branch",
+  "remoteUrl": "https://github.com/arslanmushtaq4343/another-project.git"
+}
 ```
 
-After creating a branch and editing code:
+For full end-to-end GitHub repo creation, provide one of these:
 
 ```bash
-git add -A
-git commit -m "Describe the change"
-git push
+gh auth login
+```
+
+or:
+
+```bash
+set GITHUB_TOKEN=your_token_here
+```
+
+Then call:
+
+```json
+{
+  "repoPath": "D:\\Tools_Updated\\new-project",
+  "name": "initial-work",
+  "repoName": "new-project",
+  "githubOwner": "arslanmushtaq4343",
+  "visibility": "private"
+}
+```
+
+Other tools:
+
+```text
+git_status
+github_auth_status
+```
+
+The user-level MCP script is here:
+
+```text
+C:\Users\arslan.ali\.mcp\git-auto\git-auto-mcp.mjs
+```
+
+The tracked copy is here:
+
+```text
+scripts/mcp/git-automation-server.mjs
 ```

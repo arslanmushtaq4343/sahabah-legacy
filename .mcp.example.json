@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "git-auto": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "C:\\Users\\arslan.ali\\.mcp\\git-auto\\git-auto-mcp.mjs"
+      ],
+      "env": {
+        "GIT_AUTO_DEFAULT_REPO": "D:\\Tools_Updated\\sahabah-legacy-main - Copy"
+      }
+    }
+  }
+}
